@@ -224,11 +224,17 @@ async function save(){
 function getMemberItems(member){return items.filter(i=>member==="All"||i.member===member)}
 let query="";
 const norm2=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+const escRe=t=>t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 function searchMatch(i){
  const tokens=norm2(query).split(/\s+/).filter(Boolean);
  if(!tokens.length)return true;
  const hay=norm2((i.name||"")+" "+(i.member||""));
- return tokens.every(t=>hay.includes(t));
+ const typing=!/\s$/.test(query); // no space after the last word yet = still typing it
+ return tokens.every((t,k)=>{
+  const partial=typing&&k===tokens.length-1;
+  if(partial)return hay.includes(t);                       // "han" also finds Bang Chan, Changbin
+  return new RegExp("(^|[^a-z0-9])"+escRe(t)+"($|[^a-z0-9])").test(hay); // "han " = the whole word Han
+ });
 }
 function getVisibleItems(){
  return items.filter(i=>{
