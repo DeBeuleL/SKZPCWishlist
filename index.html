@@ -178,7 +178,7 @@ async function loadData(){
 async function save(){
  try{
   await dbPut("items",items);
-  if(syncEnabled)queueCloudSync();
+  if(syncEnabled){lsSet(dirtyFlag(),"1");queueCloudSync();}
   return true;
  }catch(e){
   console.error("IndexedDB save failed:",e);
@@ -332,6 +332,11 @@ $("sv").onclick=async()=>{
 };
 
 /* CLOUD SYNC — Supabase */
+const syncFlag=()=>"skz-sync-on-"+(currentUser&&currentUser.id);
+const dirtyFlag=()=>"skz-sync-dirty-"+(currentUser&&currentUser.id);
+function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
 function setSyncStatus(message){$("syncStatus").textContent=message}
 function supabaseConfigured(){
  return SUPABASE_URL.startsWith("https://") &&
@@ -372,6 +377,7 @@ async function writeCloud(){
   },{onConflict:"user_id"});
   if(error)throw error;
   cloudUpdatedAt=now;
+  lsDel(dirtyFlag());
   setSyncStatus("✓ Synced — changes are saved to your account.");
   render();
  }catch(e){
@@ -395,6 +401,13 @@ async function chooseCloudDirection(){
  try{
   const row=await readCloud();
   pendingCloudItems=row&&Array.isArray(row.items)?row.items:null;
+  if(pendingCloudItems&&lsGet(syncFlag())==="1"){
+   cloudUpdatedAt=row.updated_at;
+   syncEnabled=true;showSyncChoices(false);
+   if(lsGet(dirtyFlag())==="1"){await writeCloud();}
+   else{items=pendingCloudItems;await dbPut("items",items);render();setSyncStatus("✓ Synced — loaded the latest from the cloud.");}
+   return;
+  }
   if(pendingCloudItems){
    cloudUpdatedAt=row.updated_at;
    showSyncChoices(true,"A cloud collection already exists. Choose carefully: upload replaces the cloud copy with this Mac's collection; use cloud replaces this device's collection with the cloud copy.");
@@ -463,7 +476,7 @@ $("uploadLocal").onclick=async()=>{
  if(!currentUser)return;
  const ok=confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced.");
  if(!ok)return;
- syncEnabled=true;showSyncChoices(false);await writeCloud();
+ syncEnabled=true;lsSet(syncFlag(),"1");showSyncChoices(false);await writeCloud();
 };
 $("downloadCloud").onclick=async()=>{
  if(!currentUser||!pendingCloudItems)return;
@@ -471,13 +484,13 @@ $("downloadCloud").onclick=async()=>{
  if(!ok)return;
  items=pendingCloudItems;
  await dbPut("items",items);
- syncEnabled=true;showSyncChoices(false);render();
+ syncEnabled=true;lsSet(syncFlag(),"1");lsDel(dirtyFlag());showSyncChoices(false);render();
  setSyncStatus("✓ Cloud collection loaded. Sync is active.");
 };
 
 // Check for changes made on another device while this page is open.
 async function pollCloud(){
- if(!syncEnabled||!currentUser||syncBusy)return;
+ if(!syncEnabled||!currentUser||syncBusy||lsGet(dirtyFlag())==="1")return;
  try{
   const row=await readCloud();
   if(row&&row.updated_at&&row.updated_at!==cloudUpdatedAt){
@@ -487,7 +500,9 @@ async function pollCloud(){
   }
  }catch(e){console.warn("Cloud refresh failed:",e)}
 }
-setInterval(pollCloud,8000);
+setInterval(pollCloud,5000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)pollCloud()});
+window.addEventListener("focus",pollCloud);
 
 /* BACK-UP: export / import as a file */
 $("exportBtn").onclick=()=>{
