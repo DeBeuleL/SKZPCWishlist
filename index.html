@@ -70,6 +70,17 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 #lbs{display:none;color:#fff;font-weight:700;font-size:16px;border-radius:99px;padding:12px 28px}#lbs.hv{background:var(--ok)}#lbs.ot{background:var(--otw)}#lbs.buy{background:var(--red)}
 #lbx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff3;color:#fff;font-size:20px;cursor:pointer}
 
+.top-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pfp{position:relative;width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:17px;font-weight:700;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pfp .dot{position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;background:#9ca3af;border:2px solid var(--bg)}
+.pfp.ok{border-color:var(--ok)}.pfp.ok .dot{background:var(--ok)}
+.pfp.bad{border-color:var(--red)}.pfp.bad .dot{background:var(--red)}
+.pfp.attn .dot{background:var(--otw)}
+#acct{width:min(92vw,440px);max-height:88vh;overflow-y:auto}
+#acct .x{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:15px;cursor:pointer}
+#acct .sync-panel{background:none;border:0;padding:0;margin:0}
+#acct .sync-title{font-size:17px;padding-right:36px}
+#acct .sync-fields{grid-template-columns:1fr}
 .sync-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin:12px 0}
 .sync-title{font-weight:700;margin-bottom:4px}
 .sync-note{font-size:12px;color:var(--mute);margin:4px 0 10px}
@@ -83,10 +94,11 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 </style>
 </head>
 <body>
-<header class="top"><div class="top-in"><h1>SKZ <span>PC</span> Wishlist</h1><button class="fab" id="add">＋ New PC</button></div></header>
-<section class="sync-panel" aria-label="Cloud sync">
- <div class="sync-title">☁️ Sync Mac &amp; iPhone</div>
- <div class="sync-note">Log in with the same account on both devices. Your current cards stay saved on this device until you choose how to connect them to the cloud.</div>
+<header class="top"><div class="top-in"><h1>SKZ <span>PC</span> Wishlist</h1><div class="top-r"><button class="fab" id="add">＋ New PC</button><button class="pfp" id="pfp" aria-label="Account and sync"><span id="pfpt">👤</span><i class="dot"></i></button></div></div></header>
+<dialog id="acct"><button class="x" id="acctX" aria-label="Close">✕</button>
+<section class="sync-panel" aria-label="Account and sync">
+ <div class="sync-title">☁️ Account &amp; sync</div>
+ <div class="sync-note">Log in with the same account on all your devices to keep your collection in sync. Your cards stay saved on this device until you choose how to connect them to the cloud.</div>
  <div class="sync-fields">
   <input id="syncEmail" type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Email address">
   <input id="syncPassword" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Password">
@@ -94,12 +106,12 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
  <div class="sync-actions">
   <button class="pri" id="syncLogin">Log in</button>
   <button id="syncSignup">Create account</button>
-  <button id="togglePw" type="button">👁 Toon wachtwoord</button>
+  <button id="togglePw" type="button">👁 Show password</button>
   <button id="syncLogout" style="display:none">Log out</button>
  </div>
  <div class="sync-actions">
-  <button id="exportBtn">⬇️ Back-up downloaden</button>
-  <button id="importBtn">⬆️ Back-up importeren</button>
+  <button id="exportBtn">⬇️ Download backup</button>
+  <button id="importBtn">⬆️ Import backup</button>
   <input id="importFile" type="file" accept="application/json,.json" style="display:none">
  </div>
  <div id="syncStatus">Not connected — this device is saving locally.</div>
@@ -110,10 +122,10 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
    <button id="downloadCloud">Use cloud collection on this device</button>
   </div>
  </div>
-</section>
+</section></dialog>
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
-<input id="q" class="search" type="search" placeholder="🔍 Zoek op member, unit, OT8 of titel…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
+<input id="q" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
 <div class="chips" id="chips"></div>
 <div class="grid" id="grid"></div>
 
@@ -156,7 +168,7 @@ function openDB(){
   const req=indexedDB.open(DB_NAME,DB_VERSION);
   req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE)};
   req.onsuccess=()=>resolve(req.result);
-  req.onerror=()=>reject(req.error||new Error("IndexedDB kon niet geopend worden."));
+  req.onerror=()=>reject(req.error||new Error("Could not open local storage."));
  });
 }
 function dbGet(key){
@@ -171,8 +183,8 @@ function dbPut(key,value){
   const tx=db.transaction(STORE,"readwrite");
   tx.objectStore(STORE).put(value,key);
   tx.oncomplete=()=>resolve(true);
-  tx.onerror=()=>reject(tx.error||new Error("Opslaan mislukt."));
-  tx.onabort=()=>reject(tx.error||new Error("Opslaan afgebroken."));
+  tx.onerror=()=>reject(tx.error||new Error("Saving failed."));
+  tx.onabort=()=>reject(tx.error||new Error("Saving was interrupted."));
  });
 }
 
@@ -204,7 +216,7 @@ async function save(){
   return true;
  }catch(e){
   console.error("IndexedDB save failed:",e);
-  alert("Opslaan is niet gelukt. Je bestaande collectie is niet bewust verwijderd. Controleer de beschikbare opslagruimte of probeer een kleinere foto.");
+  alert("Saving failed. Your existing collection was not deleted. Check your available storage or try a smaller photo.");
   return false;
  }
 }
@@ -244,7 +256,7 @@ function render(){
  $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
  $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
  const vis=getVisibleItems();
- if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"Geen resultaten voor “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
+ if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"No results for “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
  grid.innerHTML=vis.map(it=>{
   const rank=items.indexOf(it)+1;
   const tag=it.owned?`<span class="tag hv">✓ HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
@@ -368,7 +380,15 @@ const dirtyFlag=()=>"skz-sync-dirty-"+(currentUser&&currentUser.id);
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
 function lsDel(k){try{localStorage.removeItem(k)}catch(e){}}
-function setSyncStatus(message){$("syncStatus").textContent=message}
+function updatePfp(){
+ const b=$("pfp");if(!b)return;
+ const t=$("syncStatus").textContent||"";
+ $("pfpt").textContent=currentUser&&currentUser.email?currentUser.email[0].toUpperCase():"👤";
+ b.classList.toggle("ok",!!(currentUser&&syncEnabled&&!/fail|⚠/i.test(t)));
+ b.classList.toggle("bad",/fail|⚠/i.test(t));
+ b.classList.toggle("attn",$("syncChoices").style.display==="block");
+}
+function setSyncStatus(message){$("syncStatus").textContent=message;updatePfp()}
 function supabaseConfigured(){
  return SUPABASE_URL.startsWith("https://") &&
         !SUPABASE_URL.includes("PASTE_") &&
@@ -378,6 +398,8 @@ function supabaseConfigured(){
 function showSyncChoices(show,text){
  $("syncChoices").style.display=show?"block":"none";
  $("syncChoiceText").textContent=text||"";
+ if(show&&!$("acct").open)$("acct").showModal();
+ updatePfp();
 }
 async function imageForCloud(it){
  const copy={...it};
@@ -485,7 +507,7 @@ async function initCloud(){
   },0);
  });
 }
-$("togglePw").onclick=()=>{const f=$("syncPassword"),show=f.type==="password";f.type=show?"text":"password";$("togglePw").textContent=show?"🙈 Verberg wachtwoord":"👁 Toon wachtwoord"};
+$("togglePw").onclick=()=>{const f=$("syncPassword"),show=f.type==="password";f.type=show?"text":"password";$("togglePw").textContent=show?"🙈 Hide password":"👁 Show password"};
 function authFail(msg){setSyncStatus("⚠️ "+msg);alert(msg)}
 $("syncSignup").onclick=async()=>{
  const email=$("syncEmail").value.trim().toLowerCase(),password=$("syncPassword").value;
@@ -496,7 +518,7 @@ $("syncSignup").onclick=async()=>{
   if(error){authFail(error.message);return}
   if(data.session)await startCloudSession(data.session);
   else setSyncStatus("Account created. Check your email for the confirmation link, then log in.");
- }catch(e){authFail("Geen verbinding met de server: "+(e.message||e))}
+ }catch(e){authFail("Could not reach the server: "+(e.message||e))}
 };
 $("syncLogin").onclick=async()=>{
  const email=$("syncEmail").value.trim().toLowerCase(),password=$("syncPassword").value;
@@ -506,7 +528,7 @@ $("syncLogin").onclick=async()=>{
   const {data,error}=await sb.auth.signInWithPassword({email,password});
   if(error){authFail(error.message);return}
   if(data.session)await startCloudSession(data.session);
- }catch(e){authFail("Geen verbinding met de server: "+(e.message||e))}
+ }catch(e){authFail("Could not reach the server: "+(e.message||e))}
 };
 // 'local' = only log out on THIS device, not on every device
 $("syncLogout").onclick=async()=>{await sb.auth.signOut({scope:"local"})};
@@ -544,14 +566,14 @@ window.addEventListener("focus",pollCloud);
 
 /* BACK-UP: export / import as a file */
 $("exportBtn").onclick=()=>{
- if(!items.length){alert("Er staat niks in deze collectie om te exporteren.");return}
+ if(!items.length){alert("There is nothing in this collection to export.");return}
  const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items})],{type:"application/json"});
  const a=document.createElement("a");
  a.href=URL.createObjectURL(blob);
  a.download="skz-pc-backup-"+new Date().toISOString().slice(0,10)+".json";
  document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
- setSyncStatus("✓ Back-up gedownload ("+items.length+" kaarten).");
+ setSyncStatus("✓ Backup downloaded ("+items.length+" cards).");
 };
 $("importBtn").onclick=()=>$("importFile").click();
 $("importFile").onchange=async e=>{
@@ -559,17 +581,20 @@ $("importFile").onchange=async e=>{
  try{
   const data=JSON.parse(await f.text());
   const list=Array.isArray(data)?data:data.items;
-  if(!Array.isArray(list)||!list.length)throw new Error("Geen kaarten gevonden in dit bestand.");
-  if(!confirm("Deze collectie ("+items.length+" kaarten) vervangen door de back-up ("+list.length+" kaarten)?"))return;
+  if(!Array.isArray(list)||!list.length)throw new Error("No cards found in this file.");
+  if(!confirm("Replace this collection ("+items.length+" cards) with the backup ("+list.length+" cards)?"))return;
   items=list;
   await dbPut("items",items);
   render();
   if(syncEnabled)queueCloudSync();
-  setSyncStatus("✓ "+list.length+" kaarten geïmporteerd."+(syncEnabled?"":" Klik op 'Upload this device's collection' om ze naar de cloud te zetten."));
- }catch(err){alert("Importeren mislukt: "+err.message)}
+  setSyncStatus("✓ "+list.length+" cards imported."+(syncEnabled?"":" Tap 'Upload this device's collection' to send them to the cloud."));
+ }catch(err){alert("Import failed: "+err.message)}
  e.target.value="";
 };
 
+$("pfp").onclick=()=>{updatePfp();$("acct").showModal()};
+$("acctX").onclick=()=>$("acct").close();
+$("acct").addEventListener("click",e=>{if(e.target===$("acct"))$("acct").close()});
 $("q").oninput=e=>{query=e.target.value;render()};
 
 /* Startup */
@@ -578,7 +603,7 @@ $("q").oninput=e=>{query=e.target.value;render()};
  catch(e){
   console.error(e);
   $("grid").innerHTML='<div class="empty" style="grid-column:1/-1">Could not open your saved wishlist. Your old browser data has not been deleted. Try opening this page in the same browser where you created your wishlist.</div>';
-  alert("De wishlist kon niet worden geopend. Je oude gegevens zijn niet verwijderd.");
+  alert("The wishlist could not be opened. Your old data was not deleted.");
  }
 })();
 </script>
