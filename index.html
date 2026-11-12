@@ -5,13 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SKZ PC Wishlist</title>
 <style>
-:root{--bg:#fff5f5;--card:#fff;--ink:#1a1214;--mute:#7a6a6e;--red:#e11d3f;--line:#f1d3d8;--ok:#16a34a;--otw:#f59e0b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#fff5f5;--card:#fff;--ink:#1a1214;--mute:#7a6a6e;--red:#e11d3f;--line:#f1d3d8;--ok:#16a34a;--otw:#f59e0b;box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#140b0d;--card:#221417;--ink:#fbeff1;--mute:#b79ba1;--line:#3a2328;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#140b0d;--card:#221417;--ink:#fbeff1;--mute:#b79ba1;--line:#3a2328;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px;padding-bottom:90px;max-width:900px;margin-inline:auto}
-h1{margin:4px 0 12px;font-size:26px;letter-spacing:-.5px}h1 span{color:var(--red)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px;padding-top:calc(72px + env(safe-area-inset-top,0px));padding-bottom:40px;max-width:900px;margin-inline:auto}
+h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color:var(--red)}
+.top{position:fixed;top:0;left:0;right:0;z-index:70;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px}
+.top-in{max-width:900px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
+@media(max-width:380px){h1{font-size:20px}}
 .prog{background:var(--line);border-radius:99px;height:12px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff7a90);transition:width .4s}
 .stat{font-size:13px;color:var(--mute);margin:6px 0 12px;display:flex;justify-content:space-between}
 .chips{display:flex;align-items:center;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
@@ -20,6 +23,24 @@ h1{margin:4px 0 12px;font-size:26px;letter-spacing:-.5px}h1 span{color:var(--red
 .member-select{padding:7px 12px;max-width:190px}
 .chip-count{font-size:11px;opacity:.8;margin-left:3px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.search{width:100%;padding:10px 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;margin:0 0 10px;-webkit-appearance:none;appearance:none}
+.chips{flex-wrap:wrap;overflow:visible}
+@media(max-width:700px){
+ body{padding-left:10px;padding-right:10px}
+ .chips{gap:5px}
+ .chip,.member-select{padding:7px 10px;font-size:13px}
+ .member-select{width:104px;max-width:104px;text-overflow:ellipsis}
+ .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+ .c{border-radius:12px}
+ .rk{top:5px;left:5px;padding:1px 7px;font-size:10px}
+ .ck,.tw{right:4px;width:26px;height:26px;border-width:1.5px}
+ .ck{top:4px;font-size:13px}.tw{top:34px;font-size:12px}
+ .in{padding:6px}
+ .nm{font-size:12px;line-height:1.15}
+ .mb{font-size:10px;gap:4px;padding-top:3px}
+ .tag{font-size:9.5px;padding:2px 6px}
+ .bar{padding-top:6px;gap:3px}.bar button{padding:4px 0;font-size:12px;border-radius:8px}
+}
 .c{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
 .c.own{opacity:.75}.c.drag{z-index:50;pointer-events:none;box-shadow:0 14px 34px #0007;opacity:.95;transition:none}
 .pw{position:relative}.ph{display:block;aspect-ratio:55/85;background:linear-gradient(135deg,#e11d3f33,#00000022);width:100%;border:0;padding:0;cursor:pointer;position:relative}
@@ -35,7 +56,7 @@ h1{margin:4px 0 12px;font-size:26px;letter-spacing:-.5px}h1 span{color:var(--red
 .tag.buy{background:var(--red)}.tag.ot{background:var(--otw)}.tag.hv{background:var(--ok)}
 .bar{display:flex;justify-content:space-between;gap:4px;padding-top:8px}.bar button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 0;font-size:15px;cursor:pointer}
 .empty{text-align:center;color:var(--mute);padding:40px 10px}
-.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--red);color:#fff;border:0;border-radius:99px;padding:14px 20px;font-size:16px;font-weight:700;box-shadow:0 6px 20px #e11d3f66;cursor:pointer}
+.fab{background:var(--red);color:#fff;border:0;border-radius:99px;padding:10px 16px;font-size:15px;font-weight:700;box-shadow:0 4px 14px #e11d3f44;cursor:pointer;white-space:nowrap;flex-shrink:0}
 dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(92vw,400px);padding:18px}
 dialog::backdrop{background:#0008}label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
 input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
@@ -62,17 +83,18 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 </style>
 </head>
 <body>
-<h1>SKZ <span>PC</span> Wishlist</h1>
+<header class="top"><div class="top-in"><h1>SKZ <span>PC</span> Wishlist</h1><button class="fab" id="add">＋ New PC</button></div></header>
 <section class="sync-panel" aria-label="Cloud sync">
  <div class="sync-title">☁️ Sync Mac &amp; iPhone</div>
  <div class="sync-note">Log in with the same account on both devices. Your current cards stay saved on this device until you choose how to connect them to the cloud.</div>
  <div class="sync-fields">
-  <input id="syncEmail" type="email" autocomplete="email" placeholder="Email address">
-  <input id="syncPassword" type="password" autocomplete="current-password" placeholder="Password">
+  <input id="syncEmail" type="email" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Email address">
+  <input id="syncPassword" type="password" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Password">
  </div>
  <div class="sync-actions">
   <button class="pri" id="syncLogin">Log in</button>
   <button id="syncSignup">Create account</button>
+  <button id="togglePw" type="button">👁 Toon wachtwoord</button>
   <button id="syncLogout" style="display:none">Log out</button>
  </div>
  <div class="sync-actions">
@@ -91,9 +113,9 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 </section>
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
+<input id="q" class="search" type="search" placeholder="🔍 Zoek op member, unit, OT8 of titel…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
 <div class="chips" id="chips"></div>
 <div class="grid" id="grid"></div>
-<button class="fab" id="add">＋ New PC</button>
 
 <dialog id="dlg">
 <h3 id="dt" style="margin:0">New PC</h3>
@@ -188,8 +210,17 @@ async function save(){
 }
 
 function getMemberItems(member){return items.filter(i=>member==="All"||i.member===member)}
+let query="";
+const norm2=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+function searchMatch(i){
+ const tokens=norm2(query).split(/\s+/).filter(Boolean);
+ if(!tokens.length)return true;
+ const hay=norm2((i.name||"")+" "+(i.member||""));
+ return tokens.every(t=>hay.includes(t));
+}
 function getVisibleItems(){
  return items.filter(i=>{
+  if(!searchMatch(i))return false;
   const memberMatch=filterMember==="All"||i.member===filterMember;
   let statusMatch=true;
   if(filterStatus==="WTB")statusMatch=!i.owned&&!i.otw;
@@ -213,7 +244,7 @@ function render(){
  $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
  $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
  const vis=getVisibleItems();
- if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one.</div>`;return}
+ if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"Geen resultaten voor “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
  grid.innerHTML=vis.map(it=>{
   const rank=items.indexOf(it)+1;
   const tag=it.owned?`<span class="tag hv">✓ HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
@@ -454,24 +485,31 @@ async function initCloud(){
   },0);
  });
 }
+$("togglePw").onclick=()=>{const f=$("syncPassword"),show=f.type==="password";f.type=show?"text":"password";$("togglePw").textContent=show?"🙈 Verberg wachtwoord":"👁 Toon wachtwoord"};
+function authFail(msg){setSyncStatus("⚠️ "+msg);alert(msg)}
 $("syncSignup").onclick=async()=>{
- const email=$("syncEmail").value.trim(),password=$("syncPassword").value;
+ const email=$("syncEmail").value.trim().toLowerCase(),password=$("syncPassword").value;
  if(!email||!password){setSyncStatus("Enter your email and a password first.");return}
  setSyncStatus("Creating account…");
- const {data,error}=await sb.auth.signUp({email,password});
- if(error){setSyncStatus(error.message);return}
- if(data.session)await startCloudSession(data.session);
- else setSyncStatus("Account created. Check your email for the confirmation link, then log in.");
+ try{
+  const {data,error}=await sb.auth.signUp({email,password});
+  if(error){authFail(error.message);return}
+  if(data.session)await startCloudSession(data.session);
+  else setSyncStatus("Account created. Check your email for the confirmation link, then log in.");
+ }catch(e){authFail("Geen verbinding met de server: "+(e.message||e))}
 };
 $("syncLogin").onclick=async()=>{
- const email=$("syncEmail").value.trim(),password=$("syncPassword").value;
+ const email=$("syncEmail").value.trim().toLowerCase(),password=$("syncPassword").value;
  if(!email||!password){setSyncStatus("Enter your email and password first.");return}
  setSyncStatus("Logging in…");
- const {data,error}=await sb.auth.signInWithPassword({email,password});
- if(error){setSyncStatus(error.message);return}
- if(data.session)await startCloudSession(data.session);
+ try{
+  const {data,error}=await sb.auth.signInWithPassword({email,password});
+  if(error){authFail(error.message);return}
+  if(data.session)await startCloudSession(data.session);
+ }catch(e){authFail("Geen verbinding met de server: "+(e.message||e))}
 };
-$("syncLogout").onclick=async()=>{await sb.auth.signOut()};
+// 'local' = only log out on THIS device, not on every device
+$("syncLogout").onclick=async()=>{await sb.auth.signOut({scope:"local"})};
 $("uploadLocal").onclick=async()=>{
  if(!currentUser)return;
  const ok=confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced.");
@@ -531,6 +569,8 @@ $("importFile").onchange=async e=>{
  }catch(err){alert("Importeren mislukt: "+err.message)}
  e.target.value="";
 };
+
+$("q").oninput=e=>{query=e.target.value;render()};
 
 /* Startup */
 (async()=>{
