@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SKZ PC Wishlist</title>
+<style>
+:root{--bg:#fff5f5;--card:#fff;--ink:#1a1214;--mute:#7a6a6e;--red:#e11d3f;--line:#f1d3d8;--ok:#16a34a;--otw:#f59e0b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#140b0d;--card:#221417;--ink:#fbeff1;--mute:#b79ba1;--line:#3a2328;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#140b0d;--card:#221417;--ink:#fbeff1;--mute:#b79ba1;--line:#3a2328;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px;padding-bottom:90px;max-width:900px;margin-inline:auto}
+h1{margin:4px 0 12px;font-size:26px;letter-spacing:-.5px}h1 span{color:var(--red)}
+.prog{background:var(--line);border-radius:99px;height:12px;overflow:hidden}.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--red),#ff7a90);transition:width .4s}
+.stat{font-size:13px;color:var(--mute);margin:6px 0 12px;display:flex;justify-content:space-between}
+.chips{display:flex;align-items:center;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip,.member-select{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 13px;font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0;font-family:inherit}
+.chip.on,.member-select.selected{background:var(--red);color:#fff;border-color:var(--red)}
+.member-select{padding:7px 12px;max-width:190px}
+.chip-count{font-size:11px;opacity:.8;margin-left:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.c.own{opacity:.75}.c.drag{z-index:50;pointer-events:none;box-shadow:0 14px 34px #0007;opacity:.95;transition:none}
+.pw{position:relative}.ph{display:block;aspect-ratio:55/85;background:linear-gradient(135deg,#e11d3f33,#00000022);width:100%;border:0;padding:0;cursor:pointer;position:relative}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}.ph .no{display:grid;place-items:center;height:100%;font-size:40px}
+.rk{position:absolute;top:8px;left:8px;background:#000c;color:#fff;border-radius:99px;padding:2px 9px;font-weight:700;font-size:13px}
+.ck,.tw{position:absolute;right:6px;width:32px;height:32px;border-radius:50%;border:2px solid #fff;background:#0007;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;text-align:center}
+.ck{top:6px;font-size:17px}.tw{top:44px;font-size:15px}.tw span{display:block;line-height:1;transform:translateX(-1px)}
+.own .ck{background:var(--ok)}.otw .tw{background:var(--otw)}.own .ph img{filter:grayscale(.6)}
+.in{padding:8px;flex:1;display:flex;flex-direction:column}.nm{font-weight:650;font-size:14px;line-height:1.2;word-break:break-word}
+.mb{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--red);margin-top:auto;padding-top:4px;width:100%}
+.mb .member-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mb .tag{margin-left:auto;flex-shrink:0}
+.tag{font-size:11px;font-weight:700;color:#fff;padding:2px 8px;border-radius:99px;line-height:1.3;text-decoration:none;white-space:nowrap;display:inline-block}
+.tag.buy{background:var(--red)}.tag.ot{background:var(--otw)}.tag.hv{background:var(--ok)}
+.bar{display:flex;justify-content:space-between;gap:4px;padding-top:8px}.bar button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 0;font-size:15px;cursor:pointer}
+.empty{text-align:center;color:var(--mute);padding:40px 10px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--red);color:#fff;border:0;border-radius:99px;padding:14px 20px;font-size:16px;font-weight:700;box-shadow:0 6px 20px #e11d3f66;cursor:pointer}
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(92vw,400px);padding:18px}
+dialog::backdrop{background:#0008}label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
+.row{display:flex;gap:8px;margin-top:16px}.row button{flex:1;padding:12px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:15px;cursor:pointer}
+.row .pri{background:var(--red);border-color:var(--red);color:#fff;font-weight:700}
+#pv{max-width:100%;max-height:140px;border-radius:8px;margin-top:8px;display:none}.msg{color:var(--red);font-size:13px;margin-top:6px}
+#lb{position:fixed;inset:0;background:#000e;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:100;padding:20px;padding-top:calc(20px + env(safe-area-inset-top,0px));padding-bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+#lb.on{display:flex}#lb img{max-width:100%;max-height:72vh;border-radius:14px;object-fit:contain;display:block}#lb .big{font-size:110px}
+#lbn{color:#fff;font-weight:700;text-align:center}
+#lbb{background:var(--red);color:#fff;border:0;border-radius:99px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+#lbs{display:none;color:#fff;font-weight:700;font-size:16px;border-radius:99px;padding:12px 28px}#lbs.hv{background:var(--ok)}#lbs.ot{background:var(--otw)}#lbs.buy{background:var(--red)}
+#lbx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff3;color:#fff;font-size:20px;cursor:pointer}
+
+.sync-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin:12px 0}
+.sync-title{font-weight:700;margin-bottom:4px}
+.sync-note{font-size:12px;color:var(--mute);margin:4px 0 10px}
+.sync-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sync-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.sync-actions button{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:9px 12px;font-size:13px;cursor:pointer}
+.sync-actions .pri{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
+#syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
+#syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+@media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<h1>SKZ <span>PC</span> Wishlist</h1>
+<section class="sync-panel" aria-label="Cloud sync">
+ <div class="sync-title">☁️ Sync Mac &amp; iPhone</div>
+ <div class="sync-note">Log in with the same account on both devices. Your current cards stay saved on this device until you choose how to connect them to the cloud.</div>
+ <div class="sync-fields">
+  <input id="syncEmail" type="email" autocomplete="email" placeholder="Email address">
+  <input id="syncPassword" type="password" autocomplete="current-password" placeholder="Password">
+ </div>
+ <div class="sync-actions">
+  <button class="pri" id="syncLogin">Log in</button>
+  <button id="syncSignup">Create account</button>
+  <button id="syncLogout" style="display:none">Log out</button>
+ </div>
+ <div class="sync-actions">
+  <button id="exportBtn">⬇️ Back-up downloaden</button>
+  <button id="importBtn">⬆️ Back-up importeren</button>
+  <input id="importFile" type="file" accept="application/json,.json" style="display:none">
+ </div>
+ <div id="syncStatus">Not connected — this device is saving locally.</div>
+ <div id="syncChoices">
+  <div class="sync-note" id="syncChoiceText"></div>
+  <div class="sync-actions">
+   <button class="pri" id="uploadLocal">Upload this device's collection</button>
+   <button id="downloadCloud">Use cloud collection on this device</button>
+  </div>
+ </div>
+</section>
+<div class="prog"><i id="pg"></i></div>
+<div class="stat"><span id="st"></span><span id="pc"></span></div>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+<button class="fab" id="add">＋ New PC</button>
+
+<dialog id="dlg">
+<h3 id="dt" style="margin:0">New PC</h3>
+<label>Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
+<label>Member</label><select id="fm"></select>
+<label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
+<label>Photo</label><input id="ff" type="file" accept="image/*">
+<img id="pv" alt=""><div class="msg" id="ms"></div>
+<div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
+</dialog>
+
+<div id="lb">
+<button id="lbx" aria-label="Close">✕</button><div id="lbc"></div><div id="lbn"></div>
+<a id="lbb" href="#" target="_blank" rel="noopener noreferrer">Buy</a><span id="lbs"></span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const MEMBERS=["OT8","Bang Chan","Lee Know","Changbin","Hyunjin","Han","Felix","Seungmin","I.N","Units","Group"];
+const KEY="skz-pc-wishlist";
+const DB_NAME="skz-pc-wishlist-db", DB_VERSION=1, STORE="wishlist";
+/* Paste your Supabase Project URL and anon/public key below. Never use service_role here. */
+const SUPABASE_URL="https://vyprzgvbnwcpldeutbkf.supabase.co";
+const SUPABASE_ANON_KEY="sb_publishable_FjfRERwPSteM6Cgh04a-Rg_Da-92sy3";
+const SUPABASE_BUCKET="Pc-photos";
+let sb=null,currentUser=null,syncEnabled=false,cloudUpdatedAt=null;
+let syncTimer=null,syncBusy=false,syncAgain=false,pendingCloudItems=null;
+let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",justDragged=false;
+const $=id=>document.getElementById(id),grid=$("grid");
+const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=u=>{u=(u||"").trim();if(!u)return"";return /^https?:\/\//i.test(u)?u:"https://"+u};
+const weight=i=>i.member==="OT8"?8:1;
+const count=arr=>arr.reduce((n,i)=>n+weight(i),0);
+const grp=i=>i.owned?2:i.otw?1:0;
+
+function openDB(){
+ return new Promise((resolve,reject)=>{
+  const req=indexedDB.open(DB_NAME,DB_VERSION);
+  req.onupgradeneeded=()=>{const d=req.result;if(!d.objectStoreNames.contains(STORE))d.createObjectStore(STORE)};
+  req.onsuccess=()=>resolve(req.result);
+  req.onerror=()=>reject(req.error||new Error("IndexedDB kon niet geopend worden."));
+ });
+}
+function dbGet(key){
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction(STORE,"readonly"),req=tx.objectStore(STORE).get(key);
+  req.onsuccess=()=>resolve(req.result);
+  req.onerror=()=>reject(req.error);
+ });
+}
+function dbPut(key,value){
+ return new Promise((resolve,reject)=>{
+  const tx=db.transaction(STORE,"readwrite");
+  tx.objectStore(STORE).put(value,key);
+  tx.oncomplete=()=>resolve(true);
+  tx.onerror=()=>reject(tx.error||new Error("Opslaan mislukt."));
+  tx.onabort=()=>reject(tx.error||new Error("Opslaan afgebroken."));
+ });
+}
+
+/* Load IndexedDB first. If this is the first run, safely migrate the old localStorage data. */
+async function loadData(){
+ db=await openDB();
+ const saved=await dbGet("items");
+ if(Array.isArray(saved)){
+  items=saved;
+  return;
+ }
+ let old=[];
+ try{old=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(old))old=[];}catch(e){old=[]}
+ old.forEach(i=>{if(i.member==="Groep")i.member="Group";if(typeof i.otw!=="boolean")i.otw=false;});
+ old.sort((a,b)=>grp(a)-grp(b));
+ if(old.length){
+  await dbPut("items",old); // only remove old copy after IndexedDB confirms the write
+  try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+"-grp");}catch(e){}
+  items=old;
+ }else{
+  items=[];
+  await dbPut("items",items);
+ }
+}
+async function save(){
+ try{
+  await dbPut("items",items);
+  if(syncEnabled)queueCloudSync();
+  return true;
+ }catch(e){
+  console.error("IndexedDB save failed:",e);
+  alert("Opslaan is niet gelukt. Je bestaande collectie is niet bewust verwijderd. Controleer de beschikbare opslagruimte of probeer een kleinere foto.");
+  return false;
+ }
+}
+
+function getMemberItems(member){return items.filter(i=>member==="All"||i.member===member)}
+function getVisibleItems(){
+ return items.filter(i=>{
+  const memberMatch=filterMember==="All"||i.member===filterMember;
+  let statusMatch=true;
+  if(filterStatus==="WTB")statusMatch=!i.owned&&!i.otw;
+  else if(filterStatus==="OTW")statusMatch=!!i.otw;
+  else if(filterStatus==="HAVE")statusMatch=!!i.owned;
+  return memberMatch&&statusMatch;
+ });
+}
+function render(){
+ const own=count(items.filter(i=>i.owned)),tot=count(items),otw=count(items.filter(i=>i.otw)),wtb=count(items.filter(i=>!i.owned&&!i.otw));
+ $("pg").style.width=(tot?own/tot*100:0)+"%";
+ $("st").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
+ $("pc").textContent=tot?Math.round(own/tot*100)+"%":"";
+ const memberOptions=MEMBERS.map(m=>`<option value="${esc(m)}" ${filterMember===m?"selected":""}>${esc(m)} (${count(getMemberItems(m))})</option>`).join("");
+ $("chips").innerHTML=`
+ <select id="memberFilter" class="member-select ${filterMember!=="All"?"selected":""}">
+ <option value="All" ${filterMember==="All"?"selected":""}>All (${tot})</option>${memberOptions}</select>
+ <button class="chip ${filterStatus==="WTB"?"on":""}" data-status="WTB">WTB <span class="chip-count">${wtb}</span></button>
+ <button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${otw}</span></button>
+ <button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${own}</span></button>`;
+ $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
+ $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
+ const vis=getVisibleItems();
+ if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one.</div>`;return}
+ grid.innerHTML=vis.map(it=>{
+  const rank=items.indexOf(it)+1;
+  const tag=it.owned?`<span class="tag hv">✓ HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
+  return `<div class="c ${it.owned?"own":""} ${it.otw?"otw":""}" data-id="${esc(it.id)}">
+   <div class="pw"><button class="ph" data-a="go">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}<span class="rk">#${rank}</span></button></div>
+   <button class="ck" data-a="own" aria-label="I have it">✓</button><button class="tw" data-a="otw" aria-label="On the way"><span>🚚</span></button>
+   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div>
+   <div class="bar"><button data-a="e">✏️</button><button data-a="d">🗑</button></div></div></div>`;
+ }).join("");
+}
+function openLb(it){
+ $("lbc").innerHTML=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div class="big">🃏</div>`;
+ $("lbn").textContent=it.name+" · "+it.member;
+ const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
+ if(it.owned){s.className="hv";s.textContent="✓ HAVE";s.style.display="inline-block"}
+ else if(it.otw){s.className="ot";s.textContent="OTW";s.style.display="inline-block"}
+ else if(it.link){b.href=it.link;b.style.display="inline-block"}
+ else{s.className="buy";s.textContent="buy";s.style.display="inline-block"}
+ $("lb").classList.add("on");
+}
+function closeLb(){$("lb").classList.remove("on")}
+$("lb").onclick=e=>{if(!e.target.closest("#lbb"))closeLb()};
+$("lbx").onclick=closeLb;
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLb()});
+
+function remember(it){const idx=items.indexOf(it),nx=items[idx+1];it.prevIdx=idx;it.nextId=nx?nx.id:null}
+function restore(it){
+ let pos=-1;if(it.nextId)pos=items.findIndex(x=>x.id===it.nextId);
+ if(pos<0)pos=Math.min(typeof it.prevIdx==="number"?it.prevIdx:items.length,items.length);
+ const fo=items.findIndex(x=>x.owned||x.otw);if(fo>=0&&pos>fo)pos=fo;
+ items.splice(pos,0,it);
+}
+grid.onclick=async e=>{
+ if(e.target.closest(".lk")||justDragged)return;
+ const b=e.target.closest("[data-a]");if(!b)return;
+ const card=b.closest(".c"),it=items.find(x=>x.id===card?.dataset.id);if(!it)return;
+ const a=b.dataset.a;
+ if(a==="go")openLb(it);
+ else if(a==="own"){
+  if(!it.owned){remember(it);it.owned=true;it.otw=false;items=items.filter(x=>x!==it);items.push(it)}
+  else{it.owned=false;items=items.filter(x=>x!==it);restore(it)}
+  if(await save())render();
+ }else if(a==="otw"){
+  if(!it.otw){remember(it);it.otw=true;it.owned=false;items=items.filter(x=>x!==it);const fo=items.findIndex(x=>x.owned);if(fo<0)items.push(it);else items.splice(fo,0,it)}
+  else{it.otw=false;items=items.filter(x=>x!==it);restore(it)}
+  if(await save())render();
+ }else if(a==="e")openDlg(it.id);
+ else if(a==="d"&&confirm("Delete: "+it.name+"?")){items=items.filter(x=>x!==it);if(await save())render()}
+};
+
+/* Long-press + drag to reorder */
+let st=null,dr=null,timer=null;
+function place(x,y){
+ const el=dr.el;el.style.transform="none";const r=el.getBoundingClientRect();
+ el.style.transform=`translate(${x-dr.gx-r.left}px,${y-dr.gy-r.top}px) scale(1.05)`;
+}
+grid.addEventListener("pointerdown",e=>{
+ if(e.button>0||e.target.closest(".ck,.tw,.bar,.lk"))return;
+ const el=e.target.closest(".c");if(!el)return;
+ st={el,x0:e.clientX,y0:e.clientY,x:e.clientX,y:e.clientY};clearTimeout(timer);
+ timer=setTimeout(()=>{if(!st)return;const r=el.getBoundingClientRect();dr={el,gx:st.x-r.left,gy:st.y-r.top};el.classList.add("drag");if(navigator.vibrate)try{navigator.vibrate(30)}catch(_){}place(st.x,st.y)},350);
+});
+window.addEventListener("pointermove",e=>{
+ if(!st)return;st.x=e.clientX;st.y=e.clientY;
+ if(dr){
+  place(st.x,st.y);
+  if(st.y<90)window.scrollBy(0,-12);else if(st.y>innerHeight-90)window.scrollBy(0,12);
+  const under=document.elementFromPoint(st.x,st.y),t=under&&under.closest&&under.closest(".c");
+  if(t&&t!==dr.el&&t.parentNode===grid){const kids=[...grid.children];if(kids.indexOf(t)<kids.indexOf(dr.el))grid.insertBefore(dr.el,t);else grid.insertBefore(dr.el,t.nextSibling);place(st.x,st.y)}
+ }else if(Math.hypot(st.x-st.x0,st.y-st.y0)>8){clearTimeout(timer);st=null}
+});
+async function endDrag(){
+ clearTimeout(timer);
+ if(dr){
+  const ids=[...grid.querySelectorAll(".c")].map(c=>c.dataset.id),set=new Set(ids),slots=[];
+  items.forEach((it,i)=>{if(set.has(it.id))slots.push(i)});
+  const map=new Map(items.map(i=>[i.id,i]));
+  ids.forEach((id,k)=>{items[slots[k]]=map.get(id)});
+  await save();justDragged=true;setTimeout(()=>justDragged=false,80);dr=null;render();
+ }
+ st=null;
+}
+window.addEventListener("pointerup",endDrag);window.addEventListener("pointercancel",endDrag);
+document.addEventListener("touchmove",e=>{if(dr)e.preventDefault()},{passive:false});
+grid.addEventListener("contextmenu",e=>e.preventDefault());
+
+$("fm").innerHTML=MEMBERS.map(m=>`<option>${esc(m)}</option>`).join("");
+function openDlg(id){
+ editId=id||null;const it=id?items.find(x=>x.id===id):null;
+ $("dt").textContent=it?"Edit PC":"New PC";$("fn").value=it?it.name:"";
+ $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
+ $("fl").value=it?it.link:"";$("ff").value="";$("ms").textContent="";
+ tmpImg=it?it.img:"";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("dlg").showModal();
+}
+$("add").onclick=()=>openDlg();
+$("cx").onclick=()=>$("dlg").close();
+$("ff").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{
+  const s=Math.min(1,420/im.width),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;
+  c.getContext("2d").drawImage(im,0,0,c.width,c.height);tmpImg=c.toDataURL("image/jpeg",.78);
+  $("pv").src=tmpImg;$("pv").style.display="block";
+ };im.src=r.result};
+ r.readAsDataURL(f);
+};
+$("sv").onclick=async()=>{
+ const name=$("fn").value.trim();if(!name){$("ms").textContent="Give your PC a name 💌";return}
+ const data={name,member:$("fm").value,link:norm($("fl").value),img:tmpImg};
+ if(editId)Object.assign(items.find(x=>x.id===editId),data);
+ else{
+  const ni={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owned:false,otw:false,...data};
+  const first=items.findIndex(i=>i.owned||i.otw);if(first<0)items.push(ni);else items.splice(first,0,ni);
+ }
+ if(await save()){$("dlg").close();render()}
+};
+
+/* CLOUD SYNC — Supabase */
+function setSyncStatus(message){$("syncStatus").textContent=message}
+function supabaseConfigured(){
+ return SUPABASE_URL.startsWith("https://") &&
+        !SUPABASE_URL.includes("PASTE_") &&
+        SUPABASE_ANON_KEY.length>20 &&
+        !SUPABASE_ANON_KEY.includes("PASTE_");
+}
+function showSyncChoices(show,text){
+ $("syncChoices").style.display=show?"block":"none";
+ $("syncChoiceText").textContent=text||"";
+}
+async function imageForCloud(it){
+ const copy={...it};
+ if(copy.img && copy.img.startsWith("data:")){
+  const blob=await (await fetch(copy.img)).blob();
+  const path=currentUser.id+"/"+encodeURIComponent(copy.id)+".jpg";
+  const {error}=await sb.storage.from(SUPABASE_BUCKET).upload(path,blob,{upsert:true,contentType:"image/jpeg"});
+  if(error)throw error;
+  const {data}=sb.storage.from(SUPABASE_BUCKET).getPublicUrl(path);
+  copy.img=data.publicUrl;
+ }
+ return copy;
+}
+async function writeCloud(){
+ if(!syncEnabled||!currentUser)return;
+ if(syncBusy){syncAgain=true;return}
+ syncBusy=true;
+ try{
+  setSyncStatus("Syncing your collection…");
+  const cloudItems=[];
+  for(const it of items)cloudItems.push(await imageForCloud(it));
+  // Keep the public image URLs locally too, so both devices use the same image paths.
+  items=cloudItems;
+  await dbPut("items",items);
+  const now=new Date().toISOString();
+  const {error}=await sb.from("wishlist_data").upsert({
+   user_id:currentUser.id,items:cloudItems,updated_at:now
+  },{onConflict:"user_id"});
+  if(error)throw error;
+  cloudUpdatedAt=now;
+  setSyncStatus("✓ Synced — changes are saved to your account.");
+  render();
+ }catch(e){
+  console.error("Cloud sync failed:",e);
+  setSyncStatus("Cloud sync failed: "+(e.message||"Check your Supabase setup and internet connection."));
+ }finally{
+  syncBusy=false;
+  if(syncAgain){syncAgain=false;writeCloud()}
+ }
+}
+function queueCloudSync(){
+ clearTimeout(syncTimer);
+ syncTimer=setTimeout(writeCloud,700);
+}
+async function readCloud(){
+ const {data,error}=await sb.from("wishlist_data").select("items,updated_at").eq("user_id",currentUser.id).maybeSingle();
+ if(error)throw error;
+ return data;
+}
+async function chooseCloudDirection(){
+ try{
+  const row=await readCloud();
+  pendingCloudItems=row&&Array.isArray(row.items)?row.items:null;
+  if(pendingCloudItems){
+   cloudUpdatedAt=row.updated_at;
+   showSyncChoices(true,"A cloud collection already exists. Choose carefully: upload replaces the cloud copy with this Mac's collection; use cloud replaces this device's collection with the cloud copy.");
+   $("downloadCloud").style.display="inline-block";
+   setSyncStatus("Logged in. Choose which collection to keep.");
+  }else{
+   showSyncChoices(true,"No cloud collection exists yet. Upload this device's collection to make it available on your other devices.");
+   $("downloadCloud").style.display="none";
+   setSyncStatus("Logged in. Your collection is still local until you upload it.");
+  }
+ }catch(e){
+  console.error(e);setSyncStatus("Could not check cloud collection: "+(e.message||"Unknown error"));
+ }
+}
+async function startCloudSession(session){
+ currentUser=session.user;
+ $("syncLogout").style.display="inline-block";
+ $("syncLogin").style.display="none";
+ $("syncSignup").style.display="none";
+ $("syncEmail").style.display="none";
+ $("syncPassword").style.display="none";
+ syncEnabled=false;
+ showSyncChoices(false);
+ setSyncStatus("Signed in as "+currentUser.email+". Checking cloud collection…");
+ await chooseCloudDirection();
+}
+async function initCloud(){
+ if(!supabaseConfigured()){
+  setSyncStatus("Cloud sync not configured yet. Add your Supabase URL and anon key in the code.");
+  $("syncLogin").disabled=true;$("syncSignup").disabled=true;
+  return;
+ }
+ if(!window.supabase||!window.supabase.createClient){
+  setSyncStatus("Could not load the Supabase library. Check your internet connection.");
+  return;
+ }
+ sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+ const {data:{session}}=await sb.auth.getSession();
+ if(session)await startCloudSession(session);
+ sb.auth.onAuthStateChange((event,session)=>{
+  setTimeout(async()=>{
+   if(session&&event==="SIGNED_IN")await startCloudSession(session);
+   if(!session){currentUser=null;syncEnabled=false;showSyncChoices(false);$("syncLogout").style.display="none";$("syncLogin").style.display="inline-block";$("syncSignup").style.display="inline-block";$("syncEmail").style.display="";$("syncPassword").style.display="";setSyncStatus("Logged out — this device keeps its local collection.");}
+  },0);
+ });
+}
+$("syncSignup").onclick=async()=>{
+ const email=$("syncEmail").value.trim(),password=$("syncPassword").value;
+ if(!email||!password){setSyncStatus("Enter your email and a password first.");return}
+ setSyncStatus("Creating account…");
+ const {data,error}=await sb.auth.signUp({email,password});
+ if(error){setSyncStatus(error.message);return}
+ if(data.session)await startCloudSession(data.session);
+ else setSyncStatus("Account created. Check your email for the confirmation link, then log in.");
+};
+$("syncLogin").onclick=async()=>{
+ const email=$("syncEmail").value.trim(),password=$("syncPassword").value;
+ if(!email||!password){setSyncStatus("Enter your email and password first.");return}
+ setSyncStatus("Logging in…");
+ const {data,error}=await sb.auth.signInWithPassword({email,password});
+ if(error){setSyncStatus(error.message);return}
+ if(data.session)await startCloudSession(data.session);
+};
+$("syncLogout").onclick=async()=>{await sb.auth.signOut()};
+$("uploadLocal").onclick=async()=>{
+ if(!currentUser)return;
+ const ok=confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced.");
+ if(!ok)return;
+ syncEnabled=true;showSyncChoices(false);await writeCloud();
+};
+$("downloadCloud").onclick=async()=>{
+ if(!currentUser||!pendingCloudItems)return;
+ const ok=confirm("Replace this device's current collection with the cloud collection? Your local collection will be replaced.");
+ if(!ok)return;
+ items=pendingCloudItems;
+ await dbPut("items",items);
+ syncEnabled=true;showSyncChoices(false);render();
+ setSyncStatus("✓ Cloud collection loaded. Sync is active.");
+};
+
+// Check for changes made on another device while this page is open.
+async function pollCloud(){
+ if(!syncEnabled||!currentUser||syncBusy)return;
+ try{
+  const row=await readCloud();
+  if(row&&row.updated_at&&row.updated_at!==cloudUpdatedAt){
+   const remote=Array.isArray(row.items)?row.items:[];
+   items=remote;await dbPut("items",items);cloudUpdatedAt=row.updated_at;render();
+   setSyncStatus("✓ Updated from your other device.");
+  }
+ }catch(e){console.warn("Cloud refresh failed:",e)}
+}
+setInterval(pollCloud,8000);
+
+/* BACK-UP: export / import as a file */
+$("exportBtn").onclick=()=>{
+ if(!items.length){alert("Er staat niks in deze collectie om te exporteren.");return}
+ const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items})],{type:"application/json"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="skz-pc-backup-"+new Date().toISOString().slice(0,10)+".json";
+ document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+ setSyncStatus("✓ Back-up gedownload ("+items.length+" kaarten).");
+};
+$("importBtn").onclick=()=>$("importFile").click();
+$("importFile").onchange=async e=>{
+ const f=e.target.files[0];if(!f)return;
+ try{
+  const data=JSON.parse(await f.text());
+  const list=Array.isArray(data)?data:data.items;
+  if(!Array.isArray(list)||!list.length)throw new Error("Geen kaarten gevonden in dit bestand.");
+  if(!confirm("Deze collectie ("+items.length+" kaarten) vervangen door de back-up ("+list.length+" kaarten)?"))return;
+  items=list;
+  await dbPut("items",items);
+  render();
+  if(syncEnabled)queueCloudSync();
+  setSyncStatus("✓ "+list.length+" kaarten geïmporteerd."+(syncEnabled?"":" Klik op 'Upload this device's collection' om ze naar de cloud te zetten."));
+ }catch(err){alert("Importeren mislukt: "+err.message)}
+ e.target.value="";
+};
+
+/* Startup */
+(async()=>{
+ try{await loadData();render();await initCloud()}
+ catch(e){
+  console.error(e);
+  $("grid").innerHTML='<div class="empty" style="grid-column:1/-1">Could not open your saved wishlist. Your old browser data has not been deleted. Try opening this page in the same browser where you created your wishlist.</div>';
+  alert("De wishlist kon niet worden geopend. Je oude gegevens zijn niet verwijderd.");
+ }
+})();
+</script>
+</body>
+</html>
