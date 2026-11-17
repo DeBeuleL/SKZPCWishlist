@@ -57,6 +57,12 @@ h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color
 .bar{display:flex;justify-content:space-between;gap:4px;padding-top:8px}.bar button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 0;font-size:15px;cursor:pointer}
 .empty{text-align:center;color:var(--mute);padding:40px 10px}
 .fab{background:var(--red);color:#fff;border:0;border-radius:99px;padding:10px 16px;font-size:15px;font-weight:700;box-shadow:0 4px 14px #e11d3f44;cursor:pointer;white-space:nowrap;flex-shrink:0}
+#hView{
+  background:var(--card);
+  color:var(--ink);
+  border:1px solid var(--line);
+  box-shadow:none;
+}
 dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(92vw,400px);padding:18px}
 dialog::backdrop{background:#0008}label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
 input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
@@ -70,6 +76,76 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 #lbs{display:none;color:#fff;font-weight:700;font-size:16px;border-radius:99px;padding:12px 28px}#lbs.hv{background:var(--ok)}#lbs.ot{background:var(--otw)}#lbs.buy{background:var(--red)}
 #lbx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff3;color:#fff;font-size:20px;cursor:pointer}
 
+.views{display:flex;gap:6px;margin:0 0 12px}.chip:disabled{opacity:.4}
+.bhead,.bnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;flex-wrap:wrap}.bnav{justify-content:center}
+.bname{cursor:pointer;text-align:center;flex:1}
+.brow{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.sub{font-size:12px;color:var(--mute);margin-top:2px}
+.bsheet{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;margin-bottom:10px}
+.bg{display:grid;gap:6px}
+.lrow{display:flex;justify-content:flex-end;align-items:flex-start;gap:8px;margin:0 0 10px;flex-wrap:wrap}
+.lays{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-start;margin:0}
+.pgbtns{display:flex;flex-direction:row;gap:6px;align-items:flex-end;margin-left:auto}.pgbtns .chip{font-size:12px;padding:6px 10px}
+.lay{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:6px 7px;font-size:11px;font-weight:700;cursor:pointer;min-width:40px}
+.lay.on{border-color:var(--red);background:var(--red);color:#fff}
+#layGrid .lay{padding:12px 16px;font-size:13px;min-width:70px}
+.lg{display:grid;gap:2px}.lg i{display:block;aspect-ratio:55/85;background:currentColor;opacity:.55;border-radius:1px}
+.pk,.pc2{aspect-ratio:55/85;border:2px dashed var(--line);border-radius:8px;background:var(--bg);position:relative;overflow:hidden;padding:0;cursor:pointer;color:var(--ink)}
+.pk img,.pc2 img{width:100%;height:100%;object-fit:cover;display:block}
+.pk .no,.pc2 .no{display:grid;place-items:center;height:100%;font-size:28px}
+.pk .pl{font-size:24px;color:var(--mute)}
+.pk.miss img,.pc2.miss img{
+  filter:none;
+  opacity:1;
+}
+.pn{position:absolute;left:2px;right:2px;bottom:2px;font-size:9px;line-height:1.2;color:#fff;background:#000a;border-radius:4px;padding:1px 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc2 .in{position:absolute;top:3px;left:3px;font-style:normal;font-size:9px;background:var(--red);color:#fff;border-radius:99px;padding:1px 6px}
+#pick{width:min(96vw,720px);height:88vh;max-height:88vh;padding:14px;flex-direction:column;gap:8px}
+#pick[open]{display:flex}
+.ph2{display:flex;justify-content:space-between;align-items:center}.ph2 h3{margin:0}
+.x2{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+#pick .search{margin:0}.pf{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.pg{-webkit-overflow-scrolling:touch;display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px;overflow-y:auto;flex:1;min-height:0;align-content:start;padding:2px}
+#pick .pc2{aspect-ratio:auto;border-style:solid;display:flex;flex-direction:column;border:1px solid var(--line);background:var(--card);text-align:left;border-radius:10px}
+#pick .im{position:relative;width:100%;height:0;padding-bottom:154.5%;overflow:hidden;background:var(--bg)}#pick .im img,#pick .im .no{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:grid;place-items:center}
+.pc2 .cap{padding:5px 6px;font-size:11px;line-height:1.2;display:flex;flex-direction:column;gap:2px}.pc2 .cap span{color:var(--red)}
+#bv{position:fixed;inset:0;z-index:90;background:var(--bg);display:none;flex-direction:column;padding:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}#bv.on{display:flex}
+.bvbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.bvmain{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+#bvpage{gap:5px;margin:0 auto}
+.vp{aspect-ratio:55/85;border-radius:6px;overflow:hidden;background:var(--card);border:1px solid var(--line);cursor:pointer}
+.vp img{width:100%;height:100%;object-fit:cover;display:block}
+#pick{overflow:hidden}
+#pickGrid{overflow-y:scroll;flex:1 1 auto;min-height:0;max-height:calc(88vh - 190px);align-content:start;align-items:start;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;padding:2px 2px 24px}
+#pickGrid .ph{aspect-ratio:auto;height:auto;background:none}
+#pickGrid .ph img{height:auto;object-fit:contain}
+.pk img,.vp img{object-fit:contain;background:var(--bg)}
+#pickGrid .c{cursor:pointer;border-radius:12px}
+.ok2{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;border:2px solid #fff}
+#pick{width:min(96vw,900px)}
+.cv{position:relative;width:100%;height:100%;border-radius:6px 14px 14px 6px;background:linear-gradient(135deg,var(--cc),color-mix(in srgb,var(--cc),#000 38%));box-shadow:0 10px 26px #0005,inset 0 0 0 2px #ffffff22;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.cv .sp{position:absolute;left:0;top:0;bottom:0;width:9%;background:#0004;box-shadow:2px 0 6px #0003}
+.cv::after{content:"";position:absolute;right:11%;top:0;bottom:0;width:6px;background:#0003}
+.cvin{padding:0 14% 0 18%}.cve{font-size:2.6em;line-height:1.1}.cvn{font-weight:800;font-size:1.15em;line-height:1.15;word-break:break-word}.cvs{font-size:.75em;opacity:.8;margin-top:6px}
+.bt{aspect-ratio:3/4;cursor:pointer;font-size:13px}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:16px}
+.sw.em button{width:40px;height:40px;border-radius:12px;background:var(--bg);font-size:22px;border:1px solid var(--line);box-shadow:none}.sw.em button.on{border-color:var(--red);box-shadow:0 0 0 2px var(--red)}
+.sw{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.sw button{width:34px;height:34px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}.sw button.on{box-shadow:0 0 0 3px var(--red)}
+input[type=color]{height:44px;padding:3px}
+#bvstage{perspective:1600px;display:flex;justify-content:center;width:100%}
+#bvcover{width:min(78vw,calc((100dvh - 210px) * .75),420px);aspect-ratio:3/4;font-size:20px;cursor:pointer;transform-origin:left center}
+#bvsheet{display:none;position:relative;padding:10px 10px 10px 30px;background:var(--card);border:1px solid var(--line);border-radius:6px 12px 12px 6px;box-shadow:0 8px 24px #0003;max-width:100%}
+#bvsheet::before{content:"";position:absolute;left:7px;top:6%;bottom:6%;width:14px;background:radial-gradient(circle,var(--bg) 4px,#9ca3af 5px 6.5px,transparent 7.5px) 0 0/14px 25%}
+.coOpen{animation:coOpen .56s ease-in forwards}.coClose{animation:coClose .48s ease-out}
+.outF{animation:outF .28s ease-in forwards;transform-origin:left center}.inF{animation:inF .28s ease-out;transform-origin:right center}
+.outB{animation:outB .26s ease-in forwards;transform-origin:right center}.inB{animation:inB .28s ease-out;transform-origin:left center}
+@keyframes coOpen{to{transform:rotateY(-118deg);opacity:.1}}@keyframes coClose{from{transform:rotateY(-118deg);opacity:.1}to{transform:none;opacity:1}}
+@keyframes outF{to{transform:rotateY(-80deg);opacity:0}}@keyframes inF{from{transform:rotateY(80deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes outB{to{transform:rotateY(80deg);opacity:0}}@keyframes inB{from{transform:rotateY(-80deg);opacity:0}to{transform:none;opacity:1}}
+.hb em{font-style:normal}
+#hCover{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+@media(max-width:600px){.hb{width:38px;height:38px;padding:0;border-radius:50%;align-items:center;justify-content:center}.hb:not([style*="none"]){display:inline-flex!important}.hb em{display:none}}
+.emo{font-size:34px;text-align:center;padding:8px}
 .top-r{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .pfp{position:relative;width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--ink);font-size:17px;font-weight:700;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .pfp .dot{position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;border-radius:50%;background:#9ca3af;border:2px solid var(--bg)}
@@ -94,7 +170,7 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 </style>
 </head>
 <body>
-<header class="top"><div class="top-in"><h1>SKZ <span>PC</span> Wishlist</h1><div class="top-r"><button class="fab" id="add">＋ New PC</button><button class="pfp" id="pfp" aria-label="Account and sync"><span id="pfpt">👤</span><i class="dot"></i></button></div></div></header>
+<header class="top"><div class="top-in"><h1>SKZ <span>PC</span> Wishlist</h1><div class="top-r"><button class="fab hb" id="hCover" type="button" style="display:none" title="Cover">🎨<em> Cover</em></button><button class="fab hb" id="hView" type="button" style="display:none" title="View binder">👁<em> View binder</em></button><button class="fab" id="add">＋ New PC</button><button class="pfp" id="pfp" aria-label="Account and sync"><span id="pfpt">👤</span><i class="dot"></i></button></div></div></header>
 <dialog id="acct"><button class="x" id="acctX" aria-label="Close">✕</button>
 <section class="sync-panel" aria-label="Account and sync">
  <div class="sync-title">☁️ Account &amp; sync</div>
@@ -123,11 +199,19 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
   </div>
  </div>
 </section></dialog>
+<div class="views"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button></div>
+<div id="vCards">
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <input id="q" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
 <div class="chips" id="chips"></div>
 <div class="grid" id="grid"></div>
+</div>
+<div id="vBinders" style="display:none"></div>
+<div id="bv"><div class="bvbar"><button class="chip" id="bvx" type="button">✕ Close</button><span id="bvp" class="sub"></span></div><div class="bvmain"><div id="bvstage"><div id="bvcover"></div><div id="bvsheet"><div id="bvpage" class="bg"></div></div></div></div><div class="bnav"><button class="chip" id="bvprev" type="button">‹ Prev</button><button class="chip" id="bvnext" type="button">Next ›</button></div></div>
+<dialog id="cov"><div class="ph2"><h3>Binder cover</h3><button class="x2" id="covX" aria-label="Close">✕</button></div><div id="covPrev" class="bt" style="width:150px;margin:12px auto;font-size:13px"></div><div class="sw" id="covSw"></div><label>Custom colour</label><input type="color" id="covC"><label>Emoji</label><input id="covE" class="emo" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Choose emoji"><button id="covEc" type="button" class="chip" style="margin-top:8px">Reset to default</button><div class="row"><button id="covOk" class="pri" type="button">Done</button></div></dialog>
+<dialog id="lay"><div class="ph2"><h3>Choose a layout</h3><button class="x2" id="layX" aria-label="Close">✕</button></div><div class="lays" id="layGrid" style="justify-content:center;margin-top:16px"></div></dialog>
+<dialog id="pick"><div class="ph2"><h3>Choose a card</h3><button class="x2" id="pickX" aria-label="Close">✕</button></div><input id="pickQ" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off"><div class="pf"><select id="pickM" class="member-select" style="max-width:150px"></select><button class="chip on" data-ps="all" type="button">All</button><button class="chip" data-ps="have" type="button">Have</button><button class="chip" data-ps="otw" type="button">OTW</button><button class="chip" data-ps="want" type="button">Want</button><button id="pickRm" type="button" class="chip" style="display:none">Remove</button></div><div class="sub" id="pickN"></div><div id="pickGrid" class="grid"></div></dialog>
 
 <dialog id="dlg">
 <h3 id="dt" style="margin:0">New PC</h3>
@@ -153,6 +237,7 @@ const DB_NAME="skz-pc-wishlist-db", DB_VERSION=1, STORE="wishlist";
 const SUPABASE_URL="https://vyprzgvbnwcpldeutbkf.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_FjfRERwPSteM6Cgh04a-Rg_Da-92sy3";
 const SUPABASE_BUCKET="Pc-photos";
+let binders=[];
 let sb=null,currentUser=null,syncEnabled=false,cloudUpdatedAt=null;
 let syncTimer=null,syncBusy=false,syncAgain=false,pendingCloudItems=null;
 let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",justDragged=false;
@@ -191,6 +276,7 @@ function dbPut(key,value){
 /* Load IndexedDB first. If this is the first run, safely migrate the old localStorage data. */
 async function loadData(){
  db=await openDB();
+ try{const b=await dbGet("binders");if(Array.isArray(b)){binders=b;fixB()}}catch(e){}
  const saved=await dbGet("items");
  if(Array.isArray(saved)){
   items=saved;
@@ -431,9 +517,12 @@ async function writeCloud(){
   items=cloudItems;
   await dbPut("items",items);
   const now=new Date().toISOString();
-  const {error}=await sb.from("wishlist_data").upsert({
-   user_id:currentUser.id,items:cloudItems,updated_at:now
+  let {error}=await sb.from("wishlist_data").upsert({
+   user_id:currentUser.id,items:cloudItems,binders:binders,updated_at:now
   },{onConflict:"user_id"});
+  if(error&&/binders/i.test(error.message||"")){ // column not created yet: save cards only
+   ({error}=await sb.from("wishlist_data").upsert({user_id:currentUser.id,items:cloudItems,updated_at:now},{onConflict:"user_id"}));
+  }
   if(error)throw error;
   cloudUpdatedAt=now;
   lsDel(dirtyFlag());
@@ -451,9 +540,11 @@ function queueCloudSync(){
  clearTimeout(syncTimer);
  syncTimer=setTimeout(writeCloud,700);
 }
+let lastRow=null;const row0=()=>lastRow;
 async function readCloud(){
- const {data,error}=await sb.from("wishlist_data").select("items,updated_at").eq("user_id",currentUser.id).maybeSingle();
+ const {data,error}=await sb.from("wishlist_data").select("*").eq("user_id",currentUser.id).maybeSingle();
  if(error)throw error;
+ lastRow=data;
  return data;
 }
 async function chooseCloudDirection(){
@@ -464,7 +555,7 @@ async function chooseCloudDirection(){
    cloudUpdatedAt=row.updated_at;
    syncEnabled=true;showSyncChoices(false);
    if(lsGet(dirtyFlag())==="1"){await writeCloud();}
-   else{items=pendingCloudItems;await dbPut("items",items);render();setSyncStatus("✓ Synced — loaded the latest from the cloud.");}
+   else{items=pendingCloudItems;await dbPut("items",items);adoptBinders(row);render();setSyncStatus("✓ Synced — loaded the latest from the cloud.");}
    return;
   }
   if(pendingCloudItems){
@@ -549,7 +640,7 @@ $("downloadCloud").onclick=async()=>{
  const ok=confirm("Replace this device's current collection with the cloud collection? Your local collection will be replaced.");
  if(!ok)return;
  items=pendingCloudItems;
- await dbPut("items",items);
+ await dbPut("items",items);adoptBinders(row0());
  syncEnabled=true;lsSet(syncFlag(),"1");lsDel(dirtyFlag());showSyncChoices(false);render();
  setSyncStatus("✓ Cloud collection loaded. Sync is active.");
 };
@@ -561,7 +652,7 @@ async function pollCloud(){
   const row=await readCloud();
   if(row&&row.updated_at&&row.updated_at!==cloudUpdatedAt){
    const remote=Array.isArray(row.items)?row.items:[];
-   items=remote;await dbPut("items",items);cloudUpdatedAt=row.updated_at;render();
+   items=remote;await dbPut("items",items);adoptBinders(row);cloudUpdatedAt=row.updated_at;render();
    setSyncStatus("✓ Updated from your other device.");
   }
  }catch(e){console.warn("Cloud refresh failed:",e)}
@@ -573,7 +664,7 @@ window.addEventListener("focus",pollCloud);
 /* BACK-UP: export / import as a file */
 $("exportBtn").onclick=()=>{
  if(!items.length){alert("There is nothing in this collection to export.");return}
- const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items})],{type:"application/json"});
+ const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items,binders})],{type:"application/json"});
  const a=document.createElement("a");
  a.href=URL.createObjectURL(blob);
  a.download="skz-pc-backup-"+new Date().toISOString().slice(0,10)+".json";
@@ -590,6 +681,7 @@ $("importFile").onchange=async e=>{
   if(!Array.isArray(list)||!list.length)throw new Error("No cards found in this file.");
   if(!confirm("Replace this collection ("+items.length+" cards) with the backup ("+list.length+" cards)?"))return;
   items=list;
+  if(!Array.isArray(data)&&Array.isArray(data.binders)){binders=data.binders;await dbPut("binders",binders)}
   await dbPut("items",items);
   render();
   if(syncEnabled)queueCloudSync();
@@ -602,6 +694,184 @@ $("pfp").onclick=()=>{updatePfp();$("acct").showModal()};
 $("acctX").onclick=()=>$("acct").close();
 $("acct").addEventListener("click",e=>{if(e.target===$("acct"))$("acct").close()});
 $("q").oninput=e=>{query=e.target.value;render()};
+
+
+/* ===== BINDERS ===== */
+const LAY={"1x1":[1,1],"2x2":[2,2],"3x3":[3,3]};
+const nSlots=l=>LAY[l][0]*LAY[l][1];
+const newPage=l=>({layout:l,slots:Array(nSlots(l)).fill(null)});
+const cardById=id=>items.find(x=>x.id===id);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+let bId=null,bPage=0,pickCtx=0,curView="cards";
+const _render=render;render=function(){_render();if(curView==="binders")renderBinders()};
+function fixB(){binders.forEach(b=>b.pages.forEach(pg=>{if(!LAY[pg.layout])pg.layout=["2x3","3x4","4x4"].includes(pg.layout)?"3x3":"2x2";while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null)}))}
+function adoptBinders(row){if(row&&Array.isArray(row.binders)){binders=row.binders;fixB();dbPut("binders",binders)}}
+async function saveBinders(){
+ try{await dbPut("binders",binders);if(syncEnabled){lsSet(dirtyFlag(),"1");queueCloudSync()}}catch(e){alert("Saving failed.")}
+ renderBinders();
+}
+function setView(v){
+ curView=v;$("vCards").style.display=v==="cards"?"":"none";$("vBinders").style.display=v==="binders"?"":"none";
+ document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+ if(v==="binders")renderBinders();
+}
+document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>setView(b.dataset.v));
+const thumb=it=>(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`)+`<span class="pn">${esc(it.name)}</span>`;
+function renderBinders(){
+ const el=$("vBinders"),b=binders.find(x=>x.id===bId);
+ if(!b){
+  bId=null;
+  el.innerHTML=`<div class="bhead"><b>Your binders</b><button class="chip on" data-b="new" type="button">＋ New binder</button></div>`+
+   (binders.length?'<div class="shelf">'+binders.map(x=>{
+    const tot=x.pages.reduce((n,p)=>n+nSlots(p.layout),0);
+    const fill=x.pages.reduce((n,p)=>n+p.slots.slice(0,nSlots(p.layout)).filter(id=>id&&cardById(id)).length,0);
+    return `<div data-bid="${x.id}"><div class="bt">${coverHTML(x)}</div><div class="sub" style="text-align:center">${fill}/${tot} pockets</div></div>`}).join("")+"</div>"
+   :`<div class="empty">No binders yet 📘<br>Tap “＋ New binder” to make your first one.</div>`);
+  return;
+ }
+ bPage=Math.max(0,Math.min(bPage,b.pages.length-1));
+ const pg=b.pages[bPage],[c,r]=LAY[pg.layout],n=c*r;
+ el.innerHTML=`<div class="bhead"><button class="chip" data-b="back" type="button">‹ Binders</button><b class="bname" data-b="rename">${esc(b.name)} ✏️</b><button class="chip" data-b="del" type="button">🗑</button></div>
+ <div class="bnav"><button class="chip" data-b="prev" type="button" ${bPage?"":"disabled"}>‹</button><span>Page ${bPage+1} / ${b.pages.length}</span><button class="chip" data-b="next" type="button" ${bPage<b.pages.length-1?"":"disabled"}>›</button>
+</div>
+ <div class="lrow"><div class="pgbtns"><button class="chip" data-b="addp" type="button">＋ Add page</button><button class="chip" data-b="delp" type="button">Delete page</button></div></div>
+ <div class="bsheet"><div class="bg" style="grid-template-columns:repeat(${c},minmax(0,1fr));max-width:${Math.max(c*150,170)}px;margin-inline:auto">`+
+ pg.slots.slice(0,n).map((id,i)=>{const it=id&&cardById(id);return `<button class="pk ${it&&!it.owned?"miss":""}" data-slot="${i}" type="button">${it?thumb(it):`<span class="pl">＋</span>`}</button>`}).join("")+
+`</div></div>`;
+}
+fixB();
+$("vBinders").onclick=e=>{
+ const lay=e.target.closest("[data-lay]");
+ if(lay){const bb=binders.find(x=>x.id===bId);if(bb){const pg=bb.pages[bPage];pg.layout=lay.dataset.lay;while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null);saveBinders()}return}
+ const bt=e.target.closest("[data-b]"),row=e.target.closest("[data-bid]"),sl=e.target.closest("[data-slot]"),b=binders.find(x=>x.id===bId);
+ if(row){bId=row.dataset.bid;bPage=0;renderBinders();return}
+ if(sl&&b){openPick(+sl.dataset.slot);return}
+ if(!bt)return;
+ const a=bt.dataset.b;
+ if(a==="new"){const name=(prompt("Binder name?")||"").trim();if(!name)return;const nb={id:uid(),name,color:PRESET[binders.length%PRESET.length],pages:[newPage("3x3")]};binders.push(nb);bId=nb.id;bPage=0;saveBinders()}
+ else if(a==="back"){bId=null;renderBinders()}
+ else if(!b)return;
+ else if(a==="rename"){const name=(prompt("Binder name?",b.name)||"").trim();if(name){b.name=name;saveBinders()}}
+ else if(a==="del"){if(confirm("Delete binder “"+b.name+"”? Your cards stay in your collection.")){binders=binders.filter(x=>x!==b);bId=null;saveBinders()}}
+ else if(a==="view"){openView()}
+ else if(a==="cover"){openCov()}
+ else if(a==="prev"){bPage--;renderBinders()}
+ else if(a==="next"){bPage++;renderBinders()}
+ else if(a==="addp"){openLay()}
+ else if(a==="delp"){if(b.pages.length<2){alert("A binder needs at least one page.");return}if(confirm("Delete this page?")){b.pages.splice(bPage,1);saveBinders()}}
+};
+$("vBinders").onchange=e=>{
+ if(e.target.id!=="bLay")return;
+ const b=binders.find(x=>x.id===bId),pg=b.pages[bPage];
+ pg.layout=e.target.value;while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null); // cards beyond the new size are kept, just hidden
+ saveBinders();
+};
+const PRESET=["#e11d3f","#7c3aed","#2563eb","#0d9488","#16a34a","#f59e0b","#ec4899","#111827","#f5f0e6","#9ca3af"];
+const lum=h=>{const n=parseInt(h.slice(1),16);return(.299*(n>>16)+.587*(n>>8&255)+.114*(n&255))/255};
+function coverHTML(b){
+ const c=b.color||PRESET[0],ink=lum(c)>.62?"#1a1214":"#fff",n=b.pages.length;
+ return `<div class="cv" style="--cc:${c};color:${ink}"><i class="sp"></i><div class="cvin"><div class="cve">${esc(b.emoji||"📘")}</div><div class="cvn">${esc(b.name)}</div><div class="cvs">${n} page${n>1?"s":""}</div></div></div>`;
+}
+/* cover editor */
+let covC="",covE="";
+function covDraw(){
+ const b=binders.find(x=>x.id===bId);
+ $("covPrev").innerHTML=coverHTML({...b,color:covC,emoji:covE});
+ $("covC").value=covC;
+ $("covSw").innerHTML=PRESET.map(c=>`<button type="button" data-c="${c}" class="${c===covC?"on":""}" style="background:${c}" aria-label="${c}"></button>`).join("");
+}
+function openCov(){const b=binders.find(x=>x.id===bId);covC=b.color||PRESET[0];covE=b.emoji||"";$("covE").value=covE;covDraw();$("cov").showModal()}
+$("covSw").onclick=e=>{const c=e.target.closest("[data-c]");if(c){covC=c.dataset.c;covDraw()}};
+$("covC").oninput=e=>{covC=e.target.value;covDraw()};
+$("covE").oninput=e=>{
+ let g;try{g=[...new Intl.Segmenter(undefined,{granularity:"grapheme"}).segment(e.target.value)].map(x=>x.segment)}catch(_){g=Array.from(e.target.value)}
+ covE=g.length?g[g.length-1]:"";
+ if(covE&&!/\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}]|\d\uFE0F?\u20E3/u.test(covE))covE="";
+ e.target.value=covE;covDraw();
+};
+$("covEc").onclick=()=>{covE="";$("covE").value="";covDraw()};
+$("covX").onclick=()=>$("cov").close();
+$("covOk").onclick=()=>{const b=binders.find(x=>x.id===bId);b.color=covC;b.emoji=covE.trim();$("cov").close();saveBinders()};
+
+/* view mode */
+let vS=0,vBusy=false; // 0 = closed (cover), 1..N = pages
+const nPages=()=>binders.find(x=>x.id===bId).pages.length;
+function openView(){vS=0;vBusy=false;$("bv").classList.add("on");drawView()}
+function closeView(){$("bv").classList.remove("on");renderBinders()}
+function drawView(){
+ const b=binders.find(x=>x.id===bId);if(!b)return closeView();
+ const closed=vS===0;
+ $("bvcover").style.display=closed?"block":"none";$("bvsheet").style.display=closed?"none":"block";
+ $("bvprev").style.visibility=closed?"hidden":"visible";
+ $("bvnext").textContent=closed?"Open ›":vS>=nPages()?"Close ✕":"Next ›";
+ if(closed){$("bvcover").innerHTML=coverHTML(b);$("bvp").textContent="Tap the cover to open";return}
+ bPage=vS-1;
+ const pg=b.pages[vS-1],[c,r]=LAY[pg.layout],n=c*r,el=$("bvpage");
+ $("bvp").textContent="Page "+vS+" / "+nPages();
+ el.style.gridTemplateColumns=`repeat(${c},minmax(0,1fr))`;
+ el.style.width=`min(calc(100vw - 74px), calc((100dvh - 215px) * ${(c*55)/(r*85)}))`;
+ el.innerHTML=pg.slots.slice(0,n).map(id=>{const it=id&&cardById(id);return `<div class="vp" ${it?`data-vid="${it.id}"`:""}>${it?(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`):""}</div>`}).join("");
+}
+const anim=(el,cls,ms)=>new Promise(r=>{el.classList.add(cls);setTimeout(()=>{el.classList.remove(cls);r()},ms)});
+async function go(to){
+ if(vBusy||to<0||to>nPages())return;vBusy=true;const from=vS;
+ try{
+  if(from===0){await anim($("bvcover"),"coOpen",560);vS=to;drawView();await anim($("bvsheet"),"inF",290)}
+  else if(to===0){await anim($("bvsheet"),"outB",270);vS=0;drawView();await anim($("bvcover"),"coClose",490)}
+  else{const f=to>from;await anim($("bvsheet"),f?"outF":"outB",290);vS=to;drawView();await anim($("bvsheet"),f?"inF":"inB",290)}
+ }finally{vBusy=false}
+}
+const vNext=()=>go(vS>=nPages()?0:vS+1),vPrev=()=>go(vS-1);
+$("bvprev").onclick=vPrev;$("bvnext").onclick=vNext;$("bvx").onclick=closeView;
+$("bvcover").onclick=()=>go(1);
+$("bvpage").onclick=e=>{const c=e.target.closest("[data-vid]");if(c)openLb(cardById(c.dataset.vid))};
+let tx=null;
+$("bv").addEventListener("touchstart",e=>{tx=e.touches[0].clientX},{passive:true});
+$("bv").addEventListener("touchend",e=>{if(tx===null)return;const d=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(d)>50){if(d<0)vNext();else if(vS>0)vPrev()}},{passive:true});
+document.addEventListener("keydown",e=>{if(!$("bv").classList.contains("on")||$("lb").classList.contains("on"))return;if(e.key==="ArrowRight"||e.key==="Enter")vNext();else if(e.key==="ArrowLeft"&&vS>0)vPrev();else if(e.key==="Escape")closeView()});
+function openPick(i){
+ pickCtx=i;$("pickQ").value="";pickM="All";pickS="all";
+ $("pickM").innerHTML=["All",...MEMBERS].map(m=>`<option value="${esc(m)}">${m==="All"?"All members":esc(m)}</option>`).join("");
+ fillPick();$("pick").showModal();$("pickGrid").scrollTop=0;
+}
+$("pickM").onchange=e=>{pickM=e.target.value;fillPick()};
+$("pick").addEventListener("click",e=>{const c=e.target.closest("[data-ps]");if(c){pickS=c.dataset.ps;fillPick()}});
+let pickM="All",pickS="all";
+function fillPick(){
+ const b=binders.find(x=>x.id===bId),pg=b.pages[bPage];
+ const q=norm2($("pickQ").value).split(/\s+/).filter(Boolean);
+ $("pickRm").style.display=pg.slots[pickCtx]?"inline-block":"none";
+ document.querySelectorAll("[data-ps]").forEach(x=>x.classList.toggle("on",x.dataset.ps===pickS));
+ const used=new Set(b.pages.flatMap(p=>p.slots.slice(0,nSlots(p.layout))));
+ const list=items.filter(it=>(pickM==="All"||it.member===pickM)&&(pickS==="all"||(it.owned?"have":it.otw?"otw":"want")===pickS)&&q.every(t=>norm2(it.name+" "+it.member).includes(t)));
+ $("pickN").textContent=list.length+" of "+items.length+" cards";
+ $("pickGrid").innerHTML=list.length?list.map(it=>`<div class="c" data-pid="${it.id}" title="${esc(it.name+" · "+it.member)}" role="button" tabindex="0"><div class="ph">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}${used.has(it.id)?`<span class="ok2">✓</span>`:""}</div></div>`).join(""):`<div class="empty" style="grid-column:1/-1">No cards found</div>`;
+}
+function putSlot(v){const b=binders.find(x=>x.id===bId);b.pages[bPage].slots[pickCtx]=v;$("pick").close();saveBinders()}
+$("pickQ").oninput=fillPick;
+$("pickGrid").onclick=e=>{const c=e.target.closest("[data-pid]");if(c)putSlot(c.dataset.pid)};
+$("pickRm").onclick=()=>putSlot(null);
+$("pickX").onclick=()=>$("pick").close();
+$("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
+
+function syncHdr(){
+ const inB=curView==="binders"&&binders.some(x=>x.id===bId);
+ $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
+}
+{const _rb=renderBinders;renderBinders=function(){_rb();syncHdr()}}
+{const _sv=setView;setView=function(v){_sv(v);syncHdr()}}
+$("hCover").onclick=()=>openCov();$("hView").onclick=()=>openView();
+
+function openLay(){
+ $("layGrid").innerHTML=Object.keys(LAY).map(k=>{const [lc,lr]=LAY[k];return `<button type="button" class="lay" data-lay="${k}"><span class="lg" style="width:${lc*16}px;grid-template-columns:repeat(${lc},1fr)">${"<i></i>".repeat(lc*lr)}</span>${lc}×${lr}</button>`}).join("");
+ $("lay").showModal();
+}
+$("layGrid").onclick=e=>{
+ const l=e.target.closest("[data-lay]");if(!l)return;
+ const b=binders.find(x=>x.id===bId);if(!b)return;
+ b.pages.push(newPage(l.dataset.lay));bPage=b.pages.length-1;$("lay").close();saveBinders();
+};
+$("layX").onclick=()=>$("lay").close();
 
 /* Startup */
 (async()=>{
