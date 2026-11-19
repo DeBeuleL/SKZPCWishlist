@@ -10,7 +10,7 @@
 :root[data-theme="dark"]{--bg:#140b0d;--card:#221417;--ink:#fbeff1;--mute:#b79ba1;--line:#3a2328;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px;padding-top:calc(72px + env(safe-area-inset-top,0px));padding-bottom:40px;max-width:900px;margin-inline:auto}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px;padding-top:calc(var(--hh,72px) + var(--vh,50px) + 10px);padding-bottom:40px;max-width:900px;margin-inline:auto}
 h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color:var(--red)}
 .top{position:fixed;top:0;left:0;right:0;z-index:70;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px}
 .top-in{max-width:900px;margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -57,12 +57,7 @@ h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color
 .bar{display:flex;justify-content:space-between;gap:4px;padding-top:8px}.bar button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:10px;padding:6px 0;font-size:15px;cursor:pointer}
 .empty{text-align:center;color:var(--mute);padding:40px 10px}
 .fab{background:var(--red);color:#fff;border:0;border-radius:99px;padding:10px 16px;font-size:15px;font-weight:700;box-shadow:0 4px 14px #e11d3f44;cursor:pointer;white-space:nowrap;flex-shrink:0}
-#hView{
-  background:var(--card);
-  color:var(--ink);
-  border:1px solid var(--line);
-  box-shadow:none;
-}
+#hView{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
 dialog{border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--ink);width:min(92vw,400px);padding:18px}
 dialog::backdrop{background:#0008}label{display:block;font-size:13px;color:var(--mute);margin:10px 0 4px}
 input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px}
@@ -75,8 +70,7 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 #lbb{background:var(--red);color:#fff;border:0;border-radius:99px;padding:12px 28px;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
 #lbs{display:none;color:#fff;font-weight:700;font-size:16px;border-radius:99px;padding:12px 28px}#lbs.hv{background:var(--ok)}#lbs.ot{background:var(--otw)}#lbs.buy{background:var(--red)}
 #lbx{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:14px;width:40px;height:40px;border-radius:50%;border:0;background:#fff3;color:#fff;font-size:20px;cursor:pointer}
-
-.views{display:flex;gap:6px;margin:0 0 12px}.chip:disabled{opacity:.4}
+.views{position:fixed;top:var(--hh,72px);left:0;right:0;z-index:69;display:flex;gap:6px;margin:0;padding:8px max(16px,calc((100vw - 900px)/2 + 16px));background:var(--bg);border-bottom:1px solid var(--line)}@media(max-width:700px){.views{padding-left:10px;padding-right:10px}}.chip:disabled{opacity:.4}
 .bhead,.bnav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px;flex-wrap:wrap}.bnav{justify-content:center}
 .bname{cursor:pointer;text-align:center;flex:1}
 .brow{display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
@@ -94,10 +88,7 @@ input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--l
 .pk img,.pc2 img{width:100%;height:100%;object-fit:cover;display:block}
 .pk .no,.pc2 .no{display:grid;place-items:center;height:100%;font-size:28px}
 .pk .pl{font-size:24px;color:var(--mute)}
-.pk.miss img,.pc2.miss img{
-  filter:none;
-  opacity:1;
-}
+.pk.miss img,.pc2.miss img{filter:none;opacity:1}
 .pn{position:absolute;left:2px;right:2px;bottom:2px;font-size:9px;line-height:1.2;color:#fff;background:#000a;border-radius:4px;padding:1px 3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pc2 .in{position:absolute;top:3px;left:3px;font-style:normal;font-size:9px;background:var(--red);color:#fff;border-radius:99px;padding:1px 6px}
 #pick{width:min(96vw,720px);height:88vh;max-height:88vh;padding:14px;flex-direction:column;gap:8px}
@@ -167,6 +158,27 @@ input[type=color]{height:44px;padding:3px}
 #syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
 #syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
 @media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
+.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:0 0 8px}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}
+textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit;resize:none}
+.vp{position:relative}
+.phd{position:absolute;inset:0;container-type:inline-size;overflow:hidden}
+.phd img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover!important;background:none!important}
+.pht{position:absolute;z-index:1;transform:translate(-50%,-50%);width:max-content;max-width:90%;text-align:center;line-height:1.15;font-weight:700;word-break:break-word;white-space:pre-wrap;text-shadow:0 1px 3px #0006}
+#phd{width:min(92vw,400px);max-height:90vh;overflow-y:auto}
+#phWrap{position:relative;width:200px;aspect-ratio:55/85;margin:12px auto 6px}#phPrev{position:absolute;inset:0;border-radius:6px;overflow:hidden;border:1px solid var(--line);touch-action:none;user-select:none;-webkit-user-select:none}#phPrev .pht{cursor:move;outline:1px dashed #fffc;outline-offset:4px}.phh{display:none;position:absolute;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--red);transform:translate(-50%,-50%);z-index:5;cursor:nwse-resize;touch-action:none;box-shadow:0 1px 4px #0006}
+.pgrid{display:grid;grid-template-columns:repeat(3,44px);gap:6px;justify-content:center}
+.pgrid button{height:40px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--mute);font-size:11px;cursor:pointer;padding:0}
+.pgrid button.on{background:var(--red);border-color:var(--red);color:#fff}
+#phSz{display:flex;gap:6px;justify-content:center}
+.swp{position:relative;width:34px;height:34px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line);cursor:pointer;flex-shrink:0;background:conic-gradient(#e11d3f,#f59e0b,#16a34a,#2563eb,#7c3aed,#e11d3f)}
+.swp::before{content:"+";position:absolute;inset:3px;border-radius:50%;background:var(--card);color:var(--ink);display:grid;place-items:center;font-weight:700;font-size:16px;line-height:1;pointer-events:none}
+.swp.on{box-shadow:0 0 0 3px var(--red)}.swp.on::before{background:var(--cc);color:#fff;text-shadow:0 0 3px #000a}
+.swp input[type=color]{position:absolute;inset:-3px;width:calc(100% + 6px);height:calc(100% + 6px);opacity:0;cursor:pointer;padding:0;border:0;border-radius:50%}
+.pk{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}.pk img{pointer-events:none;-webkit-user-drag:none}.pk.lift{opacity:.3}.pk.tgt{outline:3px solid var(--red);outline-offset:-3px}
+#pe{width:min(92vw,400px);max-height:92vh;overflow-y:auto}
+#peWrap{width:220px;aspect-ratio:55/85;margin:10px auto 6px;border-radius:8px;overflow:hidden;border:1px solid var(--line);touch-action:none;background:#000}
+#peC{display:block;width:100%;height:100%;touch-action:none;cursor:move;user-select:none;-webkit-user-select:none}
+input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 </style>
 </head>
 <body>
@@ -199,27 +211,45 @@ input[type=color]{height:44px;padding:3px}
   </div>
  </div>
 </section></dialog>
-<div class="views"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button></div>
-<div id="vCards">
+<div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button></div><div id="colbar">
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <input id="q" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
 <div class="chips" id="chips"></div>
+</div></div>
+<div id="vCards">
 <div class="grid" id="grid"></div>
 </div>
 <div id="vBinders" style="display:none"></div>
 <div id="bv"><div class="bvbar"><button class="chip" id="bvx" type="button">✕ Close</button><span id="bvp" class="sub"></span></div><div class="bvmain"><div id="bvstage"><div id="bvcover"></div><div id="bvsheet"><div id="bvpage" class="bg"></div></div></div></div><div class="bnav"><button class="chip" id="bvprev" type="button">‹ Prev</button><button class="chip" id="bvnext" type="button">Next ›</button></div></div>
 <dialog id="cov"><div class="ph2"><h3>Binder cover</h3><button class="x2" id="covX" aria-label="Close">✕</button></div><div id="covPrev" class="bt" style="width:150px;margin:12px auto;font-size:13px"></div><div class="sw" id="covSw"></div><label>Custom colour</label><input type="color" id="covC"><label>Emoji</label><input id="covE" class="emo" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Choose emoji"><button id="covEc" type="button" class="chip" style="margin-top:8px">Reset to default</button><div class="row"><button id="covOk" class="pri" type="button">Done</button></div></dialog>
 <dialog id="lay"><div class="ph2"><h3>Choose a layout</h3><button class="x2" id="layX" aria-label="Close">✕</button></div><div class="lays" id="layGrid" style="justify-content:center;margin-top:16px"></div></dialog>
-<dialog id="pick"><div class="ph2"><h3>Choose a card</h3><button class="x2" id="pickX" aria-label="Close">✕</button></div><input id="pickQ" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off"><div class="pf"><select id="pickM" class="member-select" style="max-width:150px"></select><button class="chip on" data-ps="all" type="button">All</button><button class="chip" data-ps="have" type="button">Have</button><button class="chip" data-ps="otw" type="button">OTW</button><button class="chip" data-ps="want" type="button">Want</button><button id="pickRm" type="button" class="chip" style="display:none">Remove</button></div><div class="sub" id="pickN"></div><div id="pickGrid" class="grid"></div></dialog>
+<dialog id="pick"><div class="ph2"><h3>Choose a card</h3><button class="x2" id="pickX" aria-label="Close">✕</button></div><input id="pickQ" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off"><div class="pf"><select id="pickM" class="member-select" style="max-width:150px"></select><button class="chip on" data-ps="all" type="button">All</button><button class="chip" data-ps="have" type="button">Have</button><button class="chip" data-ps="otw" type="button">OTW</button><button class="chip" data-ps="want" type="button">Want</button><button id="pickPh" type="button" class="chip">＋ Placeholder</button><button id="pickRm" type="button" class="chip" style="display:none">Remove</button></div><div class="sub" id="pickN"></div><div id="pickGrid" class="grid"></div></dialog>
 
+<dialog id="phd"><div class="ph2"><h3>Placeholder</h3><button class="x2" id="phX" aria-label="Close">✕</button></div>
+<div id="phWrap"><div id="phPrev"></div><i class="phh" id="phH"></i></div>
+<div class="sub" style="text-align:center">Drag the text to move it · pinch, scroll or drag the dot to resize</div>
+<label>Text</label><textarea id="phT" rows="2" placeholder="Type something…"></textarea>
+<label>Background colour</label><div class="sw" id="phSw"></div>
+<label>Text colour</label><div class="sw" id="phTc"></div>
+<label>Photo (optional)</label><input id="phF" type="file" accept="image/*"><button id="phRmImg" class="chip" type="button" style="margin-top:8px;display:none">Remove photo</button>
+<div class="row"><button id="phCx" type="button">Cancel</button><button class="pri" id="phOk" type="button">Save</button></div>
+</dialog>
+<dialog id="pe"><div class="ph2"><h3>Edit photo</h3><button class="x2" id="peX" aria-label="Close">✕</button></div>
+<div id="peWrap"><canvas id="peC" width="440" height="680"></canvas></div>
+<div class="sub" style="text-align:center">Drag to move · pinch or scroll to zoom</div>
+<label>Zoom</label><input type="range" id="peZ" min="30" max="500" value="100">
+<label>Rotate</label><input type="range" id="peR" min="-45" max="45" step="0.5" value="0">
+<div class="sync-actions" style="justify-content:center"><button id="peL" type="button">⟲ 90°</button><button id="peRt" type="button">⟳ 90°</button><button id="peF" type="button">↔ Flip</button><button id="peReset" type="button">Reset</button></div>
+<div class="row"><button id="peCx" type="button">Cancel</button><button class="pri" id="peOk" type="button">Apply</button></div>
+</dialog>
 <dialog id="dlg">
 <h3 id="dt" style="margin:0">New PC</h3>
 <label>Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
 <label>Member</label><select id="fm"></select>
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
 <label>Photo</label><input id="ff" type="file" accept="image/*">
-<img id="pv" alt=""><div class="msg" id="ms"></div>
+<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
 </dialog>
 
@@ -240,7 +270,7 @@ const SUPABASE_BUCKET="Pc-photos";
 let binders=[];
 let sb=null,currentUser=null,syncEnabled=false,cloudUpdatedAt=null;
 let syncTimer=null,syncBusy=false,syncAgain=false,pendingCloudItems=null;
-let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",justDragged=false;
+let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",tmpSrc="",justDragged=false;
 const $=id=>document.getElementById(id),grid=$("grid");
 const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=u=>{u=(u||"").trim();if(!u)return"";return /^https?:\/\//i.test(u)?u:"https://"+u};
@@ -272,28 +302,20 @@ function dbPut(key,value){
   tx.onabort=()=>reject(tx.error||new Error("Saving was interrupted."));
  });
 }
-
-/* Load IndexedDB first. If this is the first run, safely migrate the old localStorage data. */
 async function loadData(){
  db=await openDB();
  try{const b=await dbGet("binders");if(Array.isArray(b)){binders=b;fixB()}}catch(e){}
  const saved=await dbGet("items");
- if(Array.isArray(saved)){
-  items=saved;
-  return;
- }
+ if(Array.isArray(saved)){items=saved;return}
  let old=[];
  try{old=JSON.parse(localStorage.getItem(KEY)||"[]");if(!Array.isArray(old))old=[];}catch(e){old=[]}
  old.forEach(i=>{if(i.member==="Groep")i.member="Group";if(typeof i.otw!=="boolean")i.otw=false;});
  old.sort((a,b)=>grp(a)-grp(b));
  if(old.length){
-  await dbPut("items",old); // only remove old copy after IndexedDB confirms the write
+  await dbPut("items",old);
   try{localStorage.removeItem(KEY);localStorage.removeItem(KEY+"-grp");}catch(e){}
   items=old;
- }else{
-  items=[];
-  await dbPut("items",items);
- }
+ }else{items=[];await dbPut("items",items)}
 }
 async function save(){
  try{
@@ -306,7 +328,6 @@ async function save(){
   return false;
  }
 }
-
 function getMemberItems(member){return items.filter(i=>member==="All"||i.member===member)}
 let query="";
 const norm2=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
@@ -315,11 +336,11 @@ function searchMatch(i){
  const tokens=norm2(query).split(/\s+/).filter(Boolean);
  if(!tokens.length)return true;
  const hay=norm2((i.name||"")+" "+(i.member||""));
- const typing=!/\s$/.test(query); // no space after the last word yet = still typing it
+ const typing=!/\s$/.test(query);
  return tokens.every((t,k)=>{
   const partial=typing&&k===tokens.length-1;
-  if(partial)return hay.includes(t);                       // "han" also finds Bang Chan, Changbin
-  return new RegExp("(^|[^a-z0-9])"+escRe(t)+"($|[^a-z0-9])").test(hay); // "han " = the whole word Han
+  if(partial)return hay.includes(t);
+  return new RegExp("(^|[^a-z0-9])"+escRe(t)+"($|[^a-z0-9])").test(hay);
  });
 }
 function getVisibleItems(){
@@ -351,7 +372,7 @@ function render(){
  if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"No results for “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
  grid.innerHTML=vis.map(it=>{
   const rank=items.indexOf(it)+1;
-  const tag=it.owned?`<span class="tag hv">✓ HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
+  const tag=it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
   return `<div class="c ${it.owned?"own":""} ${it.otw?"otw":""}" data-id="${esc(it.id)}">
    <div class="pw"><button class="ph" data-a="go">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}<span class="rk">#${rank}</span></button></div>
    <button class="ck" data-a="own" aria-label="I have it">✓</button><button class="tw" data-a="otw" aria-label="On the way"><span>🚚</span></button>
@@ -363,7 +384,7 @@ function openLb(it){
  $("lbc").innerHTML=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div class="big">🃏</div>`;
  $("lbn").textContent=it.name+" · "+it.member;
  const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
- if(it.owned){s.className="hv";s.textContent="✓ HAVE";s.style.display="inline-block"}
+ if(it.owned){s.className="hv";s.textContent="HAVE";s.style.display="inline-block"}
  else if(it.otw){s.className="ot";s.textContent="OTW";s.style.display="inline-block"}
  else if(it.link){b.href=it.link;b.style.display="inline-block"}
  else{s.className="buy";s.textContent="buy";s.style.display="inline-block"}
@@ -415,7 +436,7 @@ window.addEventListener("pointermove",e=>{
  if(!st)return;st.x=e.clientX;st.y=e.clientY;
  if(dr){
   place(st.x,st.y);
-  if(st.y<90)window.scrollBy(0,-12);else if(st.y>innerHeight-90)window.scrollBy(0,12);
+  if(st.y<document.querySelector(".views").getBoundingClientRect().bottom+40)window.scrollBy(0,-12);else if(st.y>innerHeight-90)window.scrollBy(0,12);
   const under=document.elementFromPoint(st.x,st.y),t=under&&under.closest&&under.closest(".c");
   if(t&&t!==dr.el&&t.parentNode===grid){const kids=[...grid.children];if(kids.indexOf(t)<kids.indexOf(dr.el))grid.insertBefore(dr.el,t);else grid.insertBefore(dr.el,t.nextSibling);place(st.x,st.y)}
  }else if(Math.hypot(st.x-st.x0,st.y-st.y0)>8){clearTimeout(timer);st=null}
@@ -441,7 +462,7 @@ function openDlg(id){
  $("dt").textContent=it?"Edit PC":"New PC";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
  $("fl").value=it?it.link:"";$("ff").value="";$("ms").textContent="";
- tmpImg=it?it.img:"";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("dlg").showModal();
+ tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();
 }
 $("add").onclick=()=>openDlg();
 $("cx").onclick=()=>$("dlg").close();
@@ -451,7 +472,8 @@ $("ff").onchange=e=>{
  r.onload=()=>{const im=new Image();im.onload=()=>{
   const s=Math.min(1,420/im.width),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;
   c.getContext("2d").drawImage(im,0,0,c.width,c.height);tmpImg=c.toDataURL("image/jpeg",.78);
-  $("pv").src=tmpImg;$("pv").style.display="block";
+  {const s2=Math.min(1,1400/Math.max(im.width,im.height)),c2=document.createElement("canvas");c2.width=im.width*s2;c2.height=im.height*s2;c2.getContext("2d").drawImage(im,0,0,c2.width,c2.height);tmpSrc=c2.toDataURL("image/jpeg",.9)}
+  $("pv").src=tmpImg;$("pv").style.display="block";$("pEdit").style.display="inline-block";
  };im.src=r.result};
  r.readAsDataURL(f);
 };
@@ -482,10 +504,7 @@ function updatePfp(){
 }
 function setSyncStatus(message){$("syncStatus").textContent=message;updatePfp()}
 function supabaseConfigured(){
- return SUPABASE_URL.startsWith("https://") &&
-        !SUPABASE_URL.includes("PASTE_") &&
-        SUPABASE_ANON_KEY.length>20 &&
-        !SUPABASE_ANON_KEY.includes("PASTE_");
+ return SUPABASE_URL.startsWith("https://")&&!SUPABASE_URL.includes("PASTE_")&&SUPABASE_ANON_KEY.length>20&&!SUPABASE_ANON_KEY.includes("PASTE_");
 }
 function showSyncChoices(show,text){
  $("syncChoices").style.display=show?"block":"none";
@@ -495,9 +514,9 @@ function showSyncChoices(show,text){
 }
 async function imageForCloud(it){
  const copy={...it};
- if(copy.img && copy.img.startsWith("data:")){
+ if(copy.img&&copy.img.startsWith("data:")){
   const blob=await (await fetch(copy.img)).blob();
-  const path=currentUser.id+"/"+encodeURIComponent(copy.id)+".jpg";
+  const path=currentUser.id+"/"+encodeURIComponent(copy.id)+"-"+Date.now().toString(36)+".jpg";
   const {error}=await sb.storage.from(SUPABASE_BUCKET).upload(path,blob,{upsert:true,contentType:"image/jpeg"});
   if(error)throw error;
   const {data}=sb.storage.from(SUPABASE_BUCKET).getPublicUrl(path);
@@ -512,15 +531,24 @@ async function writeCloud(){
  try{
   setSyncStatus("Syncing your collection…");
   const cloudItems=[];
-  for(const it of items)cloudItems.push(await imageForCloud(it));
-  // Keep the public image URLs locally too, so both devices use the same image paths.
-  items=cloudItems;
+  for(const it of [...items]){
+   const cp=await imageForCloud(it);cloudItems.push(cp);
+   if(cp.img!==it.img){const live=items.find(x=>x.id===it.id);if(live&&live.img===it.img)live.img=cp.img}
+  }
   await dbPut("items",items);
+  for(const bb of binders)for(const pg of bb.pages)for(let i=0;i<pg.slots.length;i++){
+   const v=pg.slots[i];
+   if(isPh(v)&&v.img&&v.img.startsWith("data:")){
+    const blob=await (await fetch(v.img)).blob(),path=currentUser.id+"/ph-"+encodeURIComponent(v.id||uid())+"-"+Date.now().toString(36)+".jpg";
+    const {error:ue}=await sb.storage.from(SUPABASE_BUCKET).upload(path,blob,{upsert:true,contentType:"image/jpeg"});
+    if(ue)throw ue;
+    pg.slots[i]={...v,img:sb.storage.from(SUPABASE_BUCKET).getPublicUrl(path).data.publicUrl};
+   }
+  }
+  await dbPut("binders",binders);
   const now=new Date().toISOString();
-  let {error}=await sb.from("wishlist_data").upsert({
-   user_id:currentUser.id,items:cloudItems,binders:binders,updated_at:now
-  },{onConflict:"user_id"});
-  if(error&&/binders/i.test(error.message||"")){ // column not created yet: save cards only
+  let {error}=await sb.from("wishlist_data").upsert({user_id:currentUser.id,items:cloudItems,binders:binders,updated_at:now},{onConflict:"user_id"});
+  if(error&&/binders/i.test(error.message||"")){
    ({error}=await sb.from("wishlist_data").upsert({user_id:currentUser.id,items:cloudItems,updated_at:now},{onConflict:"user_id"}));
   }
   if(error)throw error;
@@ -536,10 +564,7 @@ async function writeCloud(){
   if(syncAgain){syncAgain=false;writeCloud()}
  }
 }
-function queueCloudSync(){
- clearTimeout(syncTimer);
- syncTimer=setTimeout(writeCloud,700);
-}
+function queueCloudSync(){clearTimeout(syncTimer);syncTimer=setTimeout(writeCloud,700)}
 let lastRow=null;const row0=()=>lastRow;
 async function readCloud(){
  const {data,error}=await sb.from("wishlist_data").select("*").eq("user_id",currentUser.id).maybeSingle();
@@ -560,7 +585,7 @@ async function chooseCloudDirection(){
   }
   if(pendingCloudItems){
    cloudUpdatedAt=row.updated_at;
-   showSyncChoices(true,"A cloud collection already exists. Choose carefully: upload replaces the cloud copy with this Mac's collection; use cloud replaces this device's collection with the cloud copy.");
+   showSyncChoices(true,"A cloud collection already exists. Choose carefully: upload replaces the cloud copy with this device's collection; use cloud replaces this device's collection with the cloud copy.");
    $("downloadCloud").style.display="inline-block";
    setSyncStatus("Logged in. Choose which collection to keep.");
   }else{
@@ -568,9 +593,7 @@ async function chooseCloudDirection(){
    $("downloadCloud").style.display="none";
    setSyncStatus("Logged in. Your collection is still local until you upload it.");
   }
- }catch(e){
-  console.error(e);setSyncStatus("Could not check cloud collection: "+(e.message||"Unknown error"));
- }
+ }catch(e){console.error(e);setSyncStatus("Could not check cloud collection: "+(e.message||"Unknown error"))}
 }
 async function startCloudSession(session){
  currentUser=session.user;
@@ -627,25 +650,20 @@ $("syncLogin").onclick=async()=>{
   if(data.session)await startCloudSession(data.session);
  }catch(e){authFail("Could not reach the server: "+(e.message||e))}
 };
-// 'local' = only log out on THIS device, not on every device
 $("syncLogout").onclick=async()=>{await sb.auth.signOut({scope:"local"})};
 $("uploadLocal").onclick=async()=>{
  if(!currentUser)return;
- const ok=confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced.");
- if(!ok)return;
+ if(!confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced."))return;
  syncEnabled=true;lsSet(syncFlag(),"1");showSyncChoices(false);await writeCloud();
 };
 $("downloadCloud").onclick=async()=>{
  if(!currentUser||!pendingCloudItems)return;
- const ok=confirm("Replace this device's current collection with the cloud collection? Your local collection will be replaced.");
- if(!ok)return;
+ if(!confirm("Replace this device's current collection with the cloud collection? Your local collection will be replaced."))return;
  items=pendingCloudItems;
  await dbPut("items",items);adoptBinders(row0());
  syncEnabled=true;lsSet(syncFlag(),"1");lsDel(dirtyFlag());showSyncChoices(false);render();
  setSyncStatus("✓ Cloud collection loaded. Sync is active.");
 };
-
-// Check for changes made on another device while this page is open.
 async function pollCloud(){
  if(!syncEnabled||!currentUser||syncBusy||lsGet(dirtyFlag())==="1")return;
  try{
@@ -661,7 +679,7 @@ setInterval(pollCloud,5000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)pollCloud()});
 window.addEventListener("focus",pollCloud);
 
-/* BACK-UP: export / import as a file */
+/* BACK-UP */
 $("exportBtn").onclick=()=>{
  if(!items.length){alert("There is nothing in this collection to export.");return}
  const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items,binders})],{type:"application/json"});
@@ -689,12 +707,10 @@ $("importFile").onchange=async e=>{
  }catch(err){alert("Import failed: "+err.message)}
  e.target.value="";
 };
-
 $("pfp").onclick=()=>{updatePfp();$("acct").showModal()};
 $("acctX").onclick=()=>$("acct").close();
 $("acct").addEventListener("click",e=>{if(e.target===$("acct"))$("acct").close()});
 $("q").oninput=e=>{query=e.target.value;render()};
-
 
 /* ===== BINDERS ===== */
 const LAY={"1x1":[1,1],"2x2":[2,2],"3x3":[3,3]};
@@ -724,7 +740,7 @@ function renderBinders(){
   el.innerHTML=`<div class="bhead"><b>Your binders</b><button class="chip on" data-b="new" type="button">＋ New binder</button></div>`+
    (binders.length?'<div class="shelf">'+binders.map(x=>{
     const tot=x.pages.reduce((n,p)=>n+nSlots(p.layout),0);
-    const fill=x.pages.reduce((n,p)=>n+p.slots.slice(0,nSlots(p.layout)).filter(id=>id&&cardById(id)).length,0);
+    const fill=x.pages.reduce((n,p)=>n+p.slots.slice(0,nSlots(p.layout)).filter(id=>id&&(isPh(id)||cardById(id))).length,0);
     return `<div data-bid="${x.id}"><div class="bt">${coverHTML(x)}</div><div class="sub" style="text-align:center">${fill}/${tot} pockets</div></div>`}).join("")+"</div>"
    :`<div class="empty">No binders yet 📘<br>Tap “＋ New binder” to make your first one.</div>`);
   return;
@@ -736,11 +752,12 @@ function renderBinders(){
 </div>
  <div class="lrow"><div class="pgbtns"><button class="chip" data-b="addp" type="button">＋ Add page</button><button class="chip" data-b="delp" type="button">Delete page</button></div></div>
  <div class="bsheet"><div class="bg" style="grid-template-columns:repeat(${c},minmax(0,1fr));max-width:${Math.max(c*150,170)}px;margin-inline:auto">`+
- pg.slots.slice(0,n).map((id,i)=>{const it=id&&cardById(id);return `<button class="pk ${it&&!it.owned?"miss":""}" data-slot="${i}" type="button">${it?thumb(it):`<span class="pl">＋</span>`}</button>`}).join("")+
+ pg.slots.slice(0,n).map((id,i)=>{if(isPh(id))return `<button class="pk" data-slot="${i}" type="button">${phHTML(id)}</button>`;const it=id&&cardById(id);return `<button class="pk ${it&&!it.owned?"miss":""}" data-slot="${i}" type="button">${it?thumb(it):`<span class="pl">＋</span>`}</button>`}).join("")+
 `</div></div>`;
 }
 fixB();
 $("vBinders").onclick=e=>{
+ if(justBD)return;
  const lay=e.target.closest("[data-lay]");
  if(lay){const bb=binders.find(x=>x.id===bId);if(bb){const pg=bb.pages[bPage];pg.layout=lay.dataset.lay;while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null);saveBinders()}return}
  const bt=e.target.closest("[data-b]"),row=e.target.closest("[data-bid]"),sl=e.target.closest("[data-slot]"),b=binders.find(x=>x.id===bId);
@@ -763,7 +780,7 @@ $("vBinders").onclick=e=>{
 $("vBinders").onchange=e=>{
  if(e.target.id!=="bLay")return;
  const b=binders.find(x=>x.id===bId),pg=b.pages[bPage];
- pg.layout=e.target.value;while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null); // cards beyond the new size are kept, just hidden
+ pg.layout=e.target.value;while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null);
  saveBinders();
 };
 const PRESET=["#e11d3f","#7c3aed","#2563eb","#0d9488","#16a34a","#f59e0b","#ec4899","#111827","#f5f0e6","#9ca3af"];
@@ -772,7 +789,6 @@ function coverHTML(b){
  const c=b.color||PRESET[0],ink=lum(c)>.62?"#1a1214":"#fff",n=b.pages.length;
  return `<div class="cv" style="--cc:${c};color:${ink}"><i class="sp"></i><div class="cvin"><div class="cve">${esc(b.emoji||"📘")}</div><div class="cvn">${esc(b.name)}</div><div class="cvs">${n} page${n>1?"s":""}</div></div></div>`;
 }
-/* cover editor */
 let covC="",covE="";
 function covDraw(){
  const b=binders.find(x=>x.id===bId);
@@ -794,7 +810,7 @@ $("covX").onclick=()=>$("cov").close();
 $("covOk").onclick=()=>{const b=binders.find(x=>x.id===bId);b.color=covC;b.emoji=covE.trim();$("cov").close();saveBinders()};
 
 /* view mode */
-let vS=0,vBusy=false; // 0 = closed (cover), 1..N = pages
+let vS=0,vBusy=false;
 const nPages=()=>binders.find(x=>x.id===bId).pages.length;
 function openView(){vS=0;vBusy=false;$("bv").classList.add("on");drawView()}
 function closeView(){$("bv").classList.remove("on");renderBinders()}
@@ -810,7 +826,7 @@ function drawView(){
  $("bvp").textContent="Page "+vS+" / "+nPages();
  el.style.gridTemplateColumns=`repeat(${c},minmax(0,1fr))`;
  el.style.width=`min(calc(100vw - 74px), calc((100dvh - 215px) * ${(c*55)/(r*85)}))`;
- el.innerHTML=pg.slots.slice(0,n).map(id=>{const it=id&&cardById(id);return `<div class="vp" ${it?`data-vid="${it.id}"`:""}>${it?(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`):""}</div>`}).join("");
+ el.innerHTML=pg.slots.slice(0,n).map(id=>{if(isPh(id))return `<div class="vp">${phHTML(id)}</div>`;const it=id&&cardById(id);return `<div class="vp" ${it?`data-vid="${it.id}"`:""}>${it?(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`):""}</div>`}).join("");
 }
 const anim=(el,cls,ms)=>new Promise(r=>{el.classList.add(cls);setTimeout(()=>{el.classList.remove(cls);r()},ms)});
 async function go(to){
@@ -841,6 +857,7 @@ function fillPick(){
  const b=binders.find(x=>x.id===bId),pg=b.pages[bPage];
  const q=norm2($("pickQ").value).split(/\s+/).filter(Boolean);
  $("pickRm").style.display=pg.slots[pickCtx]?"inline-block":"none";
+ $("pickPh").textContent=isPh(pg.slots[pickCtx])?"✏️ Edit placeholder":"＋ Placeholder";
  document.querySelectorAll("[data-ps]").forEach(x=>x.classList.toggle("on",x.dataset.ps===pickS));
  const used=new Set(b.pages.flatMap(p=>p.slots.slice(0,nSlots(p.layout))));
  const list=items.filter(it=>(pickM==="All"||it.member===pickM)&&(pickS==="all"||(it.owned?"have":it.otw?"otw":"want")===pickS)&&q.every(t=>norm2(it.name+" "+it.member).includes(t)));
@@ -855,6 +872,7 @@ $("pickX").onclick=()=>$("pick").close();
 $("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
 
 function syncHdr(){
+ $("views").classList.toggle("nb",curView!=="cards");setHdr();
  const inB=curView==="binders"&&binders.some(x=>x.id===bId);
  $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
 }
@@ -873,6 +891,203 @@ $("layGrid").onclick=e=>{
 };
 $("layX").onclick=()=>$("lay").close();
 
+
+
+/* ===== PLACEHOLDERS ===== */
+const isPh=v=>!!v&&typeof v==="object"&&!!v.ph;
+const PH_SZ={s:9,m:13,l:19};
+const PH_TC=["#ffffff","#1a1214","#e11d3f","#f59e0b","#ec4899","#2563eb"];
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function phXYF(p){const pos=p.pos||"mc";return{x:p.x!=null?p.x:({l:18,c:50,r:82})[pos[1]],y:p.y!=null?p.y:({t:15,m:50,b:85})[pos[0]],fs:p.fs!=null?p.fs:PH_SZ[p.sz||"m"]}}
+function phHTML(p){
+ const {x,y,fs}=phXYF(p);
+ return `<div class="phd" style="background:${esc(p.color||"#111827")}">${p.img?`<img src="${p.img}" alt="">`:""}${p.text?`<span class="pht" style="left:${x}%;top:${y}%;color:${esc(p.tc||"#fff")};font-size:${fs}cqw">${esc(p.text)}</span>`:""}</div>`;
+}
+const HEX=/^#[0-9a-f]{6}$/i;
+function swHTML(list,cur,k){
+ const custom=!list.includes(cur);
+ return list.map(c=>`<button type="button" data-${k}="${c}" class="${c===cur?"on":""}" style="background:${c}" aria-label="${c}"></button>`).join("")+
+  `<div class="swp ${custom?"on":""}" style="--cc:${HEX.test(cur)?cur:"#888888"}"><input type="color" data-${k}pick value="${HEX.test(cur)?cur:"#888888"}" aria-label="Custom colour"></div>`;
+}
+let phS=null;
+function phApply(){
+ const t=$("phPrev").querySelector(".pht"),h=$("phH");
+ if(!t){h.style.display="none";return}
+ t.style.left=phS.x+"%";t.style.top=phS.y+"%";t.style.fontSize=phS.fs+"cqw";
+ const tr=t.getBoundingClientRect(),pr=$("phWrap").getBoundingClientRect();
+ h.style.display="block";h.style.left=(tr.right-pr.left)+"px";h.style.top=(tr.bottom-pr.top)+"px";
+}
+function phRender(){$("phPrev").innerHTML=phHTML(phS);phApply()}
+function phDraw(){
+ $("phSw").innerHTML=swHTML(PRESET,phS.color,"c");
+ $("phTc").innerHTML=swHTML(PH_TC,phS.tc,"t");
+ $("phRmImg").style.display=phS.img?"inline-block":"none";
+ phRender();
+}
+function openPh(){
+ const b=binders.find(x=>x.id===bId),cur=b.pages[bPage].slots[pickCtx];
+ phS=isPh(cur)?{...cur}:{ph:true,id:uid(),color:"#111827",img:"",text:"",tc:"#ffffff"};
+ if(!phS.id)phS.id=uid();
+ const q=phXYF(phS);phS.x=q.x;phS.y=q.y;phS.fs=q.fs;delete phS.pos;delete phS.sz;
+ if(!phS.tc)phS.tc="#ffffff";
+ $("phT").value=phS.text||"";$("phF").value="";
+ $("phd").showModal();phDraw();
+}
+$("pickPh").onclick=openPh;
+$("phT").oninput=e=>{phS.text=e.target.value;phRender()};
+$("phSw").onclick=e=>{const c=e.target.closest("[data-c]");if(c){phS.color=c.dataset.c;phDraw()}};
+$("phTc").onclick=e=>{const c=e.target.closest("[data-t]");if(c){phS.tc=c.dataset.t;phDraw()}};
+function phCustom(e,k,prop,box){
+ const i=e.target.closest("[data-"+k+"pick]");if(!i)return;
+ phS[prop]=i.value;
+ box.querySelectorAll("button").forEach(b=>b.classList.remove("on"));
+ const sw=i.parentNode;sw.classList.add("on");sw.style.setProperty("--cc",i.value);
+ phRender();
+}
+$("phSw").addEventListener("input",e=>phCustom(e,"c","color",$("phSw")));
+$("phTc").addEventListener("input",e=>phCustom(e,"t","tc",$("phTc")));
+$("phRmImg").onclick=()=>{phS.img="";$("phF").value="";phDraw()};
+$("phF").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{
+  const sc=Math.min(1,420/im.width),c=document.createElement("canvas");c.width=im.width*sc;c.height=im.height*sc;
+  c.getContext("2d").drawImage(im,0,0,c.width,c.height);phS.img=c.toDataURL("image/jpeg",.78);phDraw();
+ };im.src=r.result};
+ r.readAsDataURL(f);
+};
+/* slepen (1 vinger/muis) en schalen (2 vingers, muiswiel, bolletje) */
+const phPts=new Map();let phG=null,phHG=null;
+function phStart(){
+ const pts=[...phPts.values()],r=$("phPrev").getBoundingClientRect();
+ phG={x:phS.x,y:phS.y,fs:phS.fs,p0:pts[0],d0:pts.length>1?Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y):0,w:r.width,h:r.height};
+}
+$("phPrev").addEventListener("pointerdown",e=>{
+ if(!$("phPrev").querySelector(".pht"))return;
+ e.preventDefault();$("phPrev").setPointerCapture(e.pointerId);
+ phPts.set(e.pointerId,{x:e.clientX,y:e.clientY});phStart();
+});
+$("phPrev").addEventListener("pointermove",e=>{
+ if(!phPts.has(e.pointerId)||!phG)return;
+ phPts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ const pts=[...phPts.values()];
+ if(pts.length>=2&&phG.d0){phS.fs=clamp(phG.fs*Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)/phG.d0,4,60)}
+ else{phS.x=clamp(phG.x+(pts[0].x-phG.p0.x)/phG.w*100,0,100);phS.y=clamp(phG.y+(pts[0].y-phG.p0.y)/phG.h*100,0,100)}
+ phApply();
+});
+const phEnd=e=>{phPts.delete(e.pointerId);if(phPts.size)phStart();else phG=null};
+$("phPrev").addEventListener("pointerup",phEnd);$("phPrev").addEventListener("pointercancel",phEnd);
+$("phPrev").addEventListener("wheel",e=>{if(!$("phPrev").querySelector(".pht"))return;e.preventDefault();phS.fs=clamp(phS.fs*(e.deltaY<0?1.06:.94),4,60);phApply()},{passive:false});
+$("phH").addEventListener("pointerdown",e=>{
+ const t=$("phPrev").querySelector(".pht");if(!t)return;
+ e.preventDefault();e.stopPropagation();$("phH").setPointerCapture(e.pointerId);
+ const tr=t.getBoundingClientRect(),cx=tr.left+tr.width/2,cy=tr.top+tr.height/2;
+ phHG={cx,cy,d0:Math.hypot(e.clientX-cx,e.clientY-cy)||1,fs:phS.fs};
+});
+$("phH").addEventListener("pointermove",e=>{if(!phHG)return;phS.fs=clamp(phHG.fs*Math.hypot(e.clientX-phHG.cx,e.clientY-phHG.cy)/phHG.d0,4,60);phApply()});
+$("phH").addEventListener("pointerup",()=>{phHG=null});$("phH").addEventListener("pointercancel",()=>{phHG=null});
+$("phX").onclick=$("phCx").onclick=()=>$("phd").close();
+$("phOk").onclick=()=>{phS.text=$("phT").value;$("phd").close();putSlot(phS)};
+/* ===== LANG INDRUKKEN = VERWISSELEN IN BINDER ===== */
+let bd=null,bTimer=null,justBD=false;
+function bdTarget(x,y){const u=document.elementFromPoint(x,y),t=u&&u.closest&&u.closest(".pk[data-slot]");return t&&$("vBinders").contains(t)?t:null}
+function bdClear(){document.querySelectorAll("#vBinders .pk.tgt").forEach(n=>n.classList.remove("tgt"))}
+function bdPlace(){if(bd&&bd.ghost)bd.ghost.style.transform=`translate(${bd.x-bd.gx}px,${bd.y-bd.gy}px) scale(1.08)`}
+$("vBinders").addEventListener("pointerdown",e=>{
+ if(e.button>0)return;
+ const el=e.target.closest(".pk[data-slot]");if(!el)return;
+ const b=binders.find(x=>x.id===bId);if(!b)return;
+ const i=+el.dataset.slot;if(!b.pages[bPage].slots[i])return;
+ const r=el.getBoundingClientRect();
+ bd={el,i,x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY,gx:e.clientX-r.left,gy:e.clientY-r.top,w:r.width,h:r.height,on:false,ghost:null};
+ clearTimeout(bTimer);
+ bTimer=setTimeout(()=>{
+  if(!bd)return;bd.on=true;
+  const g=bd.el.cloneNode(true);
+  g.style.cssText="position:fixed;left:0;top:0;width:"+bd.w+"px;height:"+bd.h+"px;margin:0;z-index:200;pointer-events:none;opacity:.92;box-shadow:0 14px 34px #0008;transition:none";
+  document.body.appendChild(g);bd.ghost=g;bd.el.classList.add("lift");
+  if(navigator.vibrate)try{navigator.vibrate(30)}catch(_){}
+  bdPlace();
+ },400);
+});
+window.addEventListener("pointermove",e=>{
+ if(!bd)return;bd.x=e.clientX;bd.y=e.clientY;
+ if(bd.on){bdPlace();bdClear();const t=bdTarget(bd.x,bd.y);if(t&&+t.dataset.slot!==bd.i)t.classList.add("tgt")}
+ else if(Math.hypot(bd.x-bd.x0,bd.y-bd.y0)>8){clearTimeout(bTimer);bd=null}
+});
+async function bdEnd(e){
+ clearTimeout(bTimer);if(!bd)return;
+ const d=bd;bd=null;
+ if(!d.on)return;
+ const t=e.type==="pointerup"?bdTarget(d.x,d.y):null,j=t?+t.dataset.slot:-1;
+ if(d.ghost)d.ghost.remove();bdClear();d.el.classList.remove("lift");
+ justBD=true;setTimeout(()=>{justBD=false},120);
+ const b=binders.find(x=>x.id===bId);
+ if(b&&j>=0&&j!==d.i){const sl=b.pages[bPage].slots;[sl[d.i],sl[j]]=[sl[j],sl[d.i]];await saveBinders()}
+}
+window.addEventListener("pointerup",bdEnd);window.addEventListener("pointercancel",bdEnd);
+document.addEventListener("touchmove",e=>{if(bd&&bd.on)e.preventDefault()},{passive:false});
+$("vBinders").addEventListener("contextmenu",e=>{if(e.target.closest(".pk"))e.preventDefault()});
+/* ===== EDIT PHOTO ===== */
+let pe=null;
+const peC=()=>$("peC");
+function peDraw(cv,W,H){
+ const ctx=cv.getContext("2d"),{img,q,fine,flip,z,tx,ty}=pe;
+ ctx.fillStyle="#000";ctx.fillRect(0,0,W,H);
+ const iw=img.naturalWidth,ih=img.naturalHeight,odd=q%2===1,ew=odd?ih:iw,eh=odd?iw:ih;
+ const k=Math.max(W/ew,H/eh)*z;
+ ctx.save();ctx.translate(W/2+tx*W,H/2+ty*H);ctx.rotate((q*90+fine)*Math.PI/180);ctx.scale(flip*k,k);
+ ctx.drawImage(img,-iw/2,-ih/2);ctx.restore();
+}
+function peRedraw(){peDraw(peC(),440,680)}
+function peSync(){$("peZ").value=Math.round(pe.z*100);$("peR").value=pe.fine}
+async function openPE(){
+ const src=tmpSrc||tmpImg;if(!src)return;
+ let obj=null;
+ try{
+  let url=src;
+  if(!src.startsWith("data:")){const bl=await (await fetch(src,{cache:"no-store"})).blob();obj=url=URL.createObjectURL(bl)}
+  const img=new Image();
+  await new Promise((ok,no)=>{img.onload=ok;img.onerror=no;img.src=url});
+  pe={img,q:0,fine:0,flip:1,z:1,tx:0,ty:0};
+  peSync();$("pe").showModal();peRedraw();
+ }catch(e){console.error(e);alert("Could not load this photo for editing. Try choosing the file again.")}
+ finally{if(obj)setTimeout(()=>URL.revokeObjectURL(obj),1500)}
+}
+$("pEdit").onclick=openPE;
+$("peZ").oninput=e=>{pe.z=clamp(e.target.value/100,.3,5);peRedraw()};
+$("peR").oninput=e=>{pe.fine=+e.target.value;peRedraw()};
+$("peL").onclick=()=>{pe.q=(pe.q+3)%4;peRedraw()};
+$("peRt").onclick=()=>{pe.q=(pe.q+1)%4;peRedraw()};
+$("peF").onclick=()=>{pe.flip*=-1;peRedraw()};
+$("peReset").onclick=()=>{Object.assign(pe,{q:0,fine:0,flip:1,z:1,tx:0,ty:0});peSync();peRedraw()};
+const pePts=new Map();let peG=null;
+function peStart(){
+ const pts=[...pePts.values()],r=peC().getBoundingClientRect();
+ peG={tx:pe.tx,ty:pe.ty,z:pe.z,p0:pts[0],d0:pts.length>1?Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y):0,w:r.width,h:r.height};
+}
+peC().addEventListener("pointerdown",e=>{if(!pe)return;e.preventDefault();peC().setPointerCapture(e.pointerId);pePts.set(e.pointerId,{x:e.clientX,y:e.clientY});peStart()});
+peC().addEventListener("pointermove",e=>{
+ if(!pePts.has(e.pointerId)||!peG)return;
+ pePts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ const pts=[...pePts.values()];
+ if(pts.length>=2&&peG.d0){pe.z=clamp(peG.z*Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y)/peG.d0,.3,5);peSync()}
+ else{pe.tx=peG.tx+(pts[0].x-peG.p0.x)/peG.w;pe.ty=peG.ty+(pts[0].y-peG.p0.y)/peG.h}
+ peRedraw();
+});
+const peEnd=e=>{pePts.delete(e.pointerId);if(pePts.size)peStart();else peG=null};
+peC().addEventListener("pointerup",peEnd);peC().addEventListener("pointercancel",peEnd);
+peC().addEventListener("wheel",e=>{if(!pe)return;e.preventDefault();pe.z=clamp(pe.z*(e.deltaY<0?1.06:.94),.3,5);peSync();peRedraw()},{passive:false});
+$("peX").onclick=$("peCx").onclick=()=>$("pe").close();
+$("peOk").onclick=()=>{
+ const out=document.createElement("canvas");out.width=480;out.height=742;peDraw(out,480,742);
+ tmpImg=out.toDataURL("image/jpeg",.85);
+ $("pv").src=tmpImg;$("pv").style.display="block";$("pEdit").style.display="inline-block";
+ $("pe").close();
+};
+function setHdr(){const r=document.documentElement.style,t=document.querySelector(".top"),v=document.querySelector(".views");r.setProperty("--hh",t.offsetHeight+"px");r.setProperty("--vh",v.offsetHeight+"px")}
+setHdr();window.addEventListener("resize",setHdr);window.addEventListener("load",setHdr);
+if(window.ResizeObserver){const ro=new ResizeObserver(setHdr);ro.observe(document.querySelector(".top"));ro.observe(document.querySelector(".views"))}
 /* Startup */
 (async()=>{
  try{await loadData();render();await initCloud()}
