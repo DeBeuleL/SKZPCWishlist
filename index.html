@@ -29,7 +29,8 @@ h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color
  body{padding-left:10px;padding-right:10px}
  .chips{gap:5px}
  .chip,.member-select{padding:7px 10px;font-size:13px}
- .member-select{width:104px;max-width:104px;text-overflow:ellipsis}
+ .member-select{width:86px;max-width:86px;text-overflow:ellipsis;padding-right:6px}
+ #sbtn{padding:7px 9px}
  .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
  .c{border-radius:12px}
  .rk{top:5px;left:5px;padding:1px 7px;font-size:10px}
@@ -158,7 +159,7 @@ input[type=color]{height:44px;padding:3px}
 #syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
 #syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
 @media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
-.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:0 0 8px}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}
+.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}
 textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit;resize:none}
 .vp{position:relative}
 .phd{position:absolute;inset:0;container-type:inline-size;overflow:hidden}
@@ -214,8 +215,8 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button></div><div id="colbar">
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
-<input id="q" class="search" type="search" placeholder="🔍 Search member, unit, OT8 or title…" autocomplete="off" autocapitalize="none" enterkeyhint="search">
 <div class="chips" id="chips"></div>
+<input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="display:none">
 </div></div>
 <div id="vCards">
 <div class="grid" id="grid"></div>
@@ -232,7 +233,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <label>Text</label><textarea id="phT" rows="2" placeholder="Type something…"></textarea>
 <label>Background colour</label><div class="sw" id="phSw"></div>
 <label>Text colour</label><div class="sw" id="phTc"></div>
-<label>Photo (optional)</label><input id="phF" type="file" accept="image/*"><button id="phRmImg" class="chip" type="button" style="margin-top:8px;display:none">Remove photo</button>
+<label>Photo (optional)</label><input id="phF" type="file" accept="image/*" hidden><label class="chip" for="phF" style="display:inline-block">📷 Choose file</label> <span class="sub" id="phFN">No file chosen</span><button id="phRmImg" class="chip" type="button" style="margin-top:8px;display:none">Remove photo</button>
 <div class="row"><button id="phCx" type="button">Cancel</button><button class="pri" id="phOk" type="button">Save</button></div>
 </dialog>
 <dialog id="pe"><div class="ph2"><h3>Edit photo</h3><button class="x2" id="peX" aria-label="Close">✕</button></div>
@@ -243,12 +244,13 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div class="sync-actions" style="justify-content:center"><button id="peL" type="button">⟲ 90°</button><button id="peRt" type="button">⟳ 90°</button><button id="peF" type="button">↔ Flip</button><button id="peReset" type="button">Reset</button></div>
 <div class="row"><button id="peCx" type="button">Cancel</button><button class="pri" id="peOk" type="button">Apply</button></div>
 </dialog>
-<dialog id="dlg">
+<dialog id="dlg" tabindex="-1" autofocus>
 <h3 id="dt" style="margin:0">New PC</h3>
 <label>Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
 <label>Member</label><select id="fm"></select>
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
-<label>Photo</label><input id="ff" type="file" accept="image/*">
+<label>Notes (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. trui, vinted, €12"></textarea>
+<label>Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
 <img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
 </dialog>
@@ -328,14 +330,19 @@ async function save(){
   return false;
  }
 }
-function getMemberItems(member){return items.filter(i=>member==="All"||i.member===member)}
-let query="";
+const KEYWORDS=["hoodie"];
+const AGE_ORDER=["Bang Chan","Lee Know","Changbin","Hyunjin","Han","Felix","Seungmin","I.N","Units","Group","OT8"];
+const ageIdx=m=>{const k=AGE_ORDER.indexOf(m);return k<0?99:k};
+const kwOf=m=>typeof m==="string"&&m.startsWith("kw:")?m.slice(3):null;
+const memberMatches=(i,m)=>{if(m==="All")return true;const k=kwOf(m);if(k)return norm2((i.name||"")+" "+(i.notes||"")).includes(k);return i.member===m};
+function getMemberItems(member){return items.filter(i=>memberMatches(i,member))}
+let query="",searchOpen=false;
 const norm2=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const escRe=t=>t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 function searchMatch(i){
  const tokens=norm2(query).split(/\s+/).filter(Boolean);
  if(!tokens.length)return true;
- const hay=norm2((i.name||"")+" "+(i.member||""));
+ const hay=norm2((i.name||"")+" "+(i.member||"")+" "+(i.notes||""));
  const typing=!/\s$/.test(query);
  return tokens.every((t,k)=>{
   const partial=typing&&k===tokens.length-1;
@@ -344,29 +351,34 @@ function searchMatch(i){
  });
 }
 function getVisibleItems(){
- return items.filter(i=>{
+ const out=items.filter(i=>{
   if(!searchMatch(i))return false;
-  const memberMatch=filterMember==="All"||i.member===filterMember;
+  const memberMatch=memberMatches(i,filterMember);
   let statusMatch=true;
   if(filterStatus==="WTB")statusMatch=!i.owned&&!i.otw;
   else if(filterStatus==="OTW")statusMatch=!!i.otw;
   else if(filterStatus==="HAVE")statusMatch=!!i.owned;
   return memberMatch&&statusMatch;
  });
+ if(kwOf(filterMember))out.sort((a,b)=>ageIdx(a.member)-ageIdx(b.member));
+ return out;
 }
 function render(){
- const own=count(items.filter(i=>i.owned)),tot=count(items),otw=count(items.filter(i=>i.otw)),wtb=count(items.filter(i=>!i.owned&&!i.otw));
+ const own=count(items.filter(i=>i.owned)),tot=count(items),otw=count(items.filter(i=>i.otw));
+ const base=items.filter(i=>memberMatches(i,filterMember)&&searchMatch(i));
+ const cOwn=count(base.filter(i=>i.owned)),cOtw=count(base.filter(i=>i.otw)),cWtb=count(base.filter(i=>!i.owned&&!i.otw));
  $("pg").style.width=(tot?own/tot*100:0)+"%";
  $("st").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
  $("pc").textContent=tot?Math.round(own/tot*100)+"%":"";
- const memberOptions=MEMBERS.map(m=>`<option value="${esc(m)}" ${filterMember===m?"selected":""}>${esc(m)} (${count(getMemberItems(m))})</option>`).join("");
+ const memberOptions=MEMBERS.map(m=>`<option value="${esc(m)}" ${filterMember===m?"selected":""}>${esc(m)} (${count(getMemberItems(m))})</option>`).join("")+KEYWORDS.map(k=>`<option value="kw:${esc(k)}" ${filterMember==="kw:"+k?"selected":""}>${esc(k)} (${count(getMemberItems("kw:"+k))})</option>`).join("");
  $("chips").innerHTML=`
  <select id="memberFilter" class="member-select ${filterMember!=="All"?"selected":""}">
  <option value="All" ${filterMember==="All"?"selected":""}>All (${tot})</option>${memberOptions}</select>
- <button class="chip ${filterStatus==="WTB"?"on":""}" data-status="WTB">WTB <span class="chip-count">${wtb}</span></button>
- <button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${otw}</span></button>
- <button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${own}</span></button>`;
+ <button class="chip ${filterStatus==="WTB"?"on":""}" data-status="WTB">WTB <span class="chip-count">${cWtb}</span></button>
+ <button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${cOtw}</span></button>
+ <button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${cOwn}</span></button><button class="chip ${(searchOpen||query)?"on":""}" id="sbtn" type="button" aria-label="Search">🔍</button>`;
  $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
+ $("sbtn").onclick=()=>{searchOpen=!searchOpen;$("q").style.display=searchOpen?"block":"none";$("sbtn").classList.toggle("on",searchOpen||!!query);if(searchOpen)$("q").focus();setHdr()};
  $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
  const vis=getVisibleItems();
  if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"No results for “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
@@ -447,7 +459,10 @@ async function endDrag(){
   const ids=[...grid.querySelectorAll(".c")].map(c=>c.dataset.id),set=new Set(ids),slots=[];
   items.forEach((it,i)=>{if(set.has(it.id))slots.push(i)});
   const map=new Map(items.map(i=>[i.id,i]));
-  ids.forEach((id,k)=>{items[slots[k]]=map.get(id)});
+  if(kwOf(filterMember)){
+   const byM={};ids.forEach(id=>{const m=map.get(id).member;(byM[m]=byM[m]||[]).push(id)});
+   Object.keys(byM).forEach(m=>{const sl=[];items.forEach((it,i)=>{if(it.member===m&&set.has(it.id))sl.push(i)});byM[m].forEach((id,k)=>{items[sl[k]]=map.get(id)})});
+  }else ids.forEach((id,k)=>{items[slots[k]]=map.get(id)});
   await save();justDragged=true;setTimeout(()=>justDragged=false,80);dr=null;render();
  }
  st=null;
@@ -461,11 +476,13 @@ function openDlg(id){
  editId=id||null;const it=id?items.find(x=>x.id===id):null;
  $("dt").textContent=it?"Edit PC":"New PC";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
- $("fl").value=it?it.link:"";$("ff").value="";$("ms").textContent="";
- tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();
+ $("fl").value=it?it.link:"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
+ tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();try{if(document.activeElement&&document.activeElement!==$("dlg"))document.activeElement.blur();$("dlg").focus({preventScroll:true})}catch(_){}
 }
 $("add").onclick=()=>openDlg();
 $("cx").onclick=()=>$("dlg").close();
+function fileName(id){const f=$(id).files&&$(id).files[0];$(id+"N").textContent=f?f.name:"No file chosen"}
+["ff","phF"].forEach(id=>$(id).addEventListener("change",()=>fileName(id)));
 $("ff").onchange=e=>{
  const f=e.target.files[0];if(!f)return;
  const r=new FileReader();
@@ -479,7 +496,7 @@ $("ff").onchange=e=>{
 };
 $("sv").onclick=async()=>{
  const name=$("fn").value.trim();if(!name){$("ms").textContent="Give your PC a name 💌";return}
- const data={name,member:$("fm").value,link:norm($("fl").value),img:tmpImg};
+ const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),img:tmpImg};
  if(editId)Object.assign(items.find(x=>x.id===editId),data);
  else{
   const ni={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owned:false,otw:false,...data};
@@ -860,7 +877,7 @@ function fillPick(){
  $("pickPh").textContent=isPh(pg.slots[pickCtx])?"✏️ Edit placeholder":"＋ Placeholder";
  document.querySelectorAll("[data-ps]").forEach(x=>x.classList.toggle("on",x.dataset.ps===pickS));
  const used=new Set(b.pages.flatMap(p=>p.slots.slice(0,nSlots(p.layout))));
- const list=items.filter(it=>(pickM==="All"||it.member===pickM)&&(pickS==="all"||(it.owned?"have":it.otw?"otw":"want")===pickS)&&q.every(t=>norm2(it.name+" "+it.member).includes(t)));
+ const list=items.filter(it=>(pickM==="All"||it.member===pickM)&&(pickS==="all"||(it.owned?"have":it.otw?"otw":"want")===pickS)&&q.every(t=>norm2(it.name+" "+it.member+" "+(it.notes||"")).includes(t)));
  $("pickN").textContent=list.length+" of "+items.length+" cards";
  $("pickGrid").innerHTML=list.length?list.map(it=>`<div class="c" data-pid="${it.id}" title="${esc(it.name+" · "+it.member)}" role="button" tabindex="0"><div class="ph">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}${used.has(it.id)?`<span class="ok2">✓</span>`:""}</div></div>`).join(""):`<div class="empty" style="grid-column:1/-1">No cards found</div>`;
 }
@@ -930,7 +947,7 @@ function openPh(){
  if(!phS.id)phS.id=uid();
  const q=phXYF(phS);phS.x=q.x;phS.y=q.y;phS.fs=q.fs;delete phS.pos;delete phS.sz;
  if(!phS.tc)phS.tc="#ffffff";
- $("phT").value=phS.text||"";$("phF").value="";
+ $("phT").value=phS.text||"";$("phF").value="";fileName("phF");
  $("phd").showModal();phDraw();
 }
 $("pickPh").onclick=openPh;
@@ -946,7 +963,7 @@ function phCustom(e,k,prop,box){
 }
 $("phSw").addEventListener("input",e=>phCustom(e,"c","color",$("phSw")));
 $("phTc").addEventListener("input",e=>phCustom(e,"t","tc",$("phTc")));
-$("phRmImg").onclick=()=>{phS.img="";$("phF").value="";phDraw()};
+$("phRmImg").onclick=()=>{phS.img="";$("phF").value="";fileName("phF");phDraw()};
 $("phF").onchange=e=>{
  const f=e.target.files[0];if(!f)return;
  const r=new FileReader();
