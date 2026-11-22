@@ -187,6 +187,11 @@ textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line)
 #peWrap{width:220px;aspect-ratio:55/85;margin:10px auto 6px;border-radius:8px;overflow:hidden;border:1px solid var(--line);touch-action:none;background:#000}
 #peC{display:block;width:100%;height:100%;touch-action:none;cursor:move;user-select:none;-webkit-user-select:none}
 input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
+.pbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 12px}
+.pbar input{width:84px;padding:7px 10px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;font-family:inherit}
+.pbar .tot{font-size:13px;color:var(--mute);margin-left:auto;white-space:nowrap}
+.pp{font-weight:800;color:var(--red);font-size:15px;margin-top:4px}
+#vPrice .c{user-select:auto;-webkit-user-select:auto}
 </style>
 </head>
 <body>
@@ -219,16 +224,17 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
   </div>
  </div>
 </section></dialog>
-<div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button></div><div id="colbar">
+<div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button><button class="chip" data-v="price" type="button" aria-label="Prijs" title="Prijs">👛</button></div><div id="colbar">
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <div class="chips" id="chips"></div>
-<input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="display:none">
+<div id="qw" style="display:none;position:relative"><input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="qx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div>
 </div></div>
 <div id="vCards">
 <div class="grid" id="grid"></div>
 </div>
 <div id="vBinders" style="display:none"></div>
+<div id="vPrice" style="display:none"></div>
 <div id="bv"><div class="bvbar"><button class="chip" id="bvx" type="button">✕ Close</button><span id="bvp" class="sub"></span></div><div class="bvmain"><div id="bvstage"><div id="bvcover"></div><div id="bvsheet"><div id="bvpage" class="bg"></div></div></div></div><div class="bnav"><button class="chip" id="bvprev" type="button">‹ Prev</button><button class="chip" id="bvnext" type="button">Next ›</button></div></div>
 <dialog id="cov"><div class="ph2"><h3>Binder cover</h3><button class="x2" id="covX" aria-label="Close">✕</button></div><div id="covPrev" class="bt" style="width:150px;margin:12px auto;font-size:13px"></div><div class="sw" id="covSw"></div><label>Custom colour</label><input type="color" id="covC"><label>Emoji</label><input id="covE" class="emo" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Choose emoji"><button id="covEc" type="button" class="chip" style="margin-top:8px">Reset to default</button><div class="row"><button id="covOk" class="pri" type="button">Done</button></div></dialog>
 <dialog id="lay"><div class="ph2"><h3>Choose a layout</h3><button class="x2" id="layX" aria-label="Close">✕</button></div><div class="lays" id="layGrid" style="justify-content:center;margin-top:16px"></div></dialog>
@@ -257,6 +263,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <label>Member</label><select id="fm"></select>
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
 <label>Notes (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. trui, vinted, €12"></textarea>
+<label>Prijs betaald (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="bv. 12,50">
 <label>Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
 <img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
@@ -385,7 +392,7 @@ function render(){
  <button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${cOtw}</span></button>
  <button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${cOwn}</span></button><button class="chip ${(searchOpen||query)?"on":""}" id="sbtn" type="button" aria-label="Search">🔍</button>`;
  $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
- $("sbtn").onclick=()=>{searchOpen=!searchOpen;$("q").style.display=searchOpen?"block":"none";$("sbtn").classList.toggle("on",searchOpen||!!query);if(searchOpen)$("q").focus();setHdr()};
+ $("sbtn").onclick=()=>{searchOpen=!searchOpen;$("qw").style.display=searchOpen?"block":"none";if(!searchOpen&&query){query="";$("q").value="";$("qx").style.display="none";render();setHdr();return}$("sbtn").classList.toggle("on",searchOpen||!!query);if(searchOpen)$("q").focus();setHdr()};
  $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
  const vis=getVisibleItems();
  if(!vis.length){grid.innerHTML=`<div class="empty" style="grid-column:1/-1">${query?"No results for “"+esc(query)+"” 🥺":"Nothing here yet 🥺<br>Tap “＋ New PC” to add your first one."}</div>`;return}
@@ -401,7 +408,7 @@ function render(){
 }
 function openLb(it){
  $("lbc").innerHTML=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div class="big">🃏</div>`;
- $("lbn").textContent=it.name+" · "+it.member;
+ $("lbn").textContent=it.name+" · "+it.member+(typeof it.price==="number"?" · "+fmtP(it.price):"");
  const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
  if(it.owned){s.className="hv";s.textContent="HAVE";s.style.display="inline-block"}
  else if(it.otw){s.className="ot";s.textContent="OTW";s.style.display="inline-block"}
@@ -483,7 +490,7 @@ function openDlg(id){
  editId=id||null;const it=id?items.find(x=>x.id===id):null;
  $("dt").textContent=it?"Edit PC":"New PC";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
- $("fl").value=it?it.link:"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
+ $("fl").value=it?it.link:"";$("fp").value=(it&&typeof it.price==="number")?String(it.price).replace(".",","):"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
  tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();try{if(document.activeElement&&document.activeElement!==$("dlg"))document.activeElement.blur();$("dlg").focus({preventScroll:true})}catch(_){}
 }
 $("add").onclick=()=>openDlg();
@@ -503,7 +510,7 @@ $("ff").onchange=e=>{
 };
 $("sv").onclick=async()=>{
  const name=$("fn").value.trim();if(!name){$("ms").textContent="Give your PC a name 💌";return}
- const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),img:tmpImg};
+ const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),price:parsePrice($("fp").value),img:tmpImg};
  if(editId)Object.assign(items.find(x=>x.id===editId),data);
  else{
   const ni={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owned:false,otw:false,...data};
@@ -734,7 +741,8 @@ $("importFile").onchange=async e=>{
 $("pfp").onclick=()=>{updatePfp();$("acct").showModal()};
 $("acctX").onclick=()=>$("acct").close();
 $("acct").addEventListener("click",e=>{if(e.target===$("acct"))$("acct").close()});
-$("q").oninput=e=>{query=e.target.value;render()};
+$("q").oninput=e=>{query=e.target.value;$("qx").style.display=query?"block":"none";render()};
+$("qx").onclick=()=>{query="";$("q").value="";$("qx").style.display="none";render();$("q").focus()};
 
 /* ===== BINDERS ===== */
 const LAY={"1x1":[1,1],"2x2":[2,2],"3x3":[3,3]};
@@ -743,7 +751,7 @@ const newPage=l=>({layout:l,slots:Array(nSlots(l)).fill(null)});
 const cardById=id=>items.find(x=>x.id===id);
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 let bId=null,bPage=0,pickCtx=0,curView="cards";
-const _render=render;render=function(){_render();if(curView==="binders")renderBinders()};
+const _render=render;render=function(){_render();if(curView==="binders")renderBinders();if(curView==="price")renderPrice()};
 function fixB(){binders.forEach(b=>b.pages.forEach(pg=>{if(!LAY[pg.layout])pg.layout=["2x3","3x4","4x4"].includes(pg.layout)?"3x3":"2x2";while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null)}))}
 function adoptBinders(row){if(row&&Array.isArray(row.binders)){binders=row.binders;fixB();dbPut("binders",binders)}}
 async function saveBinders(){
@@ -751,9 +759,10 @@ async function saveBinders(){
  renderBinders();
 }
 function setView(v){
- curView=v;$("vCards").style.display=v==="cards"?"":"none";$("vBinders").style.display=v==="binders"?"":"none";
+ curView=v;$("vCards").style.display=v==="cards"?"":"none";$("vBinders").style.display=v==="binders"?"":"none";$("vPrice").style.display=v==="price"?"":"none";
  document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
  if(v==="binders")renderBinders();
+ if(v==="price")renderPrice();
 }
 document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>setView(b.dataset.v));
 const thumb=it=>(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`)+`<span class="pn">${esc(it.name)}</span>`;
@@ -896,7 +905,7 @@ $("pickX").onclick=()=>$("pick").close();
 $("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
 
 function syncHdr(){
- $("views").classList.toggle("nb",curView!=="cards");setHdr();
+ $("views").classList.toggle("nb",curView==="binders");setHdr();
  const inB=curView==="binders"&&binders.some(x=>x.id===bId);
  $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
 }
@@ -1112,6 +1121,45 @@ $("peOk").onclick=()=>{
 function setHdr(){const r=document.documentElement.style,t=document.querySelector(".top"),v=document.querySelector(".views");r.setProperty("--hh",t.offsetHeight+"px");r.setProperty("--vh",v.offsetHeight+"px")}
 setHdr();window.addEventListener("resize",setHdr);window.addEventListener("load",setHdr);
 if(window.ResizeObserver){const ro=new ResizeObserver(setHdr);ro.observe(document.querySelector(".top"));ro.observe(document.querySelector(".views"))}
+
+/* PRIJS VIEW */
+function parsePrice(v){const t=String(v||"").trim().replace(/[€\s]/g,"").replace(",",".");if(!t)return null;const n=parseFloat(t);return isFinite(n)&&n>=0?Math.round(n*100)/100:null}
+function fmtP(n){return "€"+(Math.round(n*100)%100===0?String(Math.round(n)):n.toFixed(2).replace(".",","))}
+let priceDir="desc",pMin=null,pMax=null;
+function buildPriceBar(){
+ $("vPrice").innerHTML=`<div class="pbar"><button class="chip on" id="pDir" type="button"></button><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="grid" id="pList"></div>`;
+ const setDir=()=>{$("pDir").textContent=priceDir==="desc"?"↓ Duur → goedkoop":"↑ Goedkoop → duur"};setDir();
+ $("pDir").onclick=()=>{priceDir=priceDir==="desc"?"asc":"desc";setDir();renderPrice()};
+ $("pMin").oninput=e=>{pMin=parsePrice(e.target.value);renderPrice()};
+ $("pMax").oninput=e=>{pMax=parsePrice(e.target.value);renderPrice()};
+ $("pList").onclick=e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;
+  const it=items.find(x=>x.id===b.closest(".c")?.dataset.id);if(!it)return;
+  if(b.dataset.a==="go")openLb(it);else if(b.dataset.a==="e")openDlg(it.id);
+ };
+}
+function renderPrice(){
+ if(!$("pList"))buildPriceBar();
+ const list=items.filter(i=>{
+  if(typeof i.price!=="number")return false;
+  if(!searchMatch(i)||!memberMatches(i,filterMember))return false;
+  if(filterStatus==="WTB"&&(i.owned||i.otw))return false;
+  if(filterStatus==="OTW"&&!i.otw)return false;
+  if(filterStatus==="HAVE"&&!i.owned)return false;
+  if(pMin!==null&&i.price<pMin)return false;
+  if(pMax!==null&&i.price>pMax)return false;
+  return true;
+ }).sort((a,b)=>priceDir==="desc"?b.price-a.price:a.price-b.price);
+ const sum=list.reduce((t,i)=>t+i.price,0);
+ $("pTot").textContent=list.length+" PC"+(list.length===1?"":"'s")+" · "+fmtP(sum);
+ const none=items.some(i=>typeof i.price==="number");
+ $("pList").innerHTML=list.length?list.map(it=>{
+  const tag=it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
+  return `<div class="c" data-id="${esc(it.id)}"><div class="pw"><button class="ph" data-a="go">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}</button></div>
+  <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div><div class="pp">${fmtP(it.price)}</div>
+  <div class="bar"><button data-a="e">✏️</button></div></div></div>`}).join(""):
+  `<div class="empty" style="grid-column:1/-1">${none?"Geen resultaten met deze filters 🥺":"Nog geen prijzen ingevuld 💶<br>Tik op ✏️ bij een PC en vul “Prijs betaald” in."}</div>`;
+}
 /* Startup */
 (async()=>{
  try{await loadData();render();await initCloud()}
