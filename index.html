@@ -166,7 +166,7 @@ input[type=color]{height:44px;padding:3px}
 #syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
 #syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
 @media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
-.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}
+.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}#mbar,#sbar{display:none;margin-top:8px}.views.vm #mbar,.views.vs #sbar{display:block}#mbar .stat,#sbar .stat{margin:4px 0 8px}#mbar .search,#sbar .search{margin:8px 0 0}#mbar .chips,#sbar .chips{padding-bottom:0;margin-bottom:0}#sbar .stat{flex-wrap:wrap;gap:2px 12px}#sbar .plus{color:var(--ok);font-weight:700}#sbar .min{color:var(--red);font-weight:700}
 textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit;resize:none}
 .vp{position:relative}
 .phd{position:absolute;inset:0;container-type:inline-size;overflow:hidden}
@@ -191,6 +191,15 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 .pbar input{width:84px;padding:7px 10px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;font-family:inherit}
 .pbar .tot{font-size:13px;color:var(--mute);margin-left:auto;white-space:nowrap}
 .pp{font-weight:800;color:var(--red);font-size:15px;margin-top:4px}
+.vtabs{overflow-x:auto;scrollbar-width:none}.vtabs::-webkit-scrollbar{display:none}.vtabs .chip{padding:7px 10px}
+.sbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 10px;font-size:13px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+.sbox b{color:var(--ink);font-size:15px}.sbox .plus{color:var(--ok)}.sbox .min{color:var(--red)}
+.sl{font-size:12px;color:var(--mute);margin-top:4px;line-height:1.3}
+.pl2{display:inline-block;font-weight:800;font-size:13px;margin-top:3px}.pl2.plus{color:var(--ok)}.pl2.min{color:var(--red)}
+.tag.wts{background:#b45309}.tag.sd{background:#6d28d9}
+#vSell .c.sold .ph img{filter:grayscale(.6)}#vSell .c.wts .tw{background:#b45309}#vSell .c.sold .ck{background:#6d28d9}
+#vSell .c,#vMerch .c{user-select:auto;-webkit-user-select:auto}#vSell .c.own,#vSell .c.sold{opacity:1}
+#sd{width:min(92vw,400px)}#sd select,#sd input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit}
 #vPrice .c{user-select:auto;-webkit-user-select:auto}
 </style>
 </head>
@@ -224,16 +233,18 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
   </div>
  </div>
 </section></dialog>
-<div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="binders" type="button">📘 Binders</button><button class="chip" data-v="price" type="button" aria-label="Prijs" title="Prijs">👛</button></div><div id="colbar">
+<div class="views" id="views"><div class="vtabs"><button class="chip on" data-v="cards" type="button">Collection</button><button class="chip" data-v="merch" type="button">💿 Merch</button><button class="chip" data-v="binders" type="button">📘 Binders</button><button class="chip" data-v="price" type="button" aria-label="Wallet" title="Wallet">👛</button><button class="chip" data-v="sell" type="button" aria-label="Sell" title="Sell">💸</button></div><div id="colbar">
 <div class="prog"><i id="pg"></i></div>
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <div class="chips" id="chips"></div>
 <div id="qw" style="display:none;position:relative"><input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="qx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div>
-</div></div>
+</div><div id="mbar"><div class="prog"><i id="mpg"></i></div><div class="stat"><span id="mst"></span><span id="mpc"></span></div><div class="chips" id="mchips"></div><div id="mqw" style="display:none;position:relative"><input id="mq" class="search" type="search" placeholder="Search album, link or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="mqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div><div id="sbar"><div class="prog"><i id="spg"></i></div><div class="stat"><span id="sst"></span><span id="spc"></span></div><div class="chips" id="schips"></div><div id="sqw" style="display:none;position:relative"><input id="sq" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="sqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div></div>
 <div id="vCards">
 <div class="grid" id="grid"></div>
 </div>
+<div id="vMerch" style="display:none"></div>
 <div id="vBinders" style="display:none"></div>
+<div id="vSell" style="display:none"></div>
 <div id="vPrice" style="display:none"></div>
 <div id="bv"><div class="bvbar"><button class="chip" id="bvx" type="button">✕ Close</button><span id="bvp" class="sub"></span></div><div class="bvmain"><div id="bvstage"><div id="bvcover"></div><div id="bvsheet"><div id="bvpage" class="bg"></div></div></div></div><div class="bnav"><button class="chip" id="bvprev" type="button">‹ Prev</button><button class="chip" id="bvnext" type="button">Next ›</button></div></div>
 <dialog id="cov"><div class="ph2"><h3>Binder cover</h3><button class="x2" id="covX" aria-label="Close">✕</button></div><div id="covPrev" class="bt" style="width:150px;margin:12px auto;font-size:13px"></div><div class="sw" id="covSw"></div><label>Custom colour</label><input type="color" id="covC"><label>Emoji</label><input id="covE" class="emo" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Choose emoji"><button id="covEc" type="button" class="chip" style="margin-top:8px">Reset to default</button><div class="row"><button id="covOk" class="pri" type="button">Done</button></div></dialog>
@@ -257,13 +268,19 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div class="sync-actions" style="justify-content:center"><button id="peL" type="button">⟲ 90°</button><button id="peRt" type="button">⟳ 90°</button><button id="peF" type="button">↔ Flip</button><button id="peReset" type="button">Reset</button></div>
 <div class="row"><button id="peCx" type="button">Cancel</button><button class="pri" id="peOk" type="button">Apply</button></div>
 </dialog>
+<dialog id="sd"><h3 id="sdt" style="margin:0">Sell</h3><div class="sub" id="sdn" style="margin-top:4px"></div>
+<label>Status</label><select id="sdS"><option value="">Not for sale</option><option value="wts">Want to sell</option><option value="sold">Have sold</option></select>
+<label>Price paid (€) — taken automatically from your wallet</label><input id="sdP" inputmode="decimal" autocomplete="off" placeholder="e.g. 12.50">
+<div id="sdVW"><label>Sold for (€)</label><input id="sdV" inputmode="decimal" autocomplete="off" placeholder="e.g. 15"></div>
+<div class="sub" id="sdPr" style="margin-top:8px;font-weight:700"></div><div class="msg" id="sdMs"></div>
+<div class="row"><button id="sdCx" type="button">Cancel</button><button class="pri" id="sdOk" type="button">Save</button></div></dialog>
 <dialog id="dlg" tabindex="-1" autofocus>
 <h3 id="dt" style="margin:0">New PC</h3>
 <label>Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
-<label>Member</label><select id="fm"></select>
+<label id="fmL">Member</label><select id="fm"></select>
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
 <label>Notes (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. trui, vinted, €12"></textarea>
-<label>Prijs betaald (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="bv. 12,50">
+<label>Price paid (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="e.g. 12.50">
 <label>Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
 <img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
@@ -283,7 +300,7 @@ const DB_NAME="skz-pc-wishlist-db", DB_VERSION=1, STORE="wishlist";
 const SUPABASE_URL="https://vyprzgvbnwcpldeutbkf.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_FjfRERwPSteM6Cgh04a-Rg_Da-92sy3";
 const SUPABASE_BUCKET="Pc-photos";
-let binders=[];
+let binders=[],albums=[];
 let sb=null,currentUser=null,syncEnabled=false,cloudUpdatedAt=null;
 let syncTimer=null,syncBusy=false,syncAgain=false,pendingCloudItems=null;
 let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",tmpSrc="",justDragged=false;
@@ -321,6 +338,7 @@ function dbPut(key,value){
 async function loadData(){
  db=await openDB();
  try{const b=await dbGet("binders");if(Array.isArray(b)){binders=b;fixB()}}catch(e){}
+ try{const a=await dbGet("albums");if(Array.isArray(a))albums=a}catch(e){}
  const saved=await dbGet("items");
  if(Array.isArray(saved)){items=saved;return}
  let old=[];
@@ -349,15 +367,16 @@ const AGE_ORDER=["Bang Chan","Lee Know","Changbin","Hyunjin","Han","Felix","Seun
 const ageIdx=m=>{const k=AGE_ORDER.indexOf(m);return k<0?99:k};
 const kwOf=m=>typeof m==="string"&&m.startsWith("kw:")?m.slice(3):null;
 const memberMatches=(i,m)=>{if(m==="All")return true;const k=kwOf(m);if(k)return norm2((i.name||"")+" "+(i.notes||"")).includes(k);return i.member===m};
-function getMemberItems(member){return items.filter(i=>memberMatches(i,member))}
+function getMemberItems(member){return items.filter(i=>i.sell!=="sold"&&memberMatches(i,member))}
 let query="",searchOpen=false;
 const norm2=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const escRe=t=>t.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-function searchMatch(i){
- const tokens=norm2(query).split(/\s+/).filter(Boolean);
+function searchMatch(i,qq){
+ const Q=qq===undefined?query:qq;
+ const tokens=norm2(Q).split(/\s+/).filter(Boolean);
  if(!tokens.length)return true;
  const hay=norm2((i.name||"")+" "+(i.member||"")+" "+(i.notes||""));
- const typing=!/\s$/.test(query);
+ const typing=!/\s$/.test(Q);
  return tokens.every((t,k)=>{
   const partial=typing&&k===tokens.length-1;
   if(partial)return hay.includes(t);
@@ -366,7 +385,7 @@ function searchMatch(i){
 }
 function getVisibleItems(){
  const out=items.filter(i=>{
-  if(!searchMatch(i))return false;
+  if(i.sell==="sold"||!searchMatch(i))return false;
   const memberMatch=memberMatches(i,filterMember);
   let statusMatch=true;
   if(filterStatus==="WTB")statusMatch=!i.owned&&!i.otw;
@@ -378,8 +397,9 @@ function getVisibleItems(){
  return out;
 }
 function render(){
- const own=count(items.filter(i=>i.owned)),tot=count(items),otw=count(items.filter(i=>i.otw));
- const base=items.filter(i=>memberMatches(i,filterMember)&&searchMatch(i));
+ const L=items.filter(i=>i.sell!=="sold");
+ const own=count(L.filter(i=>i.owned)),tot=count(L),otw=count(L.filter(i=>i.otw));
+ const base=L.filter(i=>memberMatches(i,filterMember)&&searchMatch(i));
  const cOwn=count(base.filter(i=>i.owned)),cOtw=count(base.filter(i=>i.otw)),cWtb=count(base.filter(i=>!i.owned&&!i.otw));
  $("pg").style.width=(tot?own/tot*100:0)+"%";
  $("st").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
@@ -388,9 +408,7 @@ function render(){
  $("chips").innerHTML=`
  <select id="memberFilter" class="member-select ${filterMember!=="All"?"selected":""}">
  <option value="All" ${filterMember==="All"?"selected":""}>All (${tot})</option>${memberOptions}</select>
- <button class="chip ${filterStatus==="WTB"?"on":""}" data-status="WTB">WTB <span class="chip-count">${cWtb}</span></button>
- <button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${cOtw}</span></button>
- <button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${cOwn}</span></button><button class="chip ${(searchOpen||query)?"on":""}" id="sbtn" type="button" aria-label="Search">🔍</button>`;
+ ${(()=>{const bW=`<button class="chip ${filterStatus==="WTB"?"on":""}" data-status="WTB">WTB <span class="chip-count">${cWtb}</span></button>`,bO=`<button class="chip ${filterStatus==="OTW"?"on":""}" data-status="OTW">OTW <span class="chip-count">${cOtw}</span></button>`,bH=`<button class="chip ${filterStatus==="HAVE"?"on":""}" data-status="HAVE">HAVE <span class="chip-count">${cOwn}</span></button>`;return bW+bO+bH})()}<button class="chip ${(searchOpen||query)?"on":""}" id="sbtn" type="button" aria-label="Search">🔍</button>`;
  $("memberFilter").onchange=e=>{filterMember=e.target.value;render()};
  $("sbtn").onclick=()=>{searchOpen=!searchOpen;$("qw").style.display=searchOpen?"block":"none";if(!searchOpen&&query){query="";$("q").value="";$("qx").style.display="none";render();setHdr();return}$("sbtn").classList.toggle("on",searchOpen||!!query);if(searchOpen)$("q").focus();setHdr()};
  $("chips").querySelectorAll("[data-status]").forEach(b=>b.onclick=()=>{const next=b.dataset.status;filterStatus=filterStatus===next?"All":next;render()});
@@ -408,7 +426,7 @@ function render(){
 }
 function openLb(it){
  $("lbc").innerHTML=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div class="big">🃏</div>`;
- $("lbn").textContent=it.name+" · "+it.member+(typeof it.price==="number"?" · "+fmtP(it.price):"");
+ $("lbn").textContent=it.name+(it.member?" · "+it.member:"")+(typeof it.price==="number"?" · "+fmtP(it.price):"");
  const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
  if(it.owned){s.className="hv";s.textContent="HAVE";s.style.display="inline-block"}
  else if(it.otw){s.className="ot";s.textContent="OTW";s.style.display="inline-block"}
@@ -486,9 +504,12 @@ document.addEventListener("touchmove",e=>{if(dr)e.preventDefault()},{passive:fal
 grid.addEventListener("contextmenu",e=>e.preventDefault());
 
 $("fm").innerHTML=MEMBERS.map(m=>`<option>${esc(m)}</option>`).join("");
+let dlgKind="pc";
 function openDlg(id){
- editId=id||null;const it=id?items.find(x=>x.id===id):null;
- $("dt").textContent=it?"Edit PC":"New PC";$("fn").value=it?it.name:"";
+ dlgKind=curView==="merch"?"alb":"pc";
+ editId=id||null;const it=id?(dlgKind==="alb"?albums:items).find(x=>x.id===id):null;
+ $("dt").textContent=dlgKind==="alb"?(it?"Edit album":"New album"):(it?"Edit PC":"New PC");
+ $("fmL").style.display=$("fm").style.display=dlgKind==="alb"?"none":"";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
  $("fl").value=it?it.link:"";$("fp").value=(it&&typeof it.price==="number")?String(it.price).replace(".",","):"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
  tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();try{if(document.activeElement&&document.activeElement!==$("dlg"))document.activeElement.blur();$("dlg").focus({preventScroll:true})}catch(_){}
@@ -509,8 +530,15 @@ $("ff").onchange=e=>{
  r.readAsDataURL(f);
 };
 $("sv").onclick=async()=>{
- const name=$("fn").value.trim();if(!name){$("ms").textContent="Give your PC a name 💌";return}
+ const name=$("fn").value.trim();if(!name){$("ms").textContent=dlgKind==="alb"?"Give your album a name 💿":"Give your PC a name 💌";return}
  const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),price:parsePrice($("fp").value),img:tmpImg};
+ if(dlgKind==="alb"){
+  delete data.member;
+  if(editId)Object.assign(albums.find(x=>x.id===editId),data);
+  else{const ni={id:uid(),owned:false,otw:false,...data};const first=albums.findIndex(i=>i.owned||i.otw);if(first<0)albums.push(ni);else albums.splice(first,0,ni)}
+  if(await saveAlbums()){$("dlg").close();renderMerch()}
+  return;
+ }
  if(editId)Object.assign(items.find(x=>x.id===editId),data);
  else{
   const ni={id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),owned:false,otw:false,...data};
@@ -567,6 +595,12 @@ async function writeCloud(){
    if(cp.img!==it.img){const live=items.find(x=>x.id===it.id);if(live&&live.img===it.img)live.img=cp.img}
   }
   await dbPut("items",items);
+  const cloudAlbums=[];
+  for(const al of [...albums]){
+   const cp=await imageForCloud(al);cloudAlbums.push(cp);
+   if(cp.img!==al.img){const live=albums.find(x=>x.id===al.id);if(live&&live.img===al.img)live.img=cp.img}
+  }
+  await dbPut("albums",albums);
   for(const bb of binders)for(const pg of bb.pages)for(let i=0;i<pg.slots.length;i++){
    const v=pg.slots[i];
    if(isPh(v)&&v.img&&v.img.startsWith("data:")){
@@ -578,14 +612,19 @@ async function writeCloud(){
   }
   await dbPut("binders",binders);
   const now=new Date().toISOString();
-  let {error}=await sb.from("wishlist_data").upsert({user_id:currentUser.id,items:cloudItems,binders:binders,updated_at:now},{onConflict:"user_id"});
-  if(error&&/binders/i.test(error.message||"")){
-   ({error}=await sb.from("wishlist_data").upsert({user_id:currentUser.id,items:cloudItems,updated_at:now},{onConflict:"user_id"}));
+  const payload={user_id:currentUser.id,items:cloudItems,binders:binders,albums:cloudAlbums,updated_at:now};
+  const missing=[];let error=null;
+  for(let k=0;k<3;k++){
+   ({error}=await sb.from("wishlist_data").upsert(payload,{onConflict:"user_id"}));
+   if(!error)break;
+   const m=/(binders|albums)/i.exec(error.message||""),col=m&&m[1].toLowerCase();
+   if(!col||!(col in payload))break;
+   delete payload[col];missing.push(col);
   }
   if(error)throw error;
   cloudUpdatedAt=now;
   lsDel(dirtyFlag());
-  setSyncStatus("✓ Synced — changes are saved to your account.");
+  setSyncStatus(missing.length?"⚠️ Cards synced, but your "+missing.join(" & ")+" were NOT saved to the cloud: the column is missing in Supabase. Run the SQL (alter table) once, then change anything to sync again.":"✓ Synced — changes are saved to your account.");
   render();
  }catch(e){
   console.error("Cloud sync failed:",e);
@@ -616,6 +655,11 @@ async function chooseCloudDirection(){
   }
   if(pendingCloudItems){
    cloudUpdatedAt=row.updated_at;
+   if(!items.length&&!binders.length&&!albums.length){
+    items=pendingCloudItems;await dbPut("items",items);adoptBinders(row);
+    syncEnabled=true;lsSet(syncFlag(),"1");lsDel(dirtyFlag());showSyncChoices(false);render();
+    setSyncStatus("✓ Your cloud collection was loaded automatically. Sync is active.");return;
+   }
    showSyncChoices(true,"A cloud collection already exists. Choose carefully: upload replaces the cloud copy with this device's collection; use cloud replaces this device's collection with the cloud copy.");
    $("downloadCloud").style.display="inline-block";
    setSyncStatus("Logged in. Choose which collection to keep.");
@@ -684,6 +728,7 @@ $("syncLogin").onclick=async()=>{
 $("syncLogout").onclick=async()=>{await sb.auth.signOut({scope:"local"})};
 $("uploadLocal").onclick=async()=>{
  if(!currentUser)return;
+ if(!items.length&&!binders.length&&!albums.length&&pendingCloudItems&&pendingCloudItems.length){alert("This device is empty, so uploading would erase your cloud collection. Use “Use cloud collection on this device” instead.");return}
  if(!confirm("Upload this device's entire collection to the cloud? If a cloud collection already exists, it will be replaced."))return;
  syncEnabled=true;lsSet(syncFlag(),"1");showSyncChoices(false);await writeCloud();
 };
@@ -713,7 +758,7 @@ window.addEventListener("focus",pollCloud);
 /* BACK-UP */
 $("exportBtn").onclick=()=>{
  if(!items.length){alert("There is nothing in this collection to export.");return}
- const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items,binders})],{type:"application/json"});
+ const blob=new Blob([JSON.stringify({app:"skz-pc-wishlist",exported:new Date().toISOString(),items,binders,albums})],{type:"application/json"});
  const a=document.createElement("a");
  a.href=URL.createObjectURL(blob);
  a.download="skz-pc-backup-"+new Date().toISOString().slice(0,10)+".json";
@@ -731,6 +776,7 @@ $("importFile").onchange=async e=>{
   if(!confirm("Replace this collection ("+items.length+" cards) with the backup ("+list.length+" cards)?"))return;
   items=list;
   if(!Array.isArray(data)&&Array.isArray(data.binders)){binders=data.binders;await dbPut("binders",binders)}
+  if(!Array.isArray(data)&&Array.isArray(data.albums)){albums=data.albums;await dbPut("albums",albums)}
   await dbPut("items",items);
   render();
   if(syncEnabled)queueCloudSync();
@@ -751,18 +797,20 @@ const newPage=l=>({layout:l,slots:Array(nSlots(l)).fill(null)});
 const cardById=id=>items.find(x=>x.id===id);
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 let bId=null,bPage=0,pickCtx=0,curView="cards";
-const _render=render;render=function(){_render();if(curView==="binders")renderBinders();if(curView==="price")renderPrice()};
+const _render=render;render=function(){_render();if(curView==="binders")renderBinders();if(curView==="price")renderPrice();if(curView==="merch")renderMerch();if(curView==="sell")renderSell()};
 function fixB(){binders.forEach(b=>b.pages.forEach(pg=>{if(!LAY[pg.layout])pg.layout=["2x3","3x4","4x4"].includes(pg.layout)?"3x3":"2x2";while(pg.slots.length<nSlots(pg.layout))pg.slots.push(null)}))}
-function adoptBinders(row){if(row&&Array.isArray(row.binders)){binders=row.binders;fixB();dbPut("binders",binders)}}
+function adoptBinders(row){if(row&&Array.isArray(row.binders)){binders=row.binders;fixB();dbPut("binders",binders)}if(row&&Array.isArray(row.albums)){albums=row.albums;dbPut("albums",albums)}}
 async function saveBinders(){
  try{await dbPut("binders",binders);if(syncEnabled){lsSet(dirtyFlag(),"1");queueCloudSync()}}catch(e){alert("Saving failed.")}
  renderBinders();
 }
 function setView(v){
- curView=v;$("vCards").style.display=v==="cards"?"":"none";$("vBinders").style.display=v==="binders"?"":"none";$("vPrice").style.display=v==="price"?"":"none";
+ curView=v;$("vCards").style.display=v==="cards"?"":"none";$("vBinders").style.display=v==="binders"?"":"none";$("vPrice").style.display=v==="price"?"":"none";$("vMerch").style.display=v==="merch"?"":"none";$("vSell").style.display=v==="sell"?"":"none";
  document.querySelectorAll("[data-v]").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
  if(v==="binders")renderBinders();
- if(v==="price")renderPrice();
+ if(v==="cards"||v==="price")render();
+ if(v==="merch")renderMerch();
+ if(v==="sell")renderSell();
 }
 document.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>setView(b.dataset.v));
 const thumb=it=>(it.img?`<img src="${it.img}" alt="">`:`<div class="no">🃏</div>`)+`<span class="pn">${esc(it.name)}</span>`;
@@ -905,7 +953,7 @@ $("pickX").onclick=()=>$("pick").close();
 $("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
 
 function syncHdr(){
- $("views").classList.toggle("nb",curView==="binders");setHdr();
+ $("views").classList.toggle("nb",["binders","merch","sell"].includes(curView));$("views").classList.toggle("vm",curView==="merch");$("views").classList.toggle("vs",curView==="sell");setHdr();$("add").textContent=curView==="merch"?"＋ New album":"＋ New PC";
  const inB=curView==="binders"&&binders.some(x=>x.id===bId);
  $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
 }
@@ -1021,7 +1069,7 @@ $("phH").addEventListener("pointermove",e=>{if(!phHG)return;phS.fs=clamp(phHG.fs
 $("phH").addEventListener("pointerup",()=>{phHG=null});$("phH").addEventListener("pointercancel",()=>{phHG=null});
 $("phX").onclick=$("phCx").onclick=()=>$("phd").close();
 $("phOk").onclick=()=>{phS.text=$("phT").value;$("phd").close();putSlot(phS)};
-/* ===== LANG INDRUKKEN = VERWISSELEN IN BINDER ===== */
+/* ===== LONG PRESS = SWAP IN BINDER ===== */
 let bd=null,bTimer=null,justBD=false;
 function bdTarget(x,y){const u=document.elementFromPoint(x,y),t=u&&u.closest&&u.closest(".pk[data-slot]");return t&&$("vBinders").contains(t)?t:null}
 function bdClear(){document.querySelectorAll("#vBinders .pk.tgt").forEach(n=>n.classList.remove("tgt"))}
@@ -1122,13 +1170,13 @@ function setHdr(){const r=document.documentElement.style,t=document.querySelecto
 setHdr();window.addEventListener("resize",setHdr);window.addEventListener("load",setHdr);
 if(window.ResizeObserver){const ro=new ResizeObserver(setHdr);ro.observe(document.querySelector(".top"));ro.observe(document.querySelector(".views"))}
 
-/* PRIJS VIEW */
+/* PRICE VIEW */
 function parsePrice(v){const t=String(v||"").trim().replace(/[€\s]/g,"").replace(",",".");if(!t)return null;const n=parseFloat(t);return isFinite(n)&&n>=0?Math.round(n*100)/100:null}
 function fmtP(n){return "€"+(Math.round(n*100)%100===0?String(Math.round(n)):n.toFixed(2).replace(".",","))}
 let priceDir="desc",pMin=null,pMax=null;
 function buildPriceBar(){
  $("vPrice").innerHTML=`<div class="pbar"><button class="chip on" id="pDir" type="button"></button><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="grid" id="pList"></div>`;
- const setDir=()=>{$("pDir").textContent=priceDir==="desc"?"↓ Duur → goedkoop":"↑ Goedkoop → duur"};setDir();
+ const setDir=()=>{$("pDir").textContent=priceDir==="desc"?"Expensive → cheap":"Cheap → expensive"};setDir();
  $("pDir").onclick=()=>{priceDir=priceDir==="desc"?"asc":"desc";setDir();renderPrice()};
  $("pMin").oninput=e=>{pMin=parsePrice(e.target.value);renderPrice()};
  $("pMax").oninput=e=>{pMax=parsePrice(e.target.value);renderPrice()};
@@ -1154,12 +1202,145 @@ function renderPrice(){
  $("pTot").textContent=list.length+" PC"+(list.length===1?"":"'s")+" · "+fmtP(sum);
  const none=items.some(i=>typeof i.price==="number");
  $("pList").innerHTML=list.length?list.map(it=>{
-  const tag=it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
+  const tag=it.sell==="sold"?`<span class="tag sd">SOLD</span>`:it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
   return `<div class="c" data-id="${esc(it.id)}"><div class="pw"><button class="ph" data-a="go">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}</button></div>
   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div><div class="pp">${fmtP(it.price)}</div>
   <div class="bar"><button data-a="e">✏️</button></div></div></div>`}).join(""):
-  `<div class="empty" style="grid-column:1/-1">${none?"Geen resultaten met deze filters 🥺":"Nog geen prijzen ingevuld 💶<br>Tik op ✏️ bij een PC en vul “Prijs betaald” in."}</div>`;
+  `<div class="empty" style="grid-column:1/-1">${none?"No results with these filters 🥺":"No prices filled in yet 💶<br>Tap ✏️ on a PC and fill in “Price paid”."}</div>`;
 }
+
+/* ===== MERCH (albums) ===== */
+async function saveAlbums(){
+ try{await dbPut("albums",albums);if(syncEnabled){lsSet(dirtyFlag(),"1");queueCloudSync()}return true}
+ catch(e){alert("Saving failed.");return false}
+}
+let aSt="All",mQ="",mOpen=false;
+const firstAct=l=>l.findIndex(x=>x.owned||x.otw);
+function putFront(l,it){const p=firstAct(l);if(p<0)l.push(it);else l.splice(p,0,it);return l}
+function renderMerch(){
+ const el=$("vMerch");
+ const tot=albums.length,own=albums.filter(a=>a.owned).length,otw=albums.filter(a=>a.otw).length;
+ $("mpg").style.width=(tot?own/tot*100:0)+"%";
+ $("mst").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
+ $("mpc").textContent=tot?Math.round(own/tot*100)+"%":"";
+ const base=albums.filter(a=>searchMatch(a,mQ));
+ const cO=base.filter(a=>a.owned).length,cT=base.filter(a=>a.otw).length,cW=base.length-cO-cT;
+ const ch=(k,l,n)=>`<button class="chip ${aSt===k?"on":""}" data-ms="${k}" type="button">${l} <span class="chip-count">${n}</span></button>`;
+ $("mchips").innerHTML=ch("WTB","WTB",cW)+ch("OTW","OTW",cT)+ch("HAVE","HAVE",cO)+`<button class="chip ${(mOpen||mQ)?"on":""}" id="mbtn" type="button" aria-label="Search">🔍</button>`;
+ $("mchips").querySelectorAll("[data-ms]").forEach(b=>b.onclick=()=>{aSt=aSt===b.dataset.ms?"All":b.dataset.ms;renderMerch()});
+ $("mbtn").onclick=()=>{mOpen=!mOpen;$("mqw").style.display=mOpen?"block":"none";if(!mOpen&&mQ){mQ="";$("mq").value="";$("mqx").style.display="none";renderMerch();setHdr();return}$("mbtn").classList.toggle("on",mOpen||!!mQ);if(mOpen)$("mq").focus();setHdr()};
+ const vis=base.filter(a=>aSt==="WTB"?!a.owned&&!a.otw:aSt==="OTW"?!!a.otw:aSt==="HAVE"?!!a.owned:true);
+ el.innerHTML=`<div class="grid">`+(vis.length?vis.map(it=>{
+  const rank=albums.indexOf(it)+1;
+  const tag=it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:it.link?`<a class="tag buy lk" href="${esc(it.link)}" target="_blank" rel="noopener noreferrer">buy</a>`:`<span class="tag buy">buy</span>`;
+  return `<div class="c ${it.owned?"own":""} ${it.otw?"otw":""}" data-id="${esc(it.id)}">
+   <div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">💿</div>`}<span class="rk">#${rank}</span></button></div>
+   <button class="ck" data-a="own" type="button" aria-label="I have it">✓</button><button class="tw" data-a="otw" type="button" aria-label="On the way"><span>🚚</span></button>
+   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${typeof it.price==="number"?fmtP(it.price):""}</span>${tag}</div>
+   <div class="bar"><button data-a="e" type="button">✏️</button><button data-a="d" type="button">🗑</button></div></div></div>`}).join(""):
+  `<div class="empty" style="grid-column:1/-1">${mQ?"No results for “"+esc(mQ)+"” 🥺":albums.length?"Nothing in this filter 🥺":"No albums yet 💿<br>Tap “＋ New album” to add your first one."}</div>`)+`</div>`;
+}
+$("mq").oninput=e=>{mQ=e.target.value;$("mqx").style.display=mQ?"block":"none";renderMerch()};
+$("mqx").onclick=()=>{mQ="";$("mq").value="";$("mqx").style.display="none";renderMerch();$("mq").focus()};
+$("vMerch").onclick=async e=>{
+ if(e.target.closest(".lk"))return;
+ const b=e.target.closest("[data-a]");if(!b)return;
+ const it=albums.find(x=>x.id===(b.closest(".c")||{dataset:{}}).dataset.id);if(!it)return;
+ const a=b.dataset.a;
+ if(a==="go")openLb(it);
+ else if(a==="own"){
+  if(!it.owned){it.owned=true;it.otw=false;albums=albums.filter(x=>x!==it);albums.push(it)}
+  else{it.owned=false;albums=putFront(albums.filter(x=>x!==it),it)}
+  if(await saveAlbums())renderMerch();
+ }else if(a==="otw"){
+  if(!it.otw){it.otw=true;it.owned=false;albums=albums.filter(x=>x!==it);const fo=albums.findIndex(x=>x.owned);if(fo<0)albums.push(it);else albums.splice(fo,0,it)}
+  else{it.otw=false;albums=putFront(albums.filter(x=>x!==it),it)}
+  if(await saveAlbums())renderMerch();
+ }else if(a==="e")openDlg(it.id);
+ else if(a==="d"&&confirm("Delete: "+it.name+"?")){albums=albums.filter(x=>x!==it);if(await saveAlbums())renderMerch()}
+};
+
+/* ===== SELL ===== */
+let sSt="All",sMem="All",sQ="",sOpen=false;
+const sgn=n=>(n>0?"+":n<0?"−":"±")+fmtP(Math.abs(n));
+const profitOf=it=>(it.sell==="sold"&&typeof it.soldPrice==="number"&&typeof it.price==="number")?Math.round((it.soldPrice-it.price)*100)/100:null;
+function renderSell(){
+ const el=$("vSell");
+ const sold=items.filter(i=>i.sell==="sold"),wts=items.filter(i=>i.sell==="wts"),have=items.filter(i=>i.owned&&i.sell!=="wts"&&i.sell!=="sold");
+ const all=[...have,...wts,...sold];
+ const recv=sold.reduce((t,i)=>t+(typeof i.soldPrice==="number"?i.soldPrice:0),0);
+ const withP=sold.filter(i=>profitOf(i)!==null),prof=withP.reduce((t,i)=>t+profitOf(i),0),noP=sold.length-withP.length;
+ $("spg").style.width=((sold.length+wts.length)?sold.length/(sold.length+wts.length)*100:0)+"%";
+ $("sst").textContent=sold.length+" sold · "+wts.length+" to sell"+(noP?" · "+noP+" without paid price":"");
+ $("spc").innerHTML=sold.length?`Profit <span class="${prof>=0?"plus":"min"}">${sgn(prof)}</span> · Received ${fmtP(recv)}`:"";
+ const fm=i=>(sMem==="All"||i.member===sMem)&&searchMatch(i,sQ);
+ const bH=have.filter(fm),bW=wts.filter(fm),bS=sold.filter(fm);
+ const ch=(k,l,n)=>`<button class="chip ${sSt===k?"on":""}" data-ss="${k}" type="button">${l} <span class="chip-count">${n}</span></button>`;
+ $("schips").innerHTML=`<select id="sMem" class="member-select ${sMem!=="All"?"selected":""}"><option value="All" ${sMem==="All"?"selected":""}>All (${all.length})</option>${MEMBERS.map(m=>`<option value="${esc(m)}" ${sMem===m?"selected":""}>${esc(m)} (${all.filter(i=>i.member===m).length})</option>`).join("")}</select>`+ch("HAVE","HAVE",bH.length)+ch("WTS","WTS",bW.length)+ch("SOLD","SOLD",bS.length)+`<button class="chip ${(sOpen||sQ)?"on":""}" id="sbtn2" type="button" aria-label="Search">🔍</button>`;
+ $("sMem").onchange=e=>{sMem=e.target.value;renderSell()};
+ $("schips").querySelectorAll("[data-ss]").forEach(b=>b.onclick=()=>{sSt=sSt===b.dataset.ss?"All":b.dataset.ss;renderSell()});
+ $("sbtn2").onclick=()=>{sOpen=!sOpen;$("sqw").style.display=sOpen?"block":"none";if(!sOpen&&sQ){sQ="";$("sq").value="";$("sqx").style.display="none";renderSell();setHdr();return}$("sbtn2").classList.toggle("on",sOpen||!!sQ);if(sOpen)$("sq").focus();setHdr()};
+ const vis=sSt==="HAVE"?bH:sSt==="WTS"?bW:sSt==="SOLD"?bS:[...bH,...bW,...bS];
+ el.innerHTML=`<div class="grid">`+(vis.length?vis.map(it=>{
+  const isS=it.sell==="sold",isW=it.sell==="wts",pr=profitOf(it);
+  const tag=isS?`<span class="tag sd">SOLD</span>`:isW?`<span class="tag wts">WTS</span>`:`<span class="tag hv">HAVE</span>`;
+  const line=isS?`Paid ${typeof it.price==="number"?fmtP(it.price):"?"} → sold ${typeof it.soldPrice==="number"?fmtP(it.soldPrice):"?"}`:`Paid ${typeof it.price==="number"?fmtP(it.price):"–"}`;
+  return `<div class="c ${isS?"sold":""} ${isW?"wts":""}" data-id="${esc(it.id)}">
+   <div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}</button></div>
+   <button class="ck" data-a="sold" type="button" aria-label="Sold">✓</button><button class="tw" data-a="wts" type="button" aria-label="Want to sell"><span>💰</span></button>
+   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div>
+   <div class="sl">${line}</div>${pr!==null?`<div class="pl2 ${pr>=0?"plus":"min"}">${sgn(pr)}</div>`:""}
+   <div class="bar"><button data-a="e" type="button">✏️</button></div></div></div>`}).join(""):
+  `<div class="empty" style="grid-column:1/-1">${sQ?"No results for “"+esc(sQ)+"” 🥺":sSt==="WTS"?"Nothing marked to sell yet 💸<br>Open HAVE and tap 💰 on a card.":sSt==="SOLD"?"Nothing sold yet 💸":"No cards here 🥺"}</div>`)+`</div>`;
+}
+$("sq").oninput=e=>{sQ=e.target.value;$("sqx").style.display=sQ?"block":"none";renderSell()};
+$("sqx").onclick=()=>{sQ="";$("sq").value="";$("sqx").style.display="none";renderSell();$("sq").focus()};
+let sdId=null;
+function sdPreview(){
+ const st=$("sdS").value;$("sdVW").style.display=st==="sold"?"":"none";
+ const paid=parsePrice($("sdP").value),got=parsePrice($("sdV").value);
+ $("sdPr").className="sub "+(st==="sold"&&paid!==null&&got!==null?(got-paid>=0?"plus":"min"):"");
+ $("sdPr").textContent=st==="sold"&&paid!==null&&got!==null?"Profit / loss: "+sgn(Math.round((got-paid)*100)/100):"";
+}
+function openSd(id,preset){
+ const it=items.find(x=>x.id===id);if(!it)return;sdId=id;
+ $("sdt").textContent="Sell";$("sdn").textContent=it.name+" · "+it.member;
+ $("sdS").value=preset||it.sell||"";
+ $("sdP").value=typeof it.price==="number"?String(it.price).replace(".",","):"";
+ $("sdV").value=typeof it.soldPrice==="number"?String(it.soldPrice).replace(".",","):"";
+ $("sdMs").textContent="";sdPreview();$("sd").showModal();
+ try{if(document.activeElement)document.activeElement.blur()}catch(_){}
+}
+["sdS","sdP","sdV"].forEach(i=>$(i).addEventListener("input",sdPreview));
+$("sdS").addEventListener("change",sdPreview);
+$("sdCx").onclick=()=>$("sd").close();
+$("sdOk").onclick=async()=>{
+ const it=items.find(x=>x.id===sdId);if(!it)return;
+ const st=$("sdS").value,got=parsePrice($("sdV").value);
+ if(st==="sold"&&got===null){$("sdMs").textContent="Enter how much you sold it for 💶";return}
+ const wasSold=it.sell==="sold";
+ it.price=parsePrice($("sdP").value);
+ it.sell=st;
+ if(st==="sold"){it.soldPrice=got;it.owned=false;it.otw=false;items=items.filter(x=>x!==it);items.push(it)}
+ else{it.soldPrice=null;if(wasSold){it.owned=true;items=items.filter(x=>x!==it);items.push(it)}}
+ if(await save()){$("sd").close();render();if(curView==="sell")renderSell()}
+};
+$("vSell").onclick=async e=>{
+ const c=e.target.closest("[data-ss]");
+ if(c){sSt=c.dataset.ss;renderSell();return}
+ const b=e.target.closest("[data-a]");if(!b)return;
+ const it=items.find(x=>x.id===(b.closest(".c")||{dataset:{}}).dataset.id);if(!it)return;
+ const a=b.dataset.a;
+ if(a==="go")openLb(it);
+ else if(a==="e")openSd(it.id);
+ else if(a==="sold")openSd(it.id,"sold");
+ else if(a==="wts"){
+  if(it.sell==="sold"){openSd(it.id,"wts");return}
+  it.sell=it.sell==="wts"?"":"wts";
+  if(await save())renderSell();
+ }
+};
+
 /* Startup */
 (async()=>{
  try{await loadData();render();await initCloud()}
