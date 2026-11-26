@@ -50,13 +50,13 @@ h1{margin:0;font-size:24px;letter-spacing:-.5px;white-space:nowrap}h1 span{color
  .bar{padding-top:6px;gap:3px}.bar button{padding:4px 0;font-size:12px;border-radius:8px}
 }
 .c{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;display:flex;flex-direction:column;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
-.c.own{opacity:.75}.c.drag{z-index:50;pointer-events:none;box-shadow:0 14px 34px #0007;opacity:.95;transition:none}
+.c.drag{z-index:50;pointer-events:none;box-shadow:0 14px 34px #0007;opacity:.95;transition:none}
 .pw{position:relative}.ph{display:block;aspect-ratio:55/85;background:linear-gradient(135deg,#e11d3f33,#00000022);width:100%;border:0;padding:0;cursor:pointer;position:relative}
 .ph img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;-webkit-user-drag:none}.ph .no{display:grid;place-items:center;height:100%;font-size:40px}
 .rk{position:absolute;top:8px;left:8px;background:#000c;color:#fff;border-radius:99px;padding:2px 9px;font-weight:700;font-size:13px}
 .ck,.tw{position:absolute;right:6px;width:32px;height:32px;border-radius:50%;border:2px solid #fff;background:#0007;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;text-align:center}
 .ck{top:6px;font-size:17px}.tw{top:44px;font-size:15px}.tw span{display:block;line-height:1;transform:translateX(-1px)}
-.own .ck{background:var(--ok)}.otw .tw{background:var(--otw)}.own .ph img{filter:grayscale(.6)}
+.own .ck{background:var(--ok)}.otw .tw{background:var(--otw)}
 .in{padding:8px;flex:1;display:flex;flex-direction:column}.nm{font-weight:650;font-size:14px;line-height:1.2;word-break:break-word}
 .mb{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px;color:var(--red);margin-top:auto;padding-top:4px;width:100%}
 .mb .member-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mb .tag{margin-left:auto;flex-shrink:0}
@@ -197,8 +197,12 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 .sl{font-size:12px;color:var(--mute);margin-top:4px;line-height:1.3}
 .pl2{display:inline-block;font-weight:800;font-size:13px;margin-top:3px}.pl2.plus{color:var(--ok)}.pl2.min{color:var(--red)}
 .tag.wts{background:#b45309}.tag.sd{background:#6d28d9}
-#vSell .c.sold .ph img{filter:grayscale(.6)}#vSell .c.wts .tw{background:#b45309}#vSell .c.sold .ck{background:#6d28d9}
+#vSell .c.wts .tw{background:#b45309}#vSell .c.sold .ck{background:#6d28d9}
 #vSell .c,#vMerch .c{user-select:auto;-webkit-user-select:auto}#vSell .c.own,#vSell .c.sold{opacity:1}
+#dlg{max-height:90vh;overflow-y:auto}
+#pv2{max-width:100%;max-height:140px;border-radius:8px;margin-top:8px;display:none}
+#lbt{display:none;gap:6px}#lbt.on{display:flex}#lbt button{border:1px solid #fff5;background:#fff2;color:#fff;border-radius:99px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}#lbt button.on{background:var(--red);border-color:var(--red)}
+#pe2Wrap{display:flex;justify-content:center;margin:12px 0 6px}#pe2C{touch-action:none;border-radius:6px;max-width:100%;cursor:crosshair}
 #sd{width:min(92vw,400px)}#sd select,#sd input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit}
 #vPrice .c{user-select:auto;-webkit-user-select:auto}
 </style>
@@ -274,20 +278,27 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div id="sdVW"><label>Sold for (€)</label><input id="sdV" inputmode="decimal" autocomplete="off" placeholder="e.g. 15"></div>
 <div class="sub" id="sdPr" style="margin-top:8px;font-weight:700"></div><div class="msg" id="sdMs"></div>
 <div class="row"><button id="sdCx" type="button">Cancel</button><button class="pri" id="sdOk" type="button">Save</button></div></dialog>
+<dialog id="pe2"><div class="ph2"><h3>Crop photo</h3><button class="x2" id="pe2X" aria-label="Close">✕</button></div>
+<div id="pe2Wrap"><canvas id="pe2C"></canvas></div>
+<div class="sub" style="text-align:center">Drag the corners or edges to crop · drag inside to move the frame</div>
+<div class="sync-actions" style="justify-content:center"><button id="pe2L" type="button">⟲ 90°</button><button id="pe2Rt" type="button">⟳ 90°</button><button id="pe2Reset" type="button">Reset</button></div>
+<div class="row"><button id="pe2Cx" type="button">Cancel</button><button class="pri" id="pe2Ok" type="button">Apply</button></div></dialog>
 <dialog id="dlg" tabindex="-1" autofocus>
 <h3 id="dt" style="margin:0">New PC</h3>
-<label>Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
+<label id="fnL">Name / album</label><input id="fn" placeholder="e.g. ATE – Lucky Draw">
 <label id="fmL">Member</label><select id="fm"></select>
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
-<label>Notes (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. trui, vinted, €12"></textarea>
+<label id="fnoteL">Notes / description (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. hoodie, vinted, €12"></textarea>
 <label>Price paid (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="e.g. 12.50">
-<label>Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
-<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div class="msg" id="ms"></div>
+<label id="phL">Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
+<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div id="ph2sec" style="display:none"><label>Inclusions photo (shown when you tap the cover)</label><input id="ff2" type="file" accept="image/*" hidden><label class="chip" for="ff2" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ff2N">No file chosen</span>
+<img id="pv2" alt=""><div style="display:flex;gap:6px;flex-wrap:wrap"><button id="pEdit2" class="chip" type="button" style="display:none;margin-top:8px">✂️ Crop photo</button><button id="pRm2" class="chip" type="button" style="display:none;margin-top:8px">Remove photo</button></div></div>
+<div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
 </dialog>
 
 <div id="lb">
-<button id="lbx" aria-label="Close">✕</button><div id="lbc"></div><div id="lbn"></div>
+<button id="lbx" aria-label="Close">✕</button><div id="lbt"></div><div id="lbc"></div><div id="lbn"></div>
 <a id="lbb" href="#" target="_blank" rel="noopener noreferrer">Buy</a><span id="lbs"></span>
 </div>
 
@@ -424,8 +435,13 @@ function render(){
    <div class="bar"><button data-a="e">✏️</button><button data-a="d">🗑</button></div></div></div>`;
  }).join("");
 }
+function lbShow(src,alt){$("lbc").innerHTML=src?`<img src="${src}" alt="${esc(alt)}">`:`<div class="big">🃏</div>`}
 function openLb(it){
- $("lbc").innerHTML=it.img?`<img src="${it.img}" alt="${esc(it.name)}">`:`<div class="big">🃏</div>`;
+ const two=!!(it.img2&&it.img);
+ lbShow(two?it.img2:it.img,it.name);
+ const t=$("lbt");t.className=two?"on":"";
+ t.innerHTML=two?`<button type="button" data-lt="cover">Cover</button><button type="button" class="on" data-lt="inc">Inclusions</button>`:"";
+ t.onclick=e=>{const b=e.target.closest("[data-lt]");if(!b)return;e.stopPropagation();lbShow(b.dataset.lt==="cover"?it.img:it.img2,it.name);t.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b))};
  $("lbn").textContent=it.name+(it.member?" · "+it.member:"")+(typeof it.price==="number"?" · "+fmtP(it.price):"");
  const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
  if(it.owned){s.className="hv";s.textContent="HAVE";s.style.display="inline-block"}
@@ -435,7 +451,7 @@ function openLb(it){
  $("lb").classList.add("on");
 }
 function closeLb(){$("lb").classList.remove("on")}
-$("lb").onclick=e=>{if(!e.target.closest("#lbb"))closeLb()};
+$("lb").onclick=e=>{if(!e.target.closest("#lbb,#lbt"))closeLb()};
 $("lbx").onclick=closeLb;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLb()});
 
@@ -504,12 +520,20 @@ document.addEventListener("touchmove",e=>{if(dr)e.preventDefault()},{passive:fal
 grid.addEventListener("contextmenu",e=>e.preventDefault());
 
 $("fm").innerHTML=MEMBERS.map(m=>`<option>${esc(m)}</option>`).join("");
-let dlgKind="pc";
+let dlgKind="pc",tmpImg2="",tmpSrc2="";
 function openDlg(id){
  dlgKind=curView==="merch"?"alb":"pc";
  editId=id||null;const it=id?(dlgKind==="alb"?albums:items).find(x=>x.id===id):null;
  $("dt").textContent=dlgKind==="alb"?(it?"Edit album":"New album"):(it?"Edit PC":"New PC");
- $("fmL").style.display=$("fm").style.display=dlgKind==="alb"?"none":"";$("fn").value=it?it.name:"";
+ $("fmL").style.display=$("fm").style.display=dlgKind==="alb"?"none":"";
+ const A=dlgKind==="alb";
+ $("fnL").textContent=A?"Album name":"Name / album";$("fn").placeholder=A?"e.g. Karma - Ceremony version":"e.g. ATE – Lucky Draw";
+ $("fnoteL").textContent=A?"Notes / description (version, member version, where bought…)":"Notes / description (keywords, price paid, where bought…)";
+ $("fnote").placeholder=A?"e.g. member version, vinted, €12":"e.g. hoodie, vinted, €12";
+ $("phL").textContent=A?"Cover photo (shown in the overview)":"Photo";
+ tmpImg2=(A&&it&&it.img2)||"";tmpSrc2="";$("ff2").value="";$("ff2N").textContent="No file chosen";
+ $("pv2").src=tmpImg2;$("pv2").style.display=tmpImg2?"block":"none";$("pEdit2").style.display=$("pRm2").style.display=tmpImg2?"inline-block":"none";
+ $("ph2sec").style.display=A?"":"none";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
  $("fl").value=it?it.link:"";$("fp").value=(it&&typeof it.price==="number")?String(it.price).replace(".",","):"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
  tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();try{if(document.activeElement&&document.activeElement!==$("dlg"))document.activeElement.blur();$("dlg").focus({preventScroll:true})}catch(_){}
@@ -533,7 +557,7 @@ $("sv").onclick=async()=>{
  const name=$("fn").value.trim();if(!name){$("ms").textContent=dlgKind==="alb"?"Give your album a name 💿":"Give your PC a name 💌";return}
  const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),price:parsePrice($("fp").value),img:tmpImg};
  if(dlgKind==="alb"){
-  delete data.member;
+  delete data.member;data.img2=tmpImg2;
   if(editId)Object.assign(albums.find(x=>x.id===editId),data);
   else{const ni={id:uid(),owned:false,otw:false,...data};const first=albums.findIndex(i=>i.owned||i.otw);if(first<0)albums.push(ni);else albums.splice(first,0,ni)}
   if(await saveAlbums()){$("dlg").close();renderMerch()}
@@ -573,13 +597,15 @@ function showSyncChoices(show,text){
 }
 async function imageForCloud(it){
  const copy={...it};
- if(copy.img&&copy.img.startsWith("data:")){
-  const blob=await (await fetch(copy.img)).blob();
-  const path=currentUser.id+"/"+encodeURIComponent(copy.id)+"-"+Date.now().toString(36)+".jpg";
-  const {error}=await sb.storage.from(SUPABASE_BUCKET).upload(path,blob,{upsert:true,contentType:"image/jpeg"});
-  if(error)throw error;
-  const {data}=sb.storage.from(SUPABASE_BUCKET).getPublicUrl(path);
-  copy.img=data.publicUrl;
+ for(const f of ["img","img2"]){
+  if(copy[f]&&copy[f].startsWith("data:")){
+   const blob=await (await fetch(copy[f])).blob();
+   const path=currentUser.id+"/"+encodeURIComponent(copy.id)+(f==="img"?"":"-"+f)+"-"+Date.now().toString(36)+".jpg";
+   const {error}=await sb.storage.from(SUPABASE_BUCKET).upload(path,blob,{upsert:true,contentType:"image/jpeg"});
+   if(error)throw error;
+   const {data}=sb.storage.from(SUPABASE_BUCKET).getPublicUrl(path);
+   copy[f]=data.publicUrl;
+  }
  }
  return copy;
 }
@@ -598,7 +624,7 @@ async function writeCloud(){
   const cloudAlbums=[];
   for(const al of [...albums]){
    const cp=await imageForCloud(al);cloudAlbums.push(cp);
-   if(cp.img!==al.img){const live=albums.find(x=>x.id===al.id);if(live&&live.img===al.img)live.img=cp.img}
+   for(const f of ["img","img2"])if(cp[f]!==al[f]){const live=albums.find(x=>x.id===al.id);if(live&&live[f]===al[f])live[f]=cp[f]}
   }
   await dbPut("albums",albums);
   for(const bb of binders)for(const pg of bb.pages)for(let i=0;i<pg.slots.length;i++){
@@ -1339,6 +1365,96 @@ $("vSell").onclick=async e=>{
   it.sell=it.sell==="wts"?"":"wts";
   if(await save())renderSell();
  }
+};
+
+
+/* ===== INCLUSIONS PHOTO (free crop) ===== */
+$("ff2").onchange=e=>{
+ const f=e.target.files[0];if(!f)return;$("ff2N").textContent=f.name;
+ const r=new FileReader();
+ r.onload=()=>{const im=new Image();im.onload=()=>{
+  const s2=Math.min(1,1600/Math.max(im.width,im.height)),c2=document.createElement("canvas");c2.width=Math.round(im.width*s2);c2.height=Math.round(im.height*s2);
+  c2.getContext("2d").drawImage(im,0,0,c2.width,c2.height);
+  tmpSrc2=c2.toDataURL("image/jpeg",.9);
+  const s3=Math.min(1,1400/Math.max(im.width,im.height)),c3=document.createElement("canvas");c3.width=Math.round(im.width*s3);c3.height=Math.round(im.height*s3);
+  c3.getContext("2d").drawImage(im,0,0,c3.width,c3.height);tmpImg2=c3.toDataURL("image/jpeg",.85);
+  $("pv2").src=tmpImg2;$("pv2").style.display="block";$("pEdit2").style.display=$("pRm2").style.display="inline-block";
+ };im.src=r.result};
+ r.readAsDataURL(f);
+};
+$("pRm2").onclick=()=>{tmpImg2="";tmpSrc2="";$("ff2").value="";$("ff2N").textContent="No file chosen";$("pv2").style.display="none";$("pEdit2").style.display=$("pRm2").style.display="none"};
+let c2=null;
+function c2Base(img,q){
+ const iw=img.naturalWidth,ih=img.naturalHeight,odd=q%2===1,bw=odd?ih:iw,bh=odd?iw:ih;
+ const base=document.createElement("canvas");base.width=bw;base.height=bh;
+ const g=base.getContext("2d");g.translate(bw/2,bh/2);g.rotate(q*Math.PI/2);g.drawImage(img,-iw/2,-ih/2);return base;
+}
+function c2Layout(keep){
+ const cv=$("pe2C"),b=c2.base,maxW=Math.max(200,Math.min(innerWidth*.92-40,360)),maxH=innerHeight*.5;
+ const k=Math.min(maxW/b.width,maxH/b.height);c2.k=k;cv.width=Math.round(b.width*k);cv.height=Math.round(b.height*k);
+ if(!keep)c2.r={x:0,y:0,w:cv.width,h:cv.height};
+ c2Draw();
+}
+function c2Draw(){
+ const cv=$("pe2C"),g=cv.getContext("2d"),W=cv.width,H=cv.height,r=c2.r;
+ g.clearRect(0,0,W,H);g.drawImage(c2.base,0,0,W,H);
+ g.fillStyle="rgba(0,0,0,.55)";g.fillRect(0,0,W,r.y);g.fillRect(0,r.y+r.h,W,H-r.y-r.h);g.fillRect(0,r.y,r.x,r.h);g.fillRect(r.x+r.w,r.y,W-r.x-r.w,r.h);
+ g.strokeStyle="#fff";g.lineWidth=2;g.strokeRect(r.x+1,r.y+1,r.w-2,r.h-2);
+ g.fillStyle="#fff";const hs=8,pts=[[r.x,r.y],[r.x+r.w/2,r.y],[r.x+r.w,r.y],[r.x,r.y+r.h/2],[r.x+r.w,r.y+r.h/2],[r.x,r.y+r.h],[r.x+r.w/2,r.y+r.h],[r.x+r.w,r.y+r.h]];
+ pts.forEach(([x,y])=>g.fillRect(x-hs/2,y-hs/2,hs,hs));
+}
+async function openPE2(){
+ const src=tmpSrc2||tmpImg2;if(!src)return;
+ let obj=null;
+ try{
+  let url=src;
+  if(!src.startsWith("data:")){const bl=await (await fetch(src,{cache:"no-store"})).blob();obj=url=URL.createObjectURL(bl)}
+  const img=new Image();await new Promise((ok,no)=>{img.onload=ok;img.onerror=no;img.src=url});
+  c2={img,q:0,base:c2Base(img,0),k:1,r:null,drag:null};
+  $("pe2").showModal();c2Layout(false);
+ }catch(e){console.error(e);alert("Could not load this photo for editing. Try choosing the file again.")}
+ finally{if(obj)setTimeout(()=>URL.revokeObjectURL(obj),1500)}
+}
+$("pEdit2").onclick=openPE2;
+const c2Rot=d=>{c2.q=(c2.q+d+4)%4;c2.base=c2Base(c2.img,c2.q);c2Layout(false)};
+$("pe2L").onclick=()=>c2Rot(-1);$("pe2Rt").onclick=()=>c2Rot(1);
+$("pe2Reset").onclick=()=>{c2.q=0;c2.base=c2Base(c2.img,0);c2Layout(false)};
+function c2Pos(e){const cv=$("pe2C"),b=cv.getBoundingClientRect();return {x:(e.clientX-b.left)*cv.width/b.width,y:(e.clientY-b.top)*cv.height/b.height}}
+function c2Hit(x,y){
+ const r=c2.r,T=20;
+ const dl=Math.abs(x-r.x),dr=Math.abs(x-(r.x+r.w)),dt=Math.abs(y-r.y),db=Math.abs(y-(r.y+r.h));
+ const l=dl<T&&dl<=dr,rr=dr<T&&dr<dl,t=dt<T&&dt<=db,b=db<T&&db<dt;
+ const inX=x>r.x-T&&x<r.x+r.w+T,inY=y>r.y-T&&y<r.y+r.h+T;
+ if(inX&&inY&&(l||rr||t||b)){return {mode:"resize",l:l&&inY,r:rr&&inY,t:t&&inX,b:b&&inX}}
+ if(x>r.x&&x<r.x+r.w&&y>r.y&&y<r.y+r.h)return {mode:"move"};
+ return null;
+}
+$("pe2C").addEventListener("pointerdown",e=>{
+ if(!c2)return;e.preventDefault();const p=c2Pos(e),h=c2Hit(p.x,p.y);if(!h)return;
+ $("pe2C").setPointerCapture(e.pointerId);c2.drag={h,p0:p,r0:{...c2.r}};
+});
+$("pe2C").addEventListener("pointermove",e=>{
+ if(!c2||!c2.drag)return;const p=c2Pos(e),{h,p0,r0}=c2.drag,W=$("pe2C").width,H=$("pe2C").height,M=30,dx=p.x-p0.x,dy=p.y-p0.y;
+ let {x,y,w,h:hh}=r0;
+ if(h.mode==="move"){x=Math.max(0,Math.min(W-w,x+dx));y=Math.max(0,Math.min(H-hh,y+dy))}
+ else{
+  if(h.l){const nx=Math.max(0,Math.min(x+w-M,x+dx));w=w+(x-nx);x=nx}
+  if(h.r){w=Math.max(M,Math.min(W-x,w+dx))}
+  if(h.t){const ny=Math.max(0,Math.min(y+hh-M,y+dy));hh=hh+(y-ny);y=ny}
+  if(h.b){hh=Math.max(M,Math.min(H-y,hh+dy))}
+ }
+ c2.r={x,y,w,h:hh};c2Draw();
+});
+const c2End=()=>{if(c2)c2.drag=null};
+$("pe2C").addEventListener("pointerup",c2End);$("pe2C").addEventListener("pointercancel",c2End);
+$("pe2X").onclick=$("pe2Cx").onclick=()=>$("pe2").close();
+$("pe2Ok").onclick=()=>{
+ const r=c2.r,k=c2.k,sx=r.x/k,sy=r.y/k,sw=r.w/k,sh=r.h/k,sc=Math.min(1,1400/Math.max(sw,sh));
+ const out=document.createElement("canvas");out.width=Math.max(1,Math.round(sw*sc));out.height=Math.max(1,Math.round(sh*sc));
+ out.getContext("2d").drawImage(c2.base,sx,sy,sw,sh,0,0,out.width,out.height);
+ tmpImg2=out.toDataURL("image/jpeg",.85);
+ $("pv2").src=tmpImg2;$("pv2").style.display="block";$("pEdit2").style.display=$("pRm2").style.display="inline-block";
+ $("pe2").close();
 };
 
 /* Startup */
