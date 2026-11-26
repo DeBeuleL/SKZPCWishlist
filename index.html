@@ -189,7 +189,7 @@ textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line)
 input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 .pbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:0 0 12px}
 .pbar input{width:84px;padding:7px 10px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;font-family:inherit}
-.pbar .tot{font-size:13px;color:var(--mute);margin-left:auto;white-space:nowrap}
+.pbar .tot{font-size:13px;color:var(--mute);margin-left:auto;white-space:nowrap;text-align:right}
 .pp{font-weight:800;color:var(--red);font-size:15px;margin-top:4px}
 .vtabs{overflow-x:auto;scrollbar-width:none}.vtabs::-webkit-scrollbar{display:none}.vtabs .chip{padding:7px 10px}
 .sbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:0 0 10px;font-size:13px;color:var(--mute);display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
@@ -201,6 +201,9 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 #vSell .c,#vMerch .c{user-select:auto;-webkit-user-select:auto}#vSell .c.own,#vSell .c.sold{opacity:1}
 #dlg{max-height:90vh;overflow-y:auto}
 #pv2{max-width:100%;max-height:140px;border-radius:8px;margin-top:8px;display:none}
+#lb.two #lbc{height:62vh;width:100%;display:flex;align-items:center;justify-content:center}#lb.two #lbc img{max-height:100%}
+#lbc img.fl{animation:lbl .22s ease-out}#lbc img.fr{animation:lbr .22s ease-out}
+@keyframes lbl{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}@keyframes lbr{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
 #lbt{display:none;gap:6px}#lbt.on{display:flex}#lbt button{border:1px solid #fff5;background:#fff2;color:#fff;border-radius:99px;padding:7px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}#lbt button.on{background:var(--red);border-color:var(--red)}
 #pe2Wrap{display:flex;justify-content:center;margin:12px 0 6px}#pe2C{touch-action:none;border-radius:6px;max-width:100%;cursor:crosshair}
 #sd{width:min(92vw,400px)}#sd select,#sd input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit}
@@ -291,7 +294,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <label id="fnoteL">Notes / description (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. hoodie, vinted, €12"></textarea>
 <label>Price paid (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="e.g. 12.50">
 <label id="phL">Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
-<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div id="ph2sec" style="display:none"><label>Inclusions photo (shown when you tap the cover)</label><input id="ff2" type="file" accept="image/*" hidden><label class="chip" for="ff2" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ff2N">No file chosen</span>
+<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div id="ph2sec" style="display:none"><label>Inclusions photo (shown when you tap the album)</label><input id="ff2" type="file" accept="image/*" hidden><label class="chip" for="ff2" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ff2N">No file chosen</span>
 <img id="pv2" alt=""><div style="display:flex;gap:6px;flex-wrap:wrap"><button id="pEdit2" class="chip" type="button" style="display:none;margin-top:8px">✂️ Crop photo</button><button id="pRm2" class="chip" type="button" style="display:none;margin-top:8px">Remove photo</button></div></div>
 <div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
@@ -435,13 +438,20 @@ function render(){
    <div class="bar"><button data-a="e">✏️</button><button data-a="d">🗑</button></div></div></div>`;
  }).join("");
 }
-function lbShow(src,alt){$("lbc").innerHTML=src?`<img src="${src}" alt="${esc(alt)}">`:`<div class="big">🃏</div>`}
+let lbIt=null,lbSide="inc",lbSw=0,lbX=null,lbY=null;
+function lbShow(src,alt,dir){$("lbc").innerHTML=src?`<img src="${src}" alt="${esc(alt)}" class="${dir||""}">`:`<div class="big">🃏</div>`}
+function lbSet(side,anim){
+ if(!lbIt)return;lbSide=side;
+ lbShow(side==="alb"?lbIt.img:lbIt.img2,lbIt.name,anim?(side==="alb"?"fl":"fr"):"");
+ $("lbt").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x.dataset.lt===side));
+}
 function openLb(it){
- const two=!!(it.img2&&it.img);
- lbShow(two?it.img2:it.img,it.name);
+ lbIt=it;const two=!!(it.img2&&it.img);
+ $("lb").classList.toggle("two",two);
  const t=$("lbt");t.className=two?"on":"";
- t.innerHTML=two?`<button type="button" data-lt="cover">Cover</button><button type="button" class="on" data-lt="inc">Inclusions</button>`:"";
- t.onclick=e=>{const b=e.target.closest("[data-lt]");if(!b)return;e.stopPropagation();lbShow(b.dataset.lt==="cover"?it.img:it.img2,it.name);t.querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b))};
+ t.innerHTML=two?`<button type="button" data-lt="alb">Album</button><button type="button" data-lt="inc">Inclusions</button>`:"";
+ t.onclick=e=>{const b=e.target.closest("[data-lt]");if(!b)return;e.stopPropagation();if(b.dataset.lt!==lbSide)lbSet(b.dataset.lt,true)};
+ if(two)lbSet("inc",false);else{lbSide="alb";lbShow(it.img,it.name)}
  $("lbn").textContent=it.name+(it.member?" · "+it.member:"")+(typeof it.price==="number"?" · "+fmtP(it.price):"");
  const b=$("lbb"),s=$("lbs");b.style.display="none";s.style.display="none";
  if(it.owned){s.className="hv";s.textContent="HAVE";s.style.display="inline-block"}
@@ -450,8 +460,15 @@ function openLb(it){
  else{s.className="buy";s.textContent="buy";s.style.display="inline-block"}
  $("lb").classList.add("on");
 }
+const lbTwo=()=>lbIt&&lbIt.img&&lbIt.img2&&$("lb").classList.contains("on");
+$("lb").addEventListener("touchstart",e=>{const t=e.touches[0];lbX=t.clientX;lbY=t.clientY},{passive:true});
+$("lb").addEventListener("touchend",e=>{
+ if(lbX===null)return;const t=e.changedTouches[0],dx=t.clientX-lbX,dy=t.clientY-lbY;lbX=null;
+ if(lbTwo()&&Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)*1.5){lbSw=Date.now();lbSet(lbSide==="inc"?"alb":"inc",true)}
+},{passive:true});
+document.addEventListener("keydown",e=>{if(lbTwo()&&(e.key==="ArrowLeft"||e.key==="ArrowRight"))lbSet(lbSide==="inc"?"alb":"inc",true)});
 function closeLb(){$("lb").classList.remove("on")}
-$("lb").onclick=e=>{if(!e.target.closest("#lbb,#lbt"))closeLb()};
+$("lb").onclick=e=>{if(Date.now()-lbSw<400)return;if(!e.target.closest("#lbb,#lbt"))closeLb()};
 $("lbx").onclick=closeLb;
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLb()});
 
@@ -521,8 +538,8 @@ grid.addEventListener("contextmenu",e=>e.preventDefault());
 
 $("fm").innerHTML=MEMBERS.map(m=>`<option>${esc(m)}</option>`).join("");
 let dlgKind="pc",tmpImg2="",tmpSrc2="";
-function openDlg(id){
- dlgKind=curView==="merch"?"alb":"pc";
+function openDlg(id,kind){
+ dlgKind=kind||(curView==="merch"?"alb":"pc");
  editId=id||null;const it=id?(dlgKind==="alb"?albums:items).find(x=>x.id===id):null;
  $("dt").textContent=dlgKind==="alb"?(it?"Edit album":"New album"):(it?"Edit PC":"New PC");
  $("fmL").style.display=$("fm").style.display=dlgKind==="alb"?"none":"";
@@ -530,7 +547,7 @@ function openDlg(id){
  $("fnL").textContent=A?"Album name":"Name / album";$("fn").placeholder=A?"e.g. Karma - Ceremony version":"e.g. ATE – Lucky Draw";
  $("fnoteL").textContent=A?"Notes / description (version, member version, where bought…)":"Notes / description (keywords, price paid, where bought…)";
  $("fnote").placeholder=A?"e.g. member version, vinted, €12":"e.g. hoodie, vinted, €12";
- $("phL").textContent=A?"Cover photo (shown in the overview)":"Photo";
+ $("phL").textContent=A?"Album photo (shown in the overview)":"Photo";
  tmpImg2=(A&&it&&it.img2)||"";tmpSrc2="";$("ff2").value="";$("ff2N").textContent="No file chosen";
  $("pv2").src=tmpImg2;$("pv2").style.display=tmpImg2?"block":"none";$("pEdit2").style.display=$("pRm2").style.display=tmpImg2?"inline-block":"none";
  $("ph2sec").style.display=A?"":"none";$("fn").value=it?it.name:"";
@@ -560,7 +577,7 @@ $("sv").onclick=async()=>{
   delete data.member;data.img2=tmpImg2;
   if(editId)Object.assign(albums.find(x=>x.id===editId),data);
   else{const ni={id:uid(),owned:false,otw:false,...data};const first=albums.findIndex(i=>i.owned||i.otw);if(first<0)albums.push(ni);else albums.splice(first,0,ni)}
-  if(await saveAlbums()){$("dlg").close();renderMerch()}
+  if(await saveAlbums()){$("dlg").close();renderMerch();if(curView==="price")renderPrice()}
   return;
  }
  if(editId)Object.assign(items.find(x=>x.id===editId),data);
@@ -1200,41 +1217,49 @@ if(window.ResizeObserver){const ro=new ResizeObserver(setHdr);ro.observe(documen
 function parsePrice(v){const t=String(v||"").trim().replace(/[€\s]/g,"").replace(",",".");if(!t)return null;const n=parseFloat(t);return isFinite(n)&&n>=0?Math.round(n*100)/100:null}
 function fmtP(n){return "€"+(Math.round(n*100)%100===0?String(Math.round(n)):n.toFixed(2).replace(".",","))}
 let priceDir="desc",pMin=null,pMax=null;
+let pType="All";
 function buildPriceBar(){
- $("vPrice").innerHTML=`<div class="pbar"><button class="chip on" id="pDir" type="button"></button><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="grid" id="pList"></div>`;
+ $("vPrice").innerHTML=`<div class="pbar"><button class="chip" data-pt="All" type="button">All</button><button class="chip" data-pt="PC" type="button">PC</button><button class="chip" data-pt="Merch" type="button">Merch</button><button class="chip on" id="pDir" type="button"></button><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="grid" id="pList"></div>`;
  const setDir=()=>{$("pDir").textContent=priceDir==="desc"?"Expensive → cheap":"Cheap → expensive"};setDir();
  $("pDir").onclick=()=>{priceDir=priceDir==="desc"?"asc":"desc";setDir();renderPrice()};
  $("pMin").oninput=e=>{pMin=parsePrice(e.target.value);renderPrice()};
  $("pMax").oninput=e=>{pMax=parsePrice(e.target.value);renderPrice()};
+ $("vPrice").querySelectorAll("[data-pt]").forEach(b=>b.onclick=()=>{pType=b.dataset.pt;renderPrice()});
  $("pList").onclick=e=>{
   const b=e.target.closest("[data-a]");if(!b)return;
-  const it=items.find(x=>x.id===b.closest(".c")?.dataset.id);if(!it)return;
-  if(b.dataset.a==="go")openLb(it);else if(b.dataset.a==="e")openDlg(it.id);
+  const card=b.closest(".c"),alb=card&&card.dataset.k==="alb";
+  const it=(alb?albums:items).find(x=>x.id===(card&&card.dataset.id));if(!it)return;
+  if(b.dataset.a==="go")openLb(it);else if(b.dataset.a==="e")openDlg(it.id,alb?"alb":"pc");
  };
 }
 function renderPrice(){
  if(!$("pList"))buildPriceBar();
- const list=items.filter(i=>{
+ $("vPrice").querySelectorAll("[data-pt]").forEach(b=>b.classList.toggle("on",b.dataset.pt===pType));
+ const ok=i=>{
   if(typeof i.price!=="number")return false;
-  if(!searchMatch(i)||!memberMatches(i,filterMember))return false;
-  if(filterStatus==="WTB"&&(i.owned||i.otw))return false;
+  if(!searchMatch(i))return false;
+  if(i.member!==undefined&&!memberMatches(i,filterMember))return false;
+  if(filterStatus==="WTB"&&(i.owned||i.otw||i.sell==="sold"))return false;
   if(filterStatus==="OTW"&&!i.otw)return false;
   if(filterStatus==="HAVE"&&!i.owned)return false;
   if(pMin!==null&&i.price<pMin)return false;
   if(pMax!==null&&i.price>pMax)return false;
   return true;
- }).sort((a,b)=>priceDir==="desc"?b.price-a.price:a.price-b.price);
- const sum=list.reduce((t,i)=>t+i.price,0);
- $("pTot").textContent=list.length+" PC"+(list.length===1?"":"'s")+" · "+fmtP(sum);
- const none=items.some(i=>typeof i.price==="number");
- $("pList").innerHTML=list.length?list.map(it=>{
+ };
+ const pcs=pType==="Merch"?[]:items.filter(ok).map(it=>({it,k:"pc"}));
+ const als=pType==="PC"?[]:albums.filter(ok).map(it=>({it,k:"alb"}));
+ const list=[...pcs,...als].sort((a,b)=>priceDir==="desc"?b.it.price-a.it.price:a.it.price-b.it.price);
+ const sumOf=l=>l.reduce((t,x)=>t+x.it.price,0),sum=sumOf(list),n=list.length;
+ const word=pType==="PC"?"PC"+(n===1?"":"'s"):pType==="Merch"?"album"+(n===1?"":"s"):"item"+(n===1?"":"s");
+ $("pTot").innerHTML=n+" "+word+" · "+fmtP(sum)+(pType==="All"&&pcs.length&&als.length?`<br><span style="font-size:11px">PC ${fmtP(sumOf(pcs))} · Merch ${fmtP(sumOf(als))}</span>`:"");
+ const none=items.some(i=>typeof i.price==="number")||albums.some(i=>typeof i.price==="number");
+ $("pList").innerHTML=list.length?list.map(({it,k})=>{
   const tag=it.sell==="sold"?`<span class="tag sd">SOLD</span>`:it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
-  return `<div class="c" data-id="${esc(it.id)}"><div class="pw"><button class="ph" data-a="go">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}</button></div>
-  <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div><div class="pp">${fmtP(it.price)}</div>
-  <div class="bar"><button data-a="e">✏️</button></div></div></div>`}).join(""):
-  `<div class="empty" style="grid-column:1/-1">${none?"No results with these filters 🥺":"No prices filled in yet 💶<br>Tap ✏️ on a PC and fill in “Price paid”."}</div>`;
+  return `<div class="c" data-id="${esc(it.id)}" data-k="${k}"><div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">${k==="alb"?"💿":"🃏"}</div>`}</button></div>
+  <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${k==="alb"?"💿 Merch":esc(it.member)}</span>${tag}</div><div class="pp">${fmtP(it.price)}</div>
+  <div class="bar"><button data-a="e" type="button">✏️</button></div></div></div>`}).join(""):
+  `<div class="empty" style="grid-column:1/-1">${none?"No results with these filters 🥺":"No prices filled in yet 💶<br>Tap ✏️ on a PC or album and fill in “Price paid”."}</div>`;
 }
-
 /* ===== MERCH (albums) ===== */
 async function saveAlbums(){
  try{await dbPut("albums",albums);if(syncEnabled){lsSet(dirtyFlag(),"1");queueCloudSync()}return true}
@@ -1245,11 +1270,11 @@ const firstAct=l=>l.findIndex(x=>x.owned||x.otw);
 function putFront(l,it){const p=firstAct(l);if(p<0)l.push(it);else l.splice(p,0,it);return l}
 function renderMerch(){
  const el=$("vMerch");
- const tot=albums.length,own=albums.filter(a=>a.owned).length,otw=albums.filter(a=>a.otw).length;
+ const live=albums.filter(a=>a.sell!=="sold"),tot=live.length,own=live.filter(a=>a.owned).length,otw=live.filter(a=>a.otw).length;
  $("mpg").style.width=(tot?own/tot*100:0)+"%";
  $("mst").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
  $("mpc").textContent=tot?Math.round(own/tot*100)+"%":"";
- const base=albums.filter(a=>searchMatch(a,mQ));
+ const base=live.filter(a=>searchMatch(a,mQ));
  const cO=base.filter(a=>a.owned).length,cT=base.filter(a=>a.otw).length,cW=base.length-cO-cT;
  const ch=(k,l,n)=>`<button class="chip ${aSt===k?"on":""}" data-ms="${k}" type="button">${l} <span class="chip-count">${n}</span></button>`;
  $("mchips").innerHTML=ch("WTB","WTB",cW)+ch("OTW","OTW",cT)+ch("HAVE","HAVE",cO)+`<button class="chip ${(mOpen||mQ)?"on":""}" id="mbtn" type="button" aria-label="Search">🔍</button>`;
@@ -1287,50 +1312,54 @@ $("vMerch").onclick=async e=>{
 };
 
 /* ===== SELL ===== */
-let sSt="All",sMem="All",sQ="",sOpen=false;
+let sSt="All",sMem="All",sQ="",sOpen=false,sType="All";
 const sgn=n=>(n>0?"+":n<0?"−":"±")+fmtP(Math.abs(n));
 const profitOf=it=>(it.sell==="sold"&&typeof it.soldPrice==="number"&&typeof it.price==="number")?Math.round((it.soldPrice-it.price)*100)/100:null;
 function renderSell(){
  const el=$("vSell");
- const sold=items.filter(i=>i.sell==="sold"),wts=items.filter(i=>i.sell==="wts"),have=items.filter(i=>i.owned&&i.sell!=="wts"&&i.sell!=="sold");
+ const E=(l,k)=>l.map(it=>({it,k}));
+ const src=[...(sType==="Merch"?[]:E(items,"pc")),...(sType==="PC"?[]:E(albums,"alb"))];
+ const sold=src.filter(x=>x.it.sell==="sold"),wts=src.filter(x=>x.it.sell==="wts"),have=src.filter(x=>x.it.owned&&x.it.sell!=="wts"&&x.it.sell!=="sold");
  const all=[...have,...wts,...sold];
- const recv=sold.reduce((t,i)=>t+(typeof i.soldPrice==="number"?i.soldPrice:0),0);
- const withP=sold.filter(i=>profitOf(i)!==null),prof=withP.reduce((t,i)=>t+profitOf(i),0),noP=sold.length-withP.length;
+ const recv=sold.reduce((t,x)=>t+(typeof x.it.soldPrice==="number"?x.it.soldPrice:0),0);
+ const withP=sold.filter(x=>profitOf(x.it)!==null),prof=withP.reduce((t,x)=>t+profitOf(x.it),0),noP=sold.length-withP.length;
  $("spg").style.width=((sold.length+wts.length)?sold.length/(sold.length+wts.length)*100:0)+"%";
  $("sst").textContent=sold.length+" sold · "+wts.length+" to sell"+(noP?" · "+noP+" without paid price":"");
  $("spc").innerHTML=sold.length?`Profit <span class="${prof>=0?"plus":"min"}">${sgn(prof)}</span> · Received ${fmtP(recv)}`:"";
- const fm=i=>(sMem==="All"||i.member===sMem)&&searchMatch(i,sQ);
+ const fm=x=>(x.k==="alb"||sMem==="All"||x.it.member===sMem)&&searchMatch(x.it,sQ);
  const bH=have.filter(fm),bW=wts.filter(fm),bS=sold.filter(fm);
  const ch=(k,l,n)=>`<button class="chip ${sSt===k?"on":""}" data-ss="${k}" type="button">${l} <span class="chip-count">${n}</span></button>`;
- $("schips").innerHTML=`<select id="sMem" class="member-select ${sMem!=="All"?"selected":""}"><option value="All" ${sMem==="All"?"selected":""}>All (${all.length})</option>${MEMBERS.map(m=>`<option value="${esc(m)}" ${sMem===m?"selected":""}>${esc(m)} (${all.filter(i=>i.member===m).length})</option>`).join("")}</select>`+ch("HAVE","HAVE",bH.length)+ch("WTS","WTS",bW.length)+ch("SOLD","SOLD",bS.length)+`<button class="chip ${(sOpen||sQ)?"on":""}" id="sbtn2" type="button" aria-label="Search">🔍</button>`;
+ $("schips").innerHTML=`<select id="sMem" class="member-select ${sMem!=="All"?"selected":""}"><option value="All" ${sMem==="All"?"selected":""}>All (${all.length})</option>${MEMBERS.map(m=>`<option value="${esc(m)}" ${sMem===m?"selected":""}>${esc(m)} (${all.filter(x=>x.k==="pc"&&x.it.member===m).length})</option>`).join("")}</select>`+ch("HAVE","HAVE",bH.length)+ch("WTS","WTS",bW.length)+ch("SOLD","SOLD",bS.length)+`<button class="chip ${(sOpen||sQ)?"on":""}" id="sbtn2" type="button" aria-label="Search">🔍</button>`;
  $("sMem").onchange=e=>{sMem=e.target.value;renderSell()};
  $("schips").querySelectorAll("[data-ss]").forEach(b=>b.onclick=()=>{sSt=sSt===b.dataset.ss?"All":b.dataset.ss;renderSell()});
  $("sbtn2").onclick=()=>{sOpen=!sOpen;$("sqw").style.display=sOpen?"block":"none";if(!sOpen&&sQ){sQ="";$("sq").value="";$("sqx").style.display="none";renderSell();setHdr();return}$("sbtn2").classList.toggle("on",sOpen||!!sQ);if(sOpen)$("sq").focus();setHdr()};
  const vis=sSt==="HAVE"?bH:sSt==="WTS"?bW:sSt==="SOLD"?bS:[...bH,...bW,...bS];
- el.innerHTML=`<div class="grid">`+(vis.length?vis.map(it=>{
+ const tbar=`<div class="pbar">`+["All","PC","Merch"].map(t=>`<button class="chip ${sType===t?"on":""}" data-sty="${t}" type="button">${t}</button>`).join("")+`</div>`;
+ el.innerHTML=tbar+`<div class="grid">`+(vis.length?vis.map(({it,k})=>{
   const isS=it.sell==="sold",isW=it.sell==="wts",pr=profitOf(it);
   const tag=isS?`<span class="tag sd">SOLD</span>`:isW?`<span class="tag wts">WTS</span>`:`<span class="tag hv">HAVE</span>`;
   const line=isS?`Paid ${typeof it.price==="number"?fmtP(it.price):"?"} → sold ${typeof it.soldPrice==="number"?fmtP(it.soldPrice):"?"}`:`Paid ${typeof it.price==="number"?fmtP(it.price):"–"}`;
-  return `<div class="c ${isS?"sold":""} ${isW?"wts":""}" data-id="${esc(it.id)}">
-   <div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">🃏</div>`}</button></div>
+  return `<div class="c ${isS?"sold":""} ${isW?"wts":""}" data-id="${esc(it.id)}" data-k="${k}">
+   <div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">${k==="alb"?"💿":"🃏"}</div>`}</button></div>
    <button class="ck" data-a="sold" type="button" aria-label="Sold">✓</button><button class="tw" data-a="wts" type="button" aria-label="Want to sell"><span>💰</span></button>
-   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${esc(it.member)}</span>${tag}</div>
+   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${k==="alb"?"💿 Merch":esc(it.member)}</span>${tag}</div>
    <div class="sl">${line}</div>${pr!==null?`<div class="pl2 ${pr>=0?"plus":"min"}">${sgn(pr)}</div>`:""}
    <div class="bar"><button data-a="e" type="button">✏️</button></div></div></div>`}).join(""):
-  `<div class="empty" style="grid-column:1/-1">${sQ?"No results for “"+esc(sQ)+"” 🥺":sSt==="WTS"?"Nothing marked to sell yet 💸<br>Open HAVE and tap 💰 on a card.":sSt==="SOLD"?"Nothing sold yet 💸":"No cards here 🥺"}</div>`)+`</div>`;
+  `<div class="empty" style="grid-column:1/-1">${sQ?"No results for “"+esc(sQ)+"” 🥺":sSt==="WTS"?"Nothing marked to sell yet 💸<br>Open HAVE and tap 💰 on a card.":sSt==="SOLD"?"Nothing sold yet 💸":"Nothing here 🥺"}</div>`)+`</div>`;
 }
 $("sq").oninput=e=>{sQ=e.target.value;$("sqx").style.display=sQ?"block":"none";renderSell()};
 $("sqx").onclick=()=>{sQ="";$("sq").value="";$("sqx").style.display="none";renderSell();$("sq").focus()};
-let sdId=null;
+let sdId=null,sdKind="pc";
 function sdPreview(){
  const st=$("sdS").value;$("sdVW").style.display=st==="sold"?"":"none";
  const paid=parsePrice($("sdP").value),got=parsePrice($("sdV").value);
  $("sdPr").className="sub "+(st==="sold"&&paid!==null&&got!==null?(got-paid>=0?"plus":"min"):"");
  $("sdPr").textContent=st==="sold"&&paid!==null&&got!==null?"Profit / loss: "+sgn(Math.round((got-paid)*100)/100):"";
 }
-function openSd(id,preset){
- const it=items.find(x=>x.id===id);if(!it)return;sdId=id;
- $("sdt").textContent="Sell";$("sdn").textContent=it.name+" · "+it.member;
+function openSd(id,preset,kind){
+ sdKind=kind||"pc";
+ const it=(sdKind==="alb"?albums:items).find(x=>x.id===id);if(!it)return;sdId=id;
+ $("sdt").textContent="Sell";$("sdn").textContent=it.name+" · "+(sdKind==="alb"?"💿 Merch":it.member);
  $("sdS").value=preset||it.sell||"";
  $("sdP").value=typeof it.price==="number"?String(it.price).replace(".",","):"";
  $("sdV").value=typeof it.soldPrice==="number"?String(it.soldPrice).replace(".",","):"";
@@ -1341,29 +1370,34 @@ function openSd(id,preset){
 $("sdS").addEventListener("change",sdPreview);
 $("sdCx").onclick=()=>$("sd").close();
 $("sdOk").onclick=async()=>{
- const it=items.find(x=>x.id===sdId);if(!it)return;
+ const alb=sdKind==="alb";
+ const it=(alb?albums:items).find(x=>x.id===sdId);if(!it)return;
  const st=$("sdS").value,got=parsePrice($("sdV").value);
  if(st==="sold"&&got===null){$("sdMs").textContent="Enter how much you sold it for 💶";return}
  const wasSold=it.sell==="sold";
  it.price=parsePrice($("sdP").value);
  it.sell=st;
- if(st==="sold"){it.soldPrice=got;it.owned=false;it.otw=false;items=items.filter(x=>x!==it);items.push(it)}
- else{it.soldPrice=null;if(wasSold){it.owned=true;items=items.filter(x=>x!==it);items.push(it)}}
- if(await save()){$("sd").close();render();if(curView==="sell")renderSell()}
+ const mv=()=>{if(alb)albums=albums.filter(x=>x!==it).concat(it);else items=items.filter(x=>x!==it).concat(it)};
+ if(st==="sold"){it.soldPrice=got;it.owned=false;it.otw=false;mv()}
+ else{it.soldPrice=null;if(wasSold){it.owned=true;mv()}}
+ if(alb?await saveAlbums():await save()){$("sd").close();render();if(curView==="sell")renderSell();if(curView==="merch")renderMerch()}
 };
 $("vSell").onclick=async e=>{
+ const t=e.target.closest("[data-sty]");
+ if(t){sType=t.dataset.sty;renderSell();return}
  const c=e.target.closest("[data-ss]");
  if(c){sSt=c.dataset.ss;renderSell();return}
  const b=e.target.closest("[data-a]");if(!b)return;
- const it=items.find(x=>x.id===(b.closest(".c")||{dataset:{}}).dataset.id);if(!it)return;
- const a=b.dataset.a;
+ const card=b.closest(".c"),alb=!!card&&card.dataset.k==="alb";
+ const it=(alb?albums:items).find(x=>x.id===(card||{dataset:{}}).dataset.id);if(!it)return;
+ const a=b.dataset.a,kind=alb?"alb":"pc";
  if(a==="go")openLb(it);
- else if(a==="e")openSd(it.id);
- else if(a==="sold")openSd(it.id,"sold");
+ else if(a==="e")openSd(it.id,undefined,kind);
+ else if(a==="sold")openSd(it.id,"sold",kind);
  else if(a==="wts"){
-  if(it.sell==="sold"){openSd(it.id,"wts");return}
+  if(it.sell==="sold"){openSd(it.id,"wts",kind);return}
   it.sell=it.sell==="wts"?"":"wts";
-  if(await save())renderSell();
+  if(alb?await saveAlbums():await save())renderSell();
  }
 };
 
