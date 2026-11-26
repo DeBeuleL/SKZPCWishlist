@@ -166,7 +166,7 @@ input[type=color]{height:44px;padding:3px}
 #syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
 #syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
 @media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
-.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}#mbar,#sbar,#pfix{display:none;margin-top:8px}.views.vp #pfix{display:block}#pfix .chips,#stypes{padding-bottom:0;margin-bottom:0}.views.vm #mbar,.views.vs #sbar{display:block}#mbar .stat,#sbar .stat{margin:4px 0 8px}#mbar .search,#sbar .search{margin:8px 0 0}#mbar .chips,#sbar .chips{padding-bottom:0;margin-bottom:0}#sbar .stat{flex-wrap:wrap;gap:2px 12px}#sbar .plus{color:var(--ok);font-weight:700}#sbar .min{color:var(--red);font-weight:700}
+.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}#mbar,#sbar,#pfix{display:none;margin-top:8px}.views.vwl #pfix{display:block}#pfix .chips,#stypes{padding-bottom:0;margin-bottom:0}.views.vm #mbar,.views.vs #sbar{display:block}#mbar .stat,#sbar .stat{margin:4px 0 8px}#mbar .search,#sbar .search{margin:8px 0 0}#mbar .chips,#sbar .chips{padding-bottom:0;margin-bottom:0}#sbar .stat{flex-wrap:wrap;gap:2px 12px}#sbar .plus{color:var(--ok);font-weight:700}#sbar .min{color:var(--red);font-weight:700}
 textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit;resize:none}
 .vp{position:relative}
 .phd{position:absolute;inset:0;container-type:inline-size;overflow:hidden}
@@ -996,7 +996,7 @@ $("pickX").onclick=()=>$("pick").close();
 $("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
 
 function syncHdr(){
- $("views").classList.toggle("nb",["binders","merch","sell"].includes(curView));$("views").classList.toggle("vm",curView==="merch");$("views").classList.toggle("vs",curView==="sell");$("views").classList.toggle("vp",curView==="price");setHdr();$("add").textContent=curView==="merch"?"＋ New album":"＋ New PC";
+ $("views").classList.toggle("nb",["binders","merch","sell"].includes(curView));$("views").classList.toggle("vm",curView==="merch");$("views").classList.toggle("vs",curView==="sell");$("views").classList.toggle("vwl",curView==="price");setHdr();$("add").textContent=curView==="merch"?"＋ New album":"＋ New PC";
  const inB=curView==="binders"&&binders.some(x=>x.id===bId);
  $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
 }
