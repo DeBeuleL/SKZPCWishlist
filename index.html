@@ -166,7 +166,7 @@ input[type=color]{height:44px;padding:3px}
 #syncStatus{font-size:12px;color:var(--mute);margin-top:8px;min-height:16px}
 #syncChoices{display:none;border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
 @media(max-width:520px){.sync-fields{grid-template-columns:1fr}}
-.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}#mbar,#sbar{display:none;margin-top:8px}.views.vm #mbar,.views.vs #sbar{display:block}#mbar .stat,#sbar .stat{margin:4px 0 8px}#mbar .search,#sbar .search{margin:8px 0 0}#mbar .chips,#sbar .chips{padding-bottom:0;margin-bottom:0}#sbar .stat{flex-wrap:wrap;gap:2px 12px}#sbar .plus{color:var(--ok);font-weight:700}#sbar .min{color:var(--red);font-weight:700}
+.views{display:block}.vtabs{display:flex;gap:6px}#colbar{margin-top:8px}#colbar .stat{margin:4px 0 8px}#colbar .search{margin:8px 0 0}#colbar .chips{padding-bottom:0;margin-bottom:0}.views.nb #colbar{display:none}#mbar,#sbar,#pfix{display:none;margin-top:8px}.views.vp #pfix{display:block}#pfix .chips,#stypes{padding-bottom:0;margin-bottom:0}.views.vm #mbar,.views.vs #sbar{display:block}#mbar .stat,#sbar .stat{margin:4px 0 8px}#mbar .search,#sbar .search{margin:8px 0 0}#mbar .chips,#sbar .chips{padding-bottom:0;margin-bottom:0}#sbar .stat{flex-wrap:wrap;gap:2px 12px}#sbar .plus{color:var(--ok);font-weight:700}#sbar .min{color:var(--red);font-weight:700}
 textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:16px;font-family:inherit;resize:none}
 .vp{position:relative}
 .phd{position:absolute;inset:0;container-type:inline-size;overflow:hidden}
@@ -245,7 +245,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <div class="chips" id="chips"></div>
 <div id="qw" style="display:none;position:relative"><input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="qx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div>
-</div><div id="mbar"><div class="prog"><i id="mpg"></i></div><div class="stat"><span id="mst"></span><span id="mpc"></span></div><div class="chips" id="mchips"></div><div id="mqw" style="display:none;position:relative"><input id="mq" class="search" type="search" placeholder="Search album, link or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="mqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div><div id="sbar"><div class="prog"><i id="spg"></i></div><div class="stat"><span id="sst"></span><span id="spc"></span></div><div class="chips" id="schips"></div><div id="sqw" style="display:none;position:relative"><input id="sq" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="sqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div></div>
+</div><div id="mbar"><div class="prog"><i id="mpg"></i></div><div class="stat"><span id="mst"></span><span id="mpc"></span></div><div class="chips" id="mchips"></div><div id="mqw" style="display:none;position:relative"><input id="mq" class="search" type="search" placeholder="Search album, link or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="mqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div><div id="pfix"></div><div id="sbar"><div class="prog"><i id="spg"></i></div><div class="stat"><span id="sst"></span><span id="spc"></span></div><div class="chips" id="schips"></div><div class="chips" id="stypes" style="margin-top:8px"></div><div id="sqw" style="display:none;position:relative"><input id="sq" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="sqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div></div>
 <div id="vCards">
 <div class="grid" id="grid"></div>
 </div>
@@ -996,7 +996,7 @@ $("pickX").onclick=()=>$("pick").close();
 $("pick").addEventListener("click",e=>{if(e.target===$("pick"))$("pick").close()});
 
 function syncHdr(){
- $("views").classList.toggle("nb",["binders","merch","sell"].includes(curView));$("views").classList.toggle("vm",curView==="merch");$("views").classList.toggle("vs",curView==="sell");setHdr();$("add").textContent=curView==="merch"?"＋ New album":"＋ New PC";
+ $("views").classList.toggle("nb",["binders","merch","sell"].includes(curView));$("views").classList.toggle("vm",curView==="merch");$("views").classList.toggle("vs",curView==="sell");$("views").classList.toggle("vp",curView==="price");setHdr();$("add").textContent=curView==="merch"?"＋ New album":"＋ New PC";
  const inB=curView==="binders"&&binders.some(x=>x.id===bId);
  $("hCover").style.display=inB?"":"none";$("hView").style.display=inB?"":"none";$("add").style.display=inB?"none":"";
 }
@@ -1219,12 +1219,13 @@ function fmtP(n){return "€"+(Math.round(n*100)%100===0?String(Math.round(n)):n
 let priceDir="desc",pMin=null,pMax=null;
 let pType="All";
 function buildPriceBar(){
- $("vPrice").innerHTML=`<div class="pbar"><button class="chip" data-pt="All" type="button">All</button><button class="chip" data-pt="PC" type="button">PC</button><button class="chip" data-pt="Merch" type="button">Merch</button><button class="chip on" id="pDir" type="button"></button><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="grid" id="pList"></div>`;
+ $("pfix").innerHTML=`<div class="chips"><button class="chip" data-pt="All" type="button">All</button><button class="chip" data-pt="PC" type="button">PC</button><button class="chip" data-pt="Merch" type="button">Merch</button><button class="chip on" id="pDir" type="button"></button></div>`;
+ $("vPrice").innerHTML=`<div class="pbar"><input id="pMin" inputmode="decimal" placeholder="Min €" autocomplete="off"><span class="sub">–</span><input id="pMax" inputmode="decimal" placeholder="Max €" autocomplete="off"><span class="tot" id="pTot"></span></div><div class="sub" id="pNet" style="margin:0 0 12px;font-weight:700"></div><div class="grid" id="pList"></div>`;
  const setDir=()=>{$("pDir").textContent=priceDir==="desc"?"Expensive → cheap":"Cheap → expensive"};setDir();
  $("pDir").onclick=()=>{priceDir=priceDir==="desc"?"asc":"desc";setDir();renderPrice()};
  $("pMin").oninput=e=>{pMin=parsePrice(e.target.value);renderPrice()};
  $("pMax").oninput=e=>{pMax=parsePrice(e.target.value);renderPrice()};
- $("vPrice").querySelectorAll("[data-pt]").forEach(b=>b.onclick=()=>{pType=b.dataset.pt;renderPrice()});
+ $("pfix").querySelectorAll("[data-pt]").forEach(b=>b.onclick=()=>{pType=b.dataset.pt;renderPrice()});
  $("pList").onclick=e=>{
   const b=e.target.closest("[data-a]");if(!b)return;
   const card=b.closest(".c"),alb=card&&card.dataset.k==="alb";
@@ -1234,7 +1235,7 @@ function buildPriceBar(){
 }
 function renderPrice(){
  if(!$("pList"))buildPriceBar();
- $("vPrice").querySelectorAll("[data-pt]").forEach(b=>b.classList.toggle("on",b.dataset.pt===pType));
+ $("pfix").querySelectorAll("[data-pt]").forEach(b=>b.classList.toggle("on",b.dataset.pt===pType));
  const ok=i=>{
   if(typeof i.price!=="number")return false;
   if(!searchMatch(i))return false;
@@ -1252,6 +1253,8 @@ function renderPrice(){
  const sumOf=l=>l.reduce((t,x)=>t+x.it.price,0),sum=sumOf(list),n=list.length;
  const word=pType==="PC"?"PC"+(n===1?"":"'s"):pType==="Merch"?"album"+(n===1?"":"s"):"item"+(n===1?"":"s");
  $("pTot").innerHTML=n+" "+word+" · "+fmtP(sum)+(pType==="All"&&pcs.length&&als.length?`<br><span style="font-size:11px">PC ${fmtP(sumOf(pcs))} · Merch ${fmtP(sumOf(als))}</span>`:"");
+ {const all=[...items,...albums],spent=all.reduce((t,x)=>t+(typeof x.price==="number"?x.price:0),0),got=all.reduce((t,x)=>t+(x.sell==="sold"&&typeof x.soldPrice==="number"?x.soldPrice:0),0),net=Math.round((spent-got)*100)/100;
+  $("pNet").innerHTML=`Net spent (all PC + merch): <span style="color:var(--ink)">${fmtP(net)}</span> <span style="font-weight:400">· ${fmtP(spent)} paid − ${fmtP(got)} received</span>`}
  const none=items.some(i=>typeof i.price==="number")||albums.some(i=>typeof i.price==="number");
  $("pList").innerHTML=list.length?list.map(({it,k})=>{
   const tag=it.sell==="sold"?`<span class="tag sd">SOLD</span>`:it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
@@ -1334,8 +1337,9 @@ function renderSell(){
  $("schips").querySelectorAll("[data-ss]").forEach(b=>b.onclick=()=>{sSt=sSt===b.dataset.ss?"All":b.dataset.ss;renderSell()});
  $("sbtn2").onclick=()=>{sOpen=!sOpen;$("sqw").style.display=sOpen?"block":"none";if(!sOpen&&sQ){sQ="";$("sq").value="";$("sqx").style.display="none";renderSell();setHdr();return}$("sbtn2").classList.toggle("on",sOpen||!!sQ);if(sOpen)$("sq").focus();setHdr()};
  const vis=sSt==="HAVE"?bH:sSt==="WTS"?bW:sSt==="SOLD"?bS:[...bH,...bW,...bS];
- const tbar=`<div class="pbar">`+["All","PC","Merch"].map(t=>`<button class="chip ${sType===t?"on":""}" data-sty="${t}" type="button">${t}</button>`).join("")+`</div>`;
- el.innerHTML=tbar+`<div class="grid">`+(vis.length?vis.map(({it,k})=>{
+ $("stypes").innerHTML=["All","PC","Merch"].map(t=>`<button class="chip ${sType===t?"on":""}" data-sty="${t}" type="button">${t}</button>`).join("");
+ $("stypes").querySelectorAll("[data-sty]").forEach(b=>b.onclick=()=>{sType=b.dataset.sty;renderSell()});
+ el.innerHTML=`<div class="grid">`+(vis.length?vis.map(({it,k})=>{
   const isS=it.sell==="sold",isW=it.sell==="wts",pr=profitOf(it);
   const tag=isS?`<span class="tag sd">SOLD</span>`:isW?`<span class="tag wts">WTS</span>`:`<span class="tag hv">HAVE</span>`;
   const line=isS?`Paid ${typeof it.price==="number"?fmtP(it.price):"?"} → sold ${typeof it.soldPrice==="number"?fmtP(it.soldPrice):"?"}`:`Paid ${typeof it.price==="number"?fmtP(it.price):"–"}`;
