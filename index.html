@@ -246,7 +246,7 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <div class="stat"><span id="st"></span><span id="pc"></span></div>
 <div class="chips" id="chips"></div>
 <div id="qw" style="display:none;position:relative"><input id="q" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="qx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div>
-</div><div id="mbar"><div class="prog"><i id="mpg"></i></div><div class="stat"><span id="mst"></span><span id="mpc"></span></div><div class="chips" id="mchips"></div><div id="mqw" style="display:none;position:relative"><input id="mq" class="search" type="search" placeholder="Search album, link or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="mqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div><div id="pfix"></div><div id="sbar"><div class="prog"><i id="spg"></i></div><div class="stat"><span id="sst"></span><span id="spc"></span></div><div class="chips" id="schips"></div><div class="chips" id="stypes" style="margin-top:8px"></div><div id="sqw" style="display:none;position:relative"><input id="sq" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="sqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div></div>
+</div><div id="mbar"><div class="prog"><i id="mpg"></i></div><div class="stat"><span id="mst"></span><span id="mpc"></span></div><div class="chips" id="mchips"></div><div id="mqw" style="display:none;position:relative"><input id="mq" class="search" type="search" placeholder="Search merch, link or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="mqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div><div id="pfix"></div><div id="sbar"><div class="prog"><i id="spg"></i></div><div class="stat"><span id="sst"></span><span id="spc"></span></div><div class="chips" id="schips"></div><div class="chips" id="stypes" style="margin-top:8px"></div><div id="sqw" style="display:none;position:relative"><input id="sq" class="search" type="search" placeholder="Search member, unit, title or notes…" autocomplete="off" autocapitalize="none" enterkeyhint="search" style="padding-right:40px"><button id="sqx" type="button" aria-label="Clear search" style="display:none;position:absolute;right:6px;top:calc(50% + 4px);transform:translateY(-50%);width:28px;height:28px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:13px;cursor:pointer;padding:0">✕</button></div></div></div>
 <div id="vCards">
 <div class="grid" id="grid"></div>
 </div>
@@ -294,8 +294,9 @@ input[type=range]{padding:0;border:0;background:none;accent-color:var(--red)}
 <label>Buy link (Mercari, Carousell, Twitter, shop…)</label><input id="fl" type="url" inputmode="url" placeholder="https://…">
 <label id="fnoteL">Notes / description (keywords, price paid, where bought…)</label><textarea id="fnote" rows="3" placeholder="e.g. hoodie, vinted, €12"></textarea>
 <label>Price paid (€)</label><input id="fp" inputmode="decimal" autocomplete="off" placeholder="e.g. 12.50">
+<label style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:13px"><input type="checkbox" id="fpx" style="width:auto;margin:0"> Don't include in totals (price is already counted in the separate items)</label>
 <label id="phL">Photo</label><input id="ff" type="file" accept="image/*" hidden><label class="chip" for="ff" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ffN">No file chosen</span>
-<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div id="ph2sec" style="display:none"><label>Inclusions photo (shown when you tap the album)</label><input id="ff2" type="file" accept="image/*" hidden><label class="chip" for="ff2" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ff2N">No file chosen</span>
+<img id="pv" alt=""><button id="pEdit" class="chip" type="button" style="display:none;margin-top:8px">✂️ Edit photo</button><div id="ph2sec" style="display:none"><label>Inclusions photo (shown when you tap the merch)</label><input id="ff2" type="file" accept="image/*" hidden><label class="chip" for="ff2" style="display:inline-block">📷 Choose file</label> <span class="sub" id="ff2N">No file chosen</span>
 <img id="pv2" alt=""><div style="display:flex;gap:6px;flex-wrap:wrap"><button id="pEdit2" class="chip" type="button" style="display:none;margin-top:8px">✂️ Crop photo</button><button id="pRm2" class="chip" type="button" style="display:none;margin-top:8px">Remove photo</button></div></div>
 <div class="msg" id="ms"></div>
 <div class="row"><button id="cx">Cancel</button><button class="pri" id="sv">Save</button></div>
@@ -322,7 +323,7 @@ let db,items=[],filterMember="All",filterStatus="All",editId=null,tmpImg="",tmpS
 const $=id=>document.getElementById(id),grid=$("grid");
 const esc=s=>String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm=u=>{u=(u||"").trim();if(!u)return"";return /^https?:\/\//i.test(u)?u:"https://"+u};
-const weight=i=>i.member==="OT8"?8:1;
+const weight=i=>i.member==="OT8"?0:1;
 const count=arr=>arr.reduce((n,i)=>n+weight(i),0);
 const grp=i=>i.owned?2:i.otw?1:0;
 
@@ -415,11 +416,11 @@ function render(){
  const L=items.filter(i=>i.sell!=="sold");
  const own=count(L.filter(i=>i.owned)),tot=count(L),otw=count(L.filter(i=>i.otw));
  const base=L.filter(i=>memberMatches(i,filterMember)&&searchMatch(i));
- const cOwn=count(base.filter(i=>i.owned)),cOtw=count(base.filter(i=>i.otw)),cWtb=count(base.filter(i=>!i.owned&&!i.otw));
+ const cnt=filterMember==="OT8"?(a=>a.length):count;const cOwn=cnt(base.filter(i=>i.owned)),cOtw=cnt(base.filter(i=>i.otw)),cWtb=cnt(base.filter(i=>!i.owned&&!i.otw));
  $("pg").style.width=(tot?own/tot*100:0)+"%";
  $("st").textContent=own+" of "+tot+" owned"+(otw?" · "+otw+" on the way":"");
  $("pc").textContent=tot?Math.round(own/tot*100)+"%":"";
- const memberOptions=MEMBERS.map(m=>`<option value="${esc(m)}" ${filterMember===m?"selected":""}>${esc(m)} (${count(getMemberItems(m))})</option>`).join("")+KEYWORDS.map(k=>`<option value="kw:${esc(k)}" ${filterMember==="kw:"+k?"selected":""}>${esc(k)} (${count(getMemberItems("kw:"+k))})</option>`).join("");
+ const memberOptions=MEMBERS.map(m=>`<option value="${esc(m)}" ${filterMember===m?"selected":""}>${esc(m)} (${m==="OT8"?getMemberItems(m).length:count(getMemberItems(m))})</option>`).join("")+KEYWORDS.map(k=>`<option value="kw:${esc(k)}" ${filterMember==="kw:"+k?"selected":""}>${esc(k)} (${count(getMemberItems("kw:"+k))})</option>`).join("");
  $("chips").innerHTML=`
  <select id="memberFilter" class="member-select ${filterMember!=="All"?"selected":""}">
  <option value="All" ${filterMember==="All"?"selected":""}>All (${tot})</option>${memberOptions}</select>
@@ -450,7 +451,7 @@ function openLb(it){
  lbIt=it;const two=!!(it.img2&&it.img);
  $("lb").classList.toggle("two",two);
  const t=$("lbt");t.className=two?"on":"";
- t.innerHTML=two?`<button type="button" data-lt="alb">Album</button><button type="button" data-lt="inc">Inclusions</button>`:"";
+ t.innerHTML=two?`<button type="button" data-lt="alb">Merch</button><button type="button" data-lt="inc">Inclusions</button>`:"";
  t.onclick=e=>{const b=e.target.closest("[data-lt]");if(!b)return;e.stopPropagation();if(b.dataset.lt!==lbSide)lbSet(b.dataset.lt,true)};
  if(two)lbSet("inc",false);else{lbSide="alb";lbShow(it.img,it.name)}
  $("lbn").textContent=it.name+(it.member?" · "+it.member:"")+(typeof it.price==="number"?" · "+fmtP(it.price):"");
@@ -542,18 +543,18 @@ let dlgKind="pc",tmpImg2="",tmpSrc2="";
 function openDlg(id,kind){
  dlgKind=kind||(curView==="merch"?"alb":"pc");
  editId=id||null;const it=id?(dlgKind==="alb"?albums:items).find(x=>x.id===id):null;
- $("dt").textContent=dlgKind==="alb"?(it?"Edit album":"New album"):(it?"Edit PC":"New PC");
+ $("dt").textContent=dlgKind==="alb"?(it?"Edit merch":"New merch"):(it?"Edit PC":"New PC");
  $("fmL").style.display=$("fm").style.display=dlgKind==="alb"?"none":"";
  const A=dlgKind==="alb";
- $("fnL").textContent=A?"Album name":"Name / album";$("fn").placeholder=A?"e.g. Karma - Ceremony version":"e.g. ATE – Lucky Draw";
- $("fnoteL").textContent=A?"Notes / description (version, member version, where bought…)":"Notes / description (keywords, price paid, where bought…)";
+ $("fnL").textContent=A?"Merch name":"Name / album";$("fn").placeholder=A?"e.g. Light stick, hoodie, album…":"e.g. ATE – Lucky Draw";
+ $("fnoteL").textContent=A?"Notes / description (version, member, where bought…)":"Notes / description (keywords, price paid, where bought…)";
  $("fnote").placeholder=A?"e.g. member version, vinted, €12":"e.g. hoodie, vinted, €12";
- $("phL").textContent=A?"Album photo (shown in the overview)":"Photo";
+ $("phL").textContent=A?"Merch photo (shown in the overview)":"Photo";
  tmpImg2=(A&&it&&it.img2)||"";tmpSrc2="";$("ff2").value="";$("ff2N").textContent="No file chosen";
  $("pv2").src=tmpImg2;$("pv2").style.display=tmpImg2?"block":"none";$("pEdit2").style.display=$("pRm2").style.display=tmpImg2?"inline-block":"none";
  $("ph2sec").style.display=A?"":"none";$("fn").value=it?it.name:"";
  $("fm").value=it?it.member:(MEMBERS.includes(filterMember)?filterMember:"Bang Chan");
- $("fl").value=it?it.link:"";$("fp").value=(it&&typeof it.price==="number")?String(it.price).replace(".",","):"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
+ $("fpx").checked=!!(it&&it.noCalc);$("fl").value=it?it.link:"";$("fp").value=(it&&typeof it.price==="number")?String(it.price).replace(".",","):"";$("fnote").value=it?(it.notes||""):"";$("ff").value="";fileName("ff");$("ms").textContent="";
  tmpImg=it?it.img:"";tmpSrc="";const pv=$("pv");pv.src=tmpImg;pv.style.display=tmpImg?"block":"none";$("pEdit").style.display=tmpImg?"inline-block":"none";$("dlg").showModal();try{if(document.activeElement&&document.activeElement!==$("dlg"))document.activeElement.blur();$("dlg").focus({preventScroll:true})}catch(_){}
 }
 $("add").onclick=()=>openDlg();
@@ -572,8 +573,8 @@ $("ff").onchange=e=>{
  r.readAsDataURL(f);
 };
 $("sv").onclick=async()=>{
- const name=$("fn").value.trim();if(!name){$("ms").textContent=dlgKind==="alb"?"Give your album a name 💿":"Give your PC a name 💌";return}
- const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),price:parsePrice($("fp").value),img:tmpImg};
+ const name=$("fn").value.trim();if(!name){$("ms").textContent=dlgKind==="alb"?"Give your merch a name 💿":"Give your PC a name 💌";return}
+ const data={name,member:$("fm").value,link:norm($("fl").value),notes:$("fnote").value.trim(),price:parsePrice($("fp").value),noCalc:$("fpx").checked,img:tmpImg};
  if(dlgKind==="alb"){
   delete data.member;data.img2=tmpImg2;
   if(editId)Object.assign(albums.find(x=>x.id===editId),data);
@@ -1251,18 +1252,18 @@ function renderPrice(){
  const pcs=pType==="Merch"?[]:items.filter(ok).map(it=>({it,k:"pc"}));
  const als=pType==="PC"?[]:albums.filter(ok).map(it=>({it,k:"alb"}));
  const list=[...pcs,...als].sort((a,b)=>priceDir==="desc"?b.it.price-a.it.price:a.it.price-b.it.price);
- const sumOf=l=>l.reduce((t,x)=>t+x.it.price,0),sum=sumOf(list),n=list.length;
- const word=pType==="PC"?"PC"+(n===1?"":"'s"):pType==="Merch"?"album"+(n===1?"":"s"):"item"+(n===1?"":"s");
- $("pTot").innerHTML=n+" "+word+" · "+fmtP(sum)+(pType==="All"&&pcs.length&&als.length?`<br><span style="font-size:11px">PC ${fmtP(sumOf(pcs))} · Merch ${fmtP(sumOf(als))}</span>`:"");
- {const all=[...items,...albums],spent=all.reduce((t,x)=>t+(typeof x.price==="number"?x.price:0),0),got=all.reduce((t,x)=>t+(x.sell==="sold"&&typeof x.soldPrice==="number"?x.soldPrice:0),0),net=Math.round((spent-got)*100)/100;
+ const sumOf=l=>l.reduce((t,x)=>t+(x.it.noCalc?0:x.it.price),0),gotOf=l=>l.reduce((t,x)=>t+(x.it.sell==="sold"&&typeof x.it.soldPrice==="number"&&!x.it.noCalc?x.it.soldPrice:0),0),netOf=l=>Math.round((sumOf(l)-gotOf(l))*100)/100,sum=netOf(list),n=list.filter(x=>!x.it.noCalc).length;
+ const word=pType==="PC"?"PC"+(n===1?"":"'s"):pType==="Merch"?"merch":"item"+(n===1?"":"s");
+ $("pTot").innerHTML=n+" "+word+" · "+fmtP(sum)+(pType==="All"&&pcs.length&&als.length?`<br><span style="font-size:11px">PC ${fmtP(netOf(pcs))} · Merch ${fmtP(netOf(als))}</span>`:"");
+ {const all=[...items,...albums],spent=all.reduce((t,x)=>t+(typeof x.price==="number"&&!x.noCalc?x.price:0),0),got=all.reduce((t,x)=>t+(x.sell==="sold"&&typeof x.soldPrice==="number"&&!x.noCalc?x.soldPrice:0),0),net=Math.round((spent-got)*100)/100;
   $("pNet").innerHTML=`Net spent (all PC + merch): <span style="color:var(--ink)">${fmtP(net)}</span> <span style="font-weight:400">· ${fmtP(spent)} paid − ${fmtP(got)} received</span>`}
  const none=items.some(i=>typeof i.price==="number")||albums.some(i=>typeof i.price==="number");
  $("pList").innerHTML=list.length?list.map(({it,k})=>{
   const tag=it.sell==="sold"?`<span class="tag sd">SOLD</span>`:it.owned?`<span class="tag hv">HAVE</span>`:it.otw?`<span class="tag ot">OTW</span>`:`<span class="tag buy">WTB</span>`;
   return `<div class="c" data-id="${esc(it.id)}" data-k="${k}"><div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">${k==="alb"?"💿":"🃏"}</div>`}</button></div>
-  <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${k==="alb"?"💿 Merch":esc(it.member)}</span>${tag}</div><div class="pp">${fmtP(it.price)}</div>
+  <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${k==="alb"?"💿 Merch":esc(it.member)}</span>${tag}</div><div class="pp"${it.noCalc?' style="color:var(--mute)"':""}>${fmtP(it.price)}${it.noCalc?`<span style="font-size:10px;font-weight:600;color:var(--mute)"> · not counted</span>`:""}</div>
   <div class="bar"><button data-a="e" type="button">✏️</button></div></div></div>`}).join(""):
-  `<div class="empty" style="grid-column:1/-1">${none?"No results with these filters 🥺":"No prices filled in yet 💶<br>Tap ✏️ on a PC or album and fill in “Price paid”."}</div>`;
+  `<div class="empty" style="grid-column:1/-1">${none?"No results with these filters 🥺":"No prices filled in yet 💶<br>Tap ✏️ on a PC or merch item and fill in “Price paid”."}</div>`;
 }
 /* ===== MERCH (albums) ===== */
 async function saveAlbums(){
@@ -1291,9 +1292,9 @@ function renderMerch(){
   return `<div class="c ${it.owned?"own":""} ${it.otw?"otw":""}" data-id="${esc(it.id)}">
    <div class="pw"><button class="ph" data-a="go" type="button">${it.img?`<img src="${it.img}" alt="${esc(it.name)}" draggable="false">`:`<div class="no">💿</div>`}<span class="rk">#${rank}</span></button></div>
    <button class="ck" data-a="own" type="button" aria-label="I have it">✓</button><button class="tw" data-a="otw" type="button" aria-label="On the way"><span>🚚</span></button>
-   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name">${typeof it.price==="number"?fmtP(it.price):""}</span>${tag}</div>
+   <div class="in"><div class="nm">${esc(it.name)}</div><div class="mb"><span class="member-name"${it.noCalc?' style="color:var(--mute)"':""}>${typeof it.price==="number"?fmtP(it.price):""}</span>${tag}</div>
    <div class="bar"><button data-a="e" type="button">✏️</button><button data-a="d" type="button">🗑</button></div></div></div>`}).join(""):
-  `<div class="empty" style="grid-column:1/-1">${mQ?"No results for “"+esc(mQ)+"” 🥺":albums.length?"Nothing in this filter 🥺":"No albums yet 💿<br>Tap “＋ New album” to add your first one."}</div>`)+`</div>`;
+  `<div class="empty" style="grid-column:1/-1">${mQ?"No results for “"+esc(mQ)+"” 🥺":albums.length?"Nothing in this filter 🥺":"No merch yet 💿<br>Tap “＋ New merch” to add your first one."}</div>`)+`</div>`;
 }
 $("mq").oninput=e=>{mQ=e.target.value;$("mqx").style.display=mQ?"block":"none";renderMerch()};
 $("mqx").onclick=()=>{mQ="";$("mq").value="";$("mqx").style.display="none";renderMerch();$("mq").focus()};
